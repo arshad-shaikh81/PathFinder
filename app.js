@@ -6,7 +6,7 @@
 // ==========================================================================
 const careerData = {
     "software-dev": {
-        title: "Software Development",
+        title: "Backend Development",
         category: "Development",
         icon: "fa-solid fa-code",
         desc: "Build real-world applications by mastering programming fundamentals, data structures, databases, and full-stack development.",
