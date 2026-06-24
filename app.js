@@ -10,6 +10,7 @@ const careerData = {
         category: "Development",
         icon: "fa-solid fa-code",
         desc: "Build real-world applications by mastering programming fundamentals, data structures, databases, and full-stack development.",
+
         phases: [
             {
                 name: "Fundamentals",
@@ -919,8 +920,42 @@ function renderRoadmapTimeline(careerKey) {
                         <p style="font-size: 0.85rem; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; max-width: 440px;">${step.desc}</p>
                     </div>
 
-                    <div class="timeframe-allocation-label" style="font-size: 0.85rem; font-weight: 500; color: var(--text-muted); flex-shrink: 0; margin-left: auto;">
-                        ${step.hours}
+                    <div style="
+                        display:flex;
+                        align-items:center;
+                        gap:16px;
+                        margin-left:auto;
+                    ">
+
+                        <!-- Checkbox -->
+                            <div
+                                onclick="event.stopPropagation(); invertSkillNodeState('${careerKey}', '${step.id}')"
+                                style="
+                                    width:28px;
+                                    height:28px;
+                                    border-radius:50%;
+                                    border:2px solid ${isDone ? '#10b981' : phaseColor};
+                                    background:${isDone ? '#10b981' : 'transparent'};
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    cursor:pointer;
+                                    flex-shrink:0;
+                                ">
+                                ${isDone ? '<i class="fa-solid fa-check" style="color:white;font-size:12px;"></i>' : ''}
+                            </div>
+
+                            <!-- Hours -->
+                            <div style="
+                                font-size:0.85rem;
+                                font-weight:500;
+                                color:var(--text-muted);
+                                min-width:45px;
+                                text-align:right;
+                            ">
+                                ${step.hours}
+                            </div>
+
                     </div>
                 </div>
             `;
