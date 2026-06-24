@@ -5,7 +5,7 @@
 // all phases (1, 2, 3 ... N) when rendered.
 // ==========================================================================
 const careerData = {
-    "software-dev": {
+    "Backend-dev": {
         title: "Backend Development",
         category: "Development",
         icon: "fa-solid fa-code",
@@ -49,6 +49,7 @@ const careerData = {
             }
         ]
     },
+
     "data-science": {
         title: "Data Science",
         category: "Analytics",
@@ -96,7 +97,7 @@ const careerData = {
     },
     "artificial-intelligence": {
         title: "Artificial Intelligence",
-        category: "Intelligence",
+        category: "AI",
         icon: "fa-solid fa-brain",
         desc: "Design intelligent systems spanning machine learning, deep learning, computer vision, NLP, and generative AI.",
         phases: [
@@ -272,7 +273,404 @@ const careerData = {
                 ]
             }
         ]
+    },
+    "frontend-development": {
+        title: "Frontend Development",
+        category: "Development",
+        icon: "fa-solid fa-laptop-code",
+        desc: "Build beautiful and responsive user interfaces using modern frontend technologies and frameworks.",
+        phases: [
+            {
+                name: "Foundations",
+                emoji: "🚀",
+                steps: [
+                    { id: "fd1", name: "HTML", hours: "20h", desc: "Learn semantic HTML and page structure.", why: "HTML is the foundation of every web page.", resources: ["MDN HTML Guide"], projects: ["Personal Profile Page"] },
+                    { id: "fd2", name: "CSS", hours: "30h", desc: "Learn layouts, flexbox, grid, and responsive design.", why: "CSS makes websites visually appealing.", resources: ["CSS Tricks", "MDN CSS"], projects: ["Responsive Landing Page"] },
+                    { id: "fd3", name: "JavaScript", hours: "45h", desc: "Learn DOM manipulation and modern JavaScript.", why: "JavaScript brings interactivity to websites.", resources: ["JavaScript.info"], projects: ["Interactive Calculator"] }
+                ]
+            },
+            {
+                name: "Frontend Skills",
+                emoji: "⚡",
+                steps: [
+                    { id: "fd4", name: "Responsive Design", hours: "20h", desc: "Create mobile-friendly layouts.", why: "Users browse from different devices.", resources: ["Responsive Design Guide"], projects: ["Mobile First Website"] },
+                    { id: "fd5", name: "Git & GitHub", hours: "15h", desc: "Version control and collaboration.", why: "Required for professional development.", resources: ["Git Docs"], projects: ["Portfolio Repository"] },
+                    { id: "fd6", name: "API Integration", hours: "20h", desc: "Fetch and display external data.", why: "Modern apps rely on APIs.", resources: ["MDN Fetch API"], projects: ["Weather Dashboard"] }
+                ]
+            },
+            {
+                name: "Modern Frameworks",
+                emoji: "🏆",
+                steps: [
+                    { id: "fd7", name: "React.js", hours: "50h", desc: "Build reusable UI components.", why: "React is widely used in industry.", resources: ["React Docs"], projects: ["Task Manager App"] },
+                    { id: "fd8", name: "State Management", hours: "20h", desc: "Manage application state effectively.", why: "Complex apps require state handling.", resources: ["Redux Docs"], projects: ["Shopping Cart App"] },
+                    { id: "fd9", name: "Performance Optimization", hours: "15h", desc: "Improve speed and user experience.", why: "Fast websites retain users.", resources: ["Web.dev"], projects: ["Optimized Portfolio"] }
+                ]
+            },
+            {
+                name: "Career Launch",
+                emoji: "🎯",
+                steps: [
+                    { id: "fd10", name: "Projects", hours: "50h", desc: "Build real-world frontend applications.", why: "Projects demonstrate practical skills.", resources: ["Frontend Mentor"], projects: ["E-Commerce Frontend"] },
+                    { id: "fd11", name: "Portfolio", hours: "20h", desc: "Showcase your work professionally.", why: "Recruiters evaluate portfolios.", resources: ["GitHub Pages"], projects: ["Developer Portfolio"] },
+                    { id: "fd12", name: "Job Ready", hours: "30h", desc: "Prepare for frontend interviews.", why: "Interview preparation improves hiring chances.", resources: ["Frontend Interview Handbook"], projects: ["Mock Interview Practice"] }
+                ]
+            }
+        ]
+    },
+    "full-stack-development": {
+        title: "Full Stack Development",
+        category: "Development",
+        icon: "fa-solid fa-layer-group",
+        desc: "Build complete web applications by mastering frontend, backend, databases, APIs, deployment, and modern development tools.",
+        phases: [
+            {
+                name: "Foundations",
+                emoji: "🚀",
+                steps: [
+                    { id: "fs1", name: "HTML", hours: "20h", desc: "Learn the structure and semantics of web pages.", why: "HTML is the foundation of every website.", resources: ["MDN HTML Guide"], projects: ["Personal Portfolio Page"] },
+                    { id: "fs2", name: "CSS", hours: "25h", desc: "Learn styling, layouts, Flexbox, Grid, and responsive design.", why: "CSS makes websites attractive and responsive.", resources: ["CSS Tricks", "MDN CSS"], projects: ["Responsive Landing Page"] },
+                    { id: "fs3", name: "JavaScript", hours: "45h", desc: "Learn modern JavaScript, ES6+, DOM manipulation, and asynchronous programming.", why: "JavaScript powers dynamic web applications.", resources: ["JavaScript.info"], projects: ["Interactive Todo App"] }
+                ]
+            },
+            {
+                name: "Frontend Development",
+                emoji: "⚡",
+                steps: [
+                    { id: "fs4", name: "React.js", hours: "50h", desc: "Build reusable and interactive user interfaces.", why: "React is one of the most popular frontend frameworks.", resources: ["React Documentation"], projects: ["Task Management App"] },
+                    { id: "fs5", name: "API Integration", hours: "20h", desc: "Consume REST APIs and display dynamic data.", why: "Modern applications depend on APIs.", resources: ["MDN Fetch API"], projects: ["Weather Dashboard"] },
+                    { id: "fs6", name: "State Management", hours: "20h", desc: "Manage application state using Context API or Redux.", why: "Large applications require efficient state handling.", resources: ["Redux Documentation"], projects: ["E-Commerce Cart System"] }
+                ]
+            },
+            {
+                name: "Backend Development",
+                emoji: "🏆",
+                steps: [
+                    { id: "fs7", name: "Node.js / Spring Boot", hours: "50h", desc: "Build backend services and REST APIs.", why: "Backend powers business logic and data processing.", resources: ["Node.js Docs", "Spring Boot Docs"], projects: ["Blog REST API"] },
+                    { id: "fs8", name: "Database (MySQL/PostgreSQL)", hours: "35h", desc: "Design schemas and write efficient SQL queries.", why: "Applications need reliable data storage.", resources: ["SQLBolt", "PostgreSQL Docs"], projects: ["Library Management Database"] },
+                    { id: "fs9", name: "Authentication & Security", hours: "25h", desc: "Implement login systems, JWT, and authorization.", why: "Security is essential for modern applications.", resources: ["JWT.io", "Spring Security Docs"], projects: ["Secure User Authentication System"] }
+                ]
+            },
+            {
+                name: "Career Launch",
+                emoji: "🎯",
+                steps: [
+                    { id: "fs10", name: "Full Stack Projects", hours: "60h", desc: "Build complete applications using frontend, backend, and databases.", why: "Projects prove practical development skills.", resources: ["Full Stack Open"], projects: ["E-Commerce Platform", "Social Media App"] },
+                    { id: "fs11", name: "Deployment", hours: "20h", desc: "Deploy applications using Vercel, Render, AWS, or Docker.", why: "Deployment makes applications available to users.", resources: ["Vercel Docs", "Render Docs"], projects: ["Deploy Full Stack Application"] },
+                    { id: "fs12", name: "Job Ready", hours: "40h", desc: "Prepare for interviews, build a portfolio, and optimize your resume.", why: "Interview preparation converts skills into job opportunities.", resources: ["Pramp", "InterviewBit"], projects: ["Portfolio Website", "Mock Interviews"] }
+                ]
+            }
+        ]
+    },
+    "data-analyst": {
+        title: "Data Analyst",
+        category: "Analytics",
+        icon: "fa-solid fa-chart-column",
+        desc: "Transform raw data into meaningful business insights using Excel, SQL, Python, and visualization tools.",
+        phases: [
+            {
+                name: "Foundations",
+                emoji: "🚀",
+                steps: [
+                    { id: "da1", name: "Excel", hours: "30h", desc: "Learn formulas, functions, pivot tables, and dashboards.", why: "Excel is widely used for business data analysis.", resources: ["Microsoft Excel Training", "Excel Easy"], projects: ["Sales Analysis Dashboard"] },
+                    { id: "da2", name: "Statistics", hours: "30h", desc: "Learn descriptive statistics, probability, and distributions.", why: "Statistics helps interpret and analyze data accurately.", resources: ["Khan Academy Statistics", "StatQuest"], projects: ["Statistical Analysis Report"] },
+                    { id: "da3", name: "SQL", hours: "35h", desc: "Learn querying, joins, aggregation, and database analysis.", why: "Most business data is stored in databases.", resources: ["SQLBolt", "Mode SQL Tutorial"], projects: ["Customer Database Analysis"] }
+                ]
+            },
+            {
+                name: "Data Handling",
+                emoji: "⚡",
+                steps: [
+                    { id: "da4", name: "Python", hours: "35h", desc: "Learn Python fundamentals for data analysis.", why: "Python automates analysis and handles large datasets.", resources: ["Python Official Docs", "Automate the Boring Stuff"], projects: ["Data Processing Script"] },
+                    { id: "da5", name: "Pandas", hours: "25h", desc: "Clean, transform, and analyze datasets.", why: "Pandas is the industry standard for data analysis.", resources: ["Pandas Documentation", "Kaggle Pandas Course"], projects: ["Data Cleaning Pipeline"] },
+                    { id: "da6", name: "Data Cleaning", hours: "20h", desc: "Handle missing values and inconsistent data.", why: "Clean data is essential for accurate insights.", resources: ["Kaggle Data Cleaning"], projects: ["Customer Data Cleanup"] }
+                ]
+            },
+            {
+                name: "Visualization & Reporting",
+                emoji: "🏆",
+                steps: [
+                    { id: "da7", name: "Power BI", hours: "30h", desc: "Build business intelligence dashboards.", why: "Power BI is highly demanded in analytics roles.", resources: ["Microsoft Learn Power BI"], projects: ["Sales Dashboard"] },
+                    { id: "da8", name: "Tableau", hours: "25h", desc: "Create interactive visual reports.", why: "Visualization makes insights easier to understand.", resources: ["Tableau Learning"], projects: ["Marketing Dashboard"] },
+                    { id: "da9", name: "Business Reporting", hours: "20h", desc: "Present findings and recommendations.", why: "Communication is critical for analysts.", resources: ["Google Data Analytics Course"], projects: ["Executive Report"] }
+                ]
+            },
+            {
+                name: "Career Launch",
+                emoji: "🎯",
+                steps: [
+                    { id: "da10", name: "Analytics Projects", hours: "50h", desc: "Apply analysis skills on real datasets.", why: "Projects showcase practical abilities.", resources: ["Kaggle", "DataCamp"], projects: ["Customer Churn Analysis"] },
+                    { id: "da11", name: "Portfolio", hours: "20h", desc: "Showcase dashboards and reports.", why: "Recruiters evaluate your portfolio.", resources: ["GitHub Pages"], projects: ["Analytics Portfolio Website"] },
+                    { id: "da12", name: "Job Ready", hours: "30h", desc: "Prepare for interviews and case studies.", why: "Interview preparation increases hiring chances.", resources: ["StrataScratch", "Interview Query"], projects: ["Mock Analytics Interviews"] }
+                ]
+            }
+        ]
+    },
+    "game-development": {
+        title: "Game Development",
+        category: "Development",
+        icon: "fa-solid fa-gamepad",
+        desc: "Design, develop, and publish interactive games using programming, game engines, physics, and modern development tools.",
+        phases: [
+            {
+                name: "Foundations",
+                emoji: "🚀",
+                steps: [
+                    { id: "gd1", name: "Programming (C# / C++)", hours: "40h", desc: "Learn game programming fundamentals, syntax, OOP, and problem-solving.", why: "Programming is the backbone of all game development.", resources: ["Microsoft C# Documentation", "LearnCpp"], projects: ["Console Adventure Game"] },
+                    { id: "gd2", name: "Object-Oriented Programming", hours: "25h", desc: "Understand classes, objects, inheritance, and polymorphism.", why: "Most game engines rely heavily on OOP concepts.", resources: ["OOP Concepts Guide", "C# OOP Tutorial"], projects: ["Character Management System"] },
+                    { id: "gd3", name: "Data Structures & Algorithms", hours: "35h", desc: "Learn arrays, linked lists, trees, graphs, and optimization techniques.", why: "Efficient code improves game performance.", resources: ["GeeksforGeeks DSA", "LeetCode"], projects: ["Pathfinding Visualizer"] }
+                ]
+            },
+            {
+                name: "Game Engine Skills",
+                emoji: "⚡",
+                steps: [
+                    { id: "gd4", name: "Unity Engine", hours: "50h", desc: "Learn scenes, game objects, components, and scripting in Unity.", why: "Unity is one of the most popular game engines.", resources: ["Unity Learn", "Unity Documentation"], projects: ["2D Platformer Game"] },
+                    { id: "gd5", name: "Physics & Collision", hours: "25h", desc: "Implement movement, gravity, collision detection, and rigid bodies.", why: "Physics makes games realistic and interactive.", resources: ["Unity Physics Guide"], projects: ["Physics Puzzle Game"] },
+                    { id: "gd6", name: "Animation Systems", hours: "20h", desc: "Create character animations and transitions.", why: "Animations improve gameplay experience.", resources: ["Unity Animator Documentation"], projects: ["Animated Character Controller"] }
+                ]
+            },
+            {
+                name: "Advanced Development",
+                emoji: "🏆",
+                steps: [
+                    { id: "gd7", name: "AI for Games", hours: "25h", desc: "Implement enemy behavior, pathfinding, and NPC decision making.", why: "Game AI creates engaging gameplay.", resources: ["Unity AI Tutorials"], projects: ["Enemy NPC System"] },
+                    { id: "gd8", name: "Multiplayer Basics", hours: "30h", desc: "Build online multiplayer features and networking.", why: "Multiplayer games are highly popular in the industry.", resources: ["Photon Documentation", "Unity Netcode"], projects: ["Multiplayer Battle Arena"] },
+                    { id: "gd9", name: "Optimization", hours: "20h", desc: "Improve FPS, memory usage, and game performance.", why: "Optimization ensures smooth gameplay.", resources: ["Unity Performance Guide"], projects: ["Optimized Open World Scene"] }
+                ]
+            },
+            {
+                name: "Career Launch",
+                emoji: "🎯",
+                steps: [
+                    { id: "gd10", name: "Game Projects", hours: "60h", desc: "Build complete games using all learned concepts.", why: "Projects demonstrate practical game development skills.", resources: ["Unity Learn Projects"], projects: ["Action Adventure Game", "Racing Game"] },
+                    { id: "gd11", name: "Publishing", hours: "20h", desc: "Publish games on PC, Android, or online platforms.", why: "Publishing gives real-world development experience.", resources: ["Steamworks Documentation", "Google Play Console"], projects: ["Publish First Game"] },
+                    { id: "gd12", name: "Job Ready", hours: "30h", desc: "Prepare portfolio, resume, and technical interviews.", why: "A strong portfolio is essential in game development careers.", resources: ["GameDev.tv Career Guide"], projects: ["Game Developer Portfolio Website"] }
+                ]
+            }
+        ]
+    },
+    "ui-ux-design": {
+        title: "UI/UX Design",
+        category: "Design",
+        icon: "fa-solid fa-pen-ruler",
+        desc: "Design intuitive, user-friendly, and visually appealing digital experiences through research, wireframing, prototyping, and design systems.",
+        phases: [
+            {
+                name: "Foundations",
+                emoji: "🚀",
+                steps: [
+                    { id: "ux1", name: "Design Principles", hours: "25h", desc: "Learn visual hierarchy, alignment, contrast, balance, and consistency.", why: "Strong design principles create professional and user-friendly interfaces.", resources: ["Interaction Design Foundation", "Laws of UX"], projects: ["Redesign a Landing Page"] },
+                    { id: "ux2", name: "Color Theory", hours: "15h", desc: "Understand color psychology, palettes, and accessibility.", why: "Colors influence user emotions and usability.", resources: ["Adobe Color Guide", "Color Theory Basics"], projects: ["Brand Color System"] },
+                    { id: "ux3", name: "Typography", hours: "15h", desc: "Learn font pairing, readability, spacing, and text hierarchy.", why: "Typography improves communication and user experience.", resources: ["Google Fonts", "Typography Handbook"], projects: ["Typography Showcase Design"] }
+                ]
+            },
+            {
+                name: "UX Research",
+                emoji: "⚡",
+                steps: [
+                    { id: "ux4", name: "User Research", hours: "25h", desc: "Understand user needs through surveys, interviews, and observation.", why: "Design decisions should be based on real user needs.", resources: ["Nielsen Norman Group", "UX Research Guide"], projects: ["User Research Report"] },
+                    { id: "ux5", name: "Wireframing", hours: "20h", desc: "Create low-fidelity layouts before visual design.", why: "Wireframes help structure ideas quickly.", resources: ["Figma Wireframing Guide"], projects: ["Mobile App Wireframe"] },
+                    { id: "ux6", name: "User Flows & Information Architecture", hours: "20h", desc: "Map user journeys and organize content effectively.", why: "Good structure improves usability and navigation.", resources: ["UX Planet", "NN Group"], projects: ["E-Commerce User Flow"] }
+                ]
+            },
+            {
+                name: "Design Tools & Prototyping",
+                emoji: "🏆",
+                steps: [
+                    { id: "ux7", name: "Figma", hours: "40h", desc: "Master UI design, components, auto-layout, and collaboration.", why: "Figma is the most widely used UI/UX design tool.", resources: ["Figma Official Tutorials"], projects: ["Complete Mobile App Design"] },
+                    { id: "ux8", name: "Prototyping", hours: "20h", desc: "Create interactive prototypes to simulate real applications.", why: "Prototypes help validate ideas before development.", resources: ["Figma Prototype Guide"], projects: ["Interactive App Prototype"] },
+                    { id: "ux9", name: "Design Systems", hours: "20h", desc: "Build reusable components and style guidelines.", why: "Design systems improve consistency and scalability.", resources: ["Material Design", "Atlassian Design System"], projects: ["Custom Design System"] }
+                ]
+            },
+            {
+                name: "Career Launch",
+                emoji: "🎯",
+                steps: [
+                    { id: "ux10", name: "Case Studies", hours: "35h", desc: "Document your design process and decisions professionally.", why: "Recruiters evaluate design thinking through case studies.", resources: ["Behance", "Dribbble"], projects: ["Food Delivery App Case Study"] },
+                    { id: "ux11", name: "Portfolio", hours: "25h", desc: "Showcase your best UI/UX work online.", why: "A portfolio is the most important asset for a designer.", resources: ["Behance", "Adobe Portfolio"], projects: ["Professional UX Portfolio"] },
+                    { id: "ux12", name: "Job Ready", hours: "30h", desc: "Prepare for design interviews, presentations, and portfolio reviews.", why: "Interview preparation helps convert skills into opportunities.", resources: ["UX Interview Handbook", "Design Career Guide"], projects: ["Mock Portfolio Presentation"] }
+                ]
+            }
+        ]
+    },
+    "mobile-app-development": {
+        title: "Mobile App Development",
+        category: "Development",
+        icon: "fa-solid fa-mobile-screen-button",
+        desc: "Build modern Android and cross-platform mobile applications using Flutter, APIs, databases, and cloud services.",
+        phases: [
+            {
+                name: "Foundations",
+                emoji: "🚀",
+                steps: [
+                    { id: "mad1", name: "Programming (Dart / Java / Kotlin)", hours: "40h", desc: "Learn programming fundamentals and object-oriented concepts.", why: "Programming is the foundation of mobile app development.", resources: ["Dart Documentation", "Kotlin Docs"], projects: ["Calculator App"] },
+                    { id: "mad2", name: "Object-Oriented Programming", hours: "25h", desc: "Learn classes, objects, inheritance, and polymorphism.", why: "Mobile frameworks heavily rely on OOP concepts.", resources: ["OOP Tutorial", "Kotlin OOP Guide"], projects: ["Student Management App"] },
+                    { id: "mad3", name: "DSA Basics", hours: "30h", desc: "Understand arrays, linked lists, stacks, queues, and searching algorithms.", why: "Efficient apps require strong problem-solving skills.", resources: ["LeetCode", "GeeksforGeeks"], projects: ["Data Structure Visualizer"] }
+                ]
+            },
+            {
+                name: "App Development",
+                emoji: "⚡",
+                steps: [
+                    { id: "mad4", name: "Flutter Framework", hours: "50h", desc: "Build beautiful cross-platform mobile applications using Flutter.", why: "Flutter allows Android and iOS development from a single codebase.", resources: ["Flutter Documentation"], projects: ["Weather App"] },
+                    { id: "mad5", name: "UI Components & Navigation", hours: "25h", desc: "Create screens, layouts, forms, and navigation flows.", why: "User experience depends on smooth navigation.", resources: ["Flutter Widgets Guide"], projects: ["Multi-Screen App"] },
+                    { id: "mad6", name: "State Management", hours: "25h", desc: "Manage application state using Provider, Riverpod, or Bloc.", why: "Large apps need efficient state handling.", resources: ["Provider Documentation"], projects: ["Shopping Cart App"] }
+                ]
+            },
+            {
+                name: "Advanced Features",
+                emoji: "🏆",
+                steps: [
+                    { id: "mad7", name: "REST APIs", hours: "25h", desc: "Connect applications with backend services.", why: "Most modern apps rely on APIs.", resources: ["Flutter API Guide"], projects: ["News App"] },
+                    { id: "mad8", name: "Firebase", hours: "30h", desc: "Implement authentication, cloud storage, and notifications.", why: "Firebase accelerates mobile app development.", resources: ["Firebase Documentation"], projects: ["Chat Application"] },
+                    { id: "mad9", name: "Local Database", hours: "20h", desc: "Store offline data using SQLite or Hive.", why: "Offline support improves user experience.", resources: ["SQLite Guide"], projects: ["Notes Application"] }
+                ]
+            },
+            {
+                name: "Career Launch",
+                emoji: "🎯",
+                steps: [
+                    { id: "mad10", name: "Mobile Projects", hours: "60h", desc: "Build complete real-world applications.", why: "Projects demonstrate practical development skills.", resources: ["Flutter Cookbook"], projects: ["Food Delivery App", "Expense Tracker"] },
+                    { id: "mad11", name: "Play Store Deployment", hours: "20h", desc: "Publish applications to the Google Play Store.", why: "Publishing provides real-world experience.", resources: ["Google Play Console"], projects: ["Publish First App"] },
+                    { id: "mad12", name: "Job Ready", hours: "30h", desc: "Prepare portfolio, resume, and interview skills.", why: "Strong preparation improves hiring opportunities.", resources: ["Flutter Interview Questions"], projects: ["Mobile Developer Portfolio"] }
+                ]
+            }
+        ]
+    },
+    "digital-marketing": {
+        title: "Digital Marketing",
+        category: "Marketing",
+        icon: "fa-solid fa-bullhorn",
+        desc: "Promote brands, products, and services through SEO, social media, content marketing, paid advertising, and analytics.",
+        phases: [
+            {
+                name: "Foundations",
+                emoji: "🚀",
+                steps: [
+                    { id: "dm1", name: "Marketing Fundamentals", hours: "20h", desc: "Learn branding, customer journey, and marketing concepts.", why: "Marketing fundamentals form the base of all digital strategies.", resources: ["HubSpot Academy", "Google Digital Garage"], projects: ["Brand Analysis Report"] },
+                    { id: "dm2", name: "Content Marketing", hours: "25h", desc: "Create engaging blogs, articles, and promotional content.", why: "Content is the foundation of digital marketing.", resources: ["HubSpot Content Marketing"], projects: ["Blog Website"] },
+                    { id: "dm3", name: "Copywriting", hours: "20h", desc: "Write persuasive content for ads, emails, and landing pages.", why: "Good copy improves conversions and engagement.", resources: ["Copyblogger", "Neil Patel Blog"], projects: ["Landing Page Copy"] }
+                ]
+            },
+            {
+                name: "Traffic Generation",
+                emoji: "⚡",
+                steps: [
+                    { id: "dm4", name: "SEO", hours: "40h", desc: "Learn keyword research, on-page SEO, and technical SEO.", why: "SEO helps websites rank higher on search engines.", resources: ["Google SEO Starter Guide", "Ahrefs Academy"], projects: ["SEO Audit Report"] },
+                    { id: "dm5", name: "Social Media Marketing", hours: "30h", desc: "Promote brands through Instagram, Facebook, LinkedIn, and X.", why: "Social media is one of the largest traffic sources.", resources: ["Meta Blueprint"], projects: ["Social Media Campaign"] },
+                    { id: "dm6", name: "Email Marketing", hours: "20h", desc: "Build email campaigns and marketing funnels.", why: "Email marketing provides high ROI.", resources: ["Mailchimp Academy"], projects: ["Email Newsletter Campaign"] }
+                ]
+            },
+            {
+                name: "Advertising & Analytics",
+                emoji: "🏆",
+                steps: [
+                    { id: "dm7", name: "Google Ads", hours: "30h", desc: "Run paid search advertising campaigns.", why: "Google Ads drives targeted traffic quickly.", resources: ["Google Skillshop"], projects: ["Search Ad Campaign"] },
+                    { id: "dm8", name: "Meta Ads", hours: "25h", desc: "Create Facebook and Instagram advertising campaigns.", why: "Meta Ads help businesses reach large audiences.", resources: ["Meta Blueprint"], projects: ["Instagram Ad Campaign"] },
+                    { id: "dm9", name: "Google Analytics", hours: "20h", desc: "Track user behavior and campaign performance.", why: "Analytics helps optimize marketing decisions.", resources: ["Google Analytics Academy"], projects: ["Website Traffic Analysis"] }
+                ]
+            },
+            {
+                name: "Career Launch",
+                emoji: "🎯",
+                steps: [
+                    { id: "dm10", name: "Marketing Projects", hours: "50h", desc: "Execute complete marketing campaigns for products or brands.", why: "Projects demonstrate practical marketing skills.", resources: ["HubSpot Projects"], projects: ["Complete Marketing Strategy"] },
+                    { id: "dm11", name: "Portfolio", hours: "20h", desc: "Showcase campaigns, analytics reports, and achievements.", why: "A portfolio helps attract clients and employers.", resources: ["Behance", "Personal Website"], projects: ["Digital Marketing Portfolio"] },
+                    { id: "dm12", name: "Job Ready", hours: "30h", desc: "Prepare for interviews, freelancing, and agency roles.", why: "Career preparation improves job opportunities.", resources: ["Google Career Certificates"], projects: ["Mock Marketing Campaign"] }
+                ]
+            }
+        ]
+    },
+    "react-native-development": {
+        title: "React Native Development",
+        category: "Development",
+        icon: "fa-brands fa-react",
+        desc: "Build cross-platform mobile applications for Android and iOS using React Native, JavaScript, APIs, and modern mobile development practices.",
+        phases: [
+            {
+                name: "Foundations",
+                emoji: "🚀",
+                steps: [
+                    { id: "rn1", name: "JavaScript (ES6+)", hours: "40h", desc: "Learn modern JavaScript including functions, promises, async/await, and modules.", why: "React Native is built on JavaScript.", resources: ["JavaScript.info", "MDN JavaScript Guide"], projects: ["Task Manager App"] },
+                    { id: "rn2", name: "React.js", hours: "40h", desc: "Learn components, props, hooks, and state management.", why: "React Native is based on React concepts.", resources: ["React Documentation"], projects: ["React Dashboard"] },
+                    { id: "rn3", name: "Git & GitHub", hours: "15h", desc: "Learn version control and collaboration workflows.", why: "Professional development requires source control.", resources: ["Git Documentation"], projects: ["Portfolio Repository"] }
+                ]
+            },
+            {
+                name: "React Native Core",
+                emoji: "⚡",
+                steps: [
+                    { id: "rn4", name: "React Native Fundamentals", hours: "45h", desc: "Learn components, styling, layouts, and platform-specific development.", why: "Core React Native skills are required to build apps.", resources: ["React Native Docs"], projects: ["Simple Notes App"] },
+                    { id: "rn5", name: "Navigation", hours: "20h", desc: "Implement stack, tab, and drawer navigation.", why: "Navigation is essential for mobile applications.", resources: ["React Navigation Docs"], projects: ["Multi-Screen App"] },
+                    { id: "rn6", name: "State Management", hours: "25h", desc: "Manage application state using Context API or Redux Toolkit.", why: "Large applications need centralized state management.", resources: ["Redux Toolkit Docs"], projects: ["Shopping Cart App"] }
+                ]
+            },
+            {
+                name: "Advanced Mobile Features",
+                emoji: "🏆",
+                steps: [
+                    { id: "rn7", name: "REST APIs", hours: "25h", desc: "Fetch and manage data from backend services.", why: "Most mobile apps communicate with servers.", resources: ["Axios Documentation"], projects: ["News Application"] },
+                    { id: "rn8", name: "Firebase", hours: "30h", desc: "Implement authentication, Firestore, and cloud storage.", why: "Firebase simplifies backend development.", resources: ["Firebase Documentation"], projects: ["Chat Application"] },
+                    { id: "rn9", name: "Push Notifications", hours: "20h", desc: "Send notifications and engage users.", why: "Notifications improve retention and user engagement.", resources: ["Firebase Cloud Messaging"], projects: ["Reminder Application"] }
+                ]
+            },
+            {
+                name: "Career Launch",
+                emoji: "🎯",
+                steps: [
+                    { id: "rn10", name: "Mobile Projects", hours: "60h", desc: "Build complete real-world mobile applications.", why: "Projects showcase practical mobile development skills.", resources: ["React Native Examples"], projects: ["Food Delivery App", "Expense Tracker"] },
+                    { id: "rn11", name: "App Store Deployment", hours: "25h", desc: "Publish applications to Google Play Store and Apple App Store.", why: "Deployment is an essential skill for mobile developers.", resources: ["Google Play Console", "App Store Connect"], projects: ["Publish First App"] },
+                    { id: "rn12", name: "Job Ready", hours: "30h", desc: "Prepare portfolio, resume, and interview skills.", why: "Interview preparation improves hiring success.", resources: ["React Native Interview Questions"], projects: ["Mobile Developer Portfolio"] }
+                ]
+            }
+        ]
+    },
+    "software-testing": {
+        title: "Software Testing & QA",
+        category: "Quality Assurance",
+        icon: "fa-solid fa-bug",
+        desc: "Ensure software quality through manual testing, automation testing, API testing, and industry-standard QA practices.",
+        phases: [
+            {
+                name: "Foundations",
+                emoji: "🚀",
+                steps: [
+                    { id: "qa1", name: "Software Testing Basics", hours: "25h", desc: "Learn SDLC, STLC, testing types, and QA fundamentals.", why: "Testing fundamentals are the foundation of quality assurance.", resources: ["Guru99 Testing Tutorial", "ISTQB Foundation"], projects: ["Test Case Documentation"] },
+                    { id: "qa2", name: "Manual Testing", hours: "30h", desc: "Learn test cases, bug reporting, and test execution.", why: "Manual testing is the starting point for every QA engineer.", resources: ["Software Testing Help"], projects: ["E-Commerce Testing Project"] },
+                    { id: "qa3", name: "Bug Tracking Tools", hours: "15h", desc: "Work with Jira and bug tracking workflows.", why: "QA engineers collaborate using bug management tools.", resources: ["Atlassian Jira Guide"], projects: ["Bug Tracking Workflow"] }
+                ]
+            },
+            {
+                name: "Testing Skills",
+                emoji: "⚡",
+                steps: [
+                    { id: "qa4", name: "SQL for Testing", hours: "20h", desc: "Validate backend data using SQL queries.", why: "Many applications require database validation.", resources: ["SQLBolt"], projects: ["Database Validation Testing"] },
+                    { id: "qa5", name: "API Testing", hours: "25h", desc: "Test REST APIs using Postman.", why: "Modern applications rely heavily on APIs.", resources: ["Postman Learning Center"], projects: ["API Testing Collection"] },
+                    { id: "qa6", name: "Test Automation Basics", hours: "30h", desc: "Introduction to Selenium and automation testing.", why: "Automation increases testing efficiency.", resources: ["Selenium Documentation"], projects: ["Automated Login Testing"] }
+                ]
+            },
+            {
+                name: "Automation & Tools",
+                emoji: "🏆",
+                steps: [
+                    { id: "qa7", name: "Selenium", hours: "40h", desc: "Automate web applications using Selenium.", why: "Selenium is the most popular automation testing tool.", resources: ["Selenium Docs"], projects: ["Automated E-Commerce Testing"] },
+                    { id: "qa8", name: "TestNG / JUnit", hours: "20h", desc: "Create structured automated test suites.", why: "Testing frameworks improve maintainability.", resources: ["TestNG Docs"], projects: ["Automation Test Framework"] },
+                    { id: "qa9", name: "CI/CD Testing", hours: "20h", desc: "Integrate automated tests into pipelines.", why: "Modern QA works closely with DevOps workflows.", resources: ["Jenkins Documentation"], projects: ["CI Pipeline Testing"] }
+                ]
+            },
+            {
+                name: "Career Launch",
+                emoji: "🎯",
+                steps: [
+                    { id: "qa10", name: "QA Projects", hours: "40h", desc: "Perform complete testing cycles on real applications.", why: "Projects demonstrate testing skills.", resources: ["Open Source Testing Projects"], projects: ["Complete QA Test Plan"] },
+                    { id: "qa11", name: "Portfolio", hours: "20h", desc: "Showcase test plans, bug reports, and automation projects.", why: "A portfolio helps recruiters evaluate skills.", resources: ["GitHub"], projects: ["QA Portfolio"] },
+                    { id: "qa12", name: "Job Ready", hours: "30h", desc: "Prepare for QA interviews and practical testing rounds.", why: "Interview preparation improves job opportunities.", resources: ["QA Interview Questions"], projects: ["Mock QA Interviews"] }
+                ]
+            }
+        ]
     }
+
 };
 
 // Color used for each phase's badge + node markers (cycles if more than 4 phases)
@@ -319,15 +717,15 @@ function renderCareerCards(filter = "") {
     const grid = document.getElementById('career-grid');
     if (!grid) return;
     grid.innerHTML = "";
-    
+
     const searchString = filter.toLowerCase().trim();
     let displayCount = 0;
 
     Object.keys(careerData).forEach(key => {
         const career = careerData[key];
-        
-        if (searchString !== "" && 
-            !career.title.toLowerCase().includes(searchString) && 
+
+        if (searchString !== "" &&
+            !career.title.toLowerCase().includes(searchString) &&
             !career.desc.toLowerCase().includes(searchString) &&
             !career.category.toLowerCase().includes(searchString)) {
             return;
@@ -338,6 +736,7 @@ function renderCareerCards(filter = "") {
 
         const card = document.createElement('div');
         card.className = "career-card custom-premium-card";
+        card.dataset.category = career.category;
         card.innerHTML = `
             <div class="card-header-row" style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 1.2rem;">
                 <div class="card-icon-frame custom-gradient-icon" style="width: 48px; height: 48px; background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #ffffff; font-size: 1.2rem;">
@@ -357,7 +756,7 @@ function renderCareerCards(filter = "") {
                 </button>
             </div>
         `;
-        
+
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
             card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
@@ -387,12 +786,12 @@ function toggleSaveCareer(careerKey) {
     } else {
         savedCareers.push(careerKey);
     }
-    
+
     localStorage.setItem('pathfinder_saved', JSON.stringify(savedCareers));
-    
+
     const searchBar = document.getElementById('career-search');
     renderCareerCards(searchBar ? searchBar.value : "");
-    
+
     if (!document.getElementById('saved-view').classList.contains('hidden')) {
         renderSavedCareers();
     }
@@ -421,7 +820,7 @@ function renderSavedCareers() {
     savedCareers.forEach(key => {
         const career = careerData[key];
         if (!career) return;
-        
+
         const card = document.createElement('div');
         card.className = "career-card custom-premium-card";
         card.innerHTML = `
@@ -443,7 +842,7 @@ function renderSavedCareers() {
                 </button>
             </div>
         `;
-        
+
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
             card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
@@ -460,10 +859,10 @@ function renderSavedCareers() {
 function openRoadmapView(careerKey) {
     activeOpenCareer = careerKey;
     const career = careerData[careerKey];
-    
+
     document.getElementById('roadmap-title').innerText = career.title;
     document.getElementById('roadmap-desc').innerText = career.desc;
-    
+
     const iconFrame = document.getElementById('roadmap-icon');
     if (iconFrame) iconFrame.innerHTML = `<i class="${career.icon}"></i>`;
 
@@ -532,8 +931,24 @@ function renderRoadmapTimeline(careerKey) {
             if (stepIdxInPhase < phase.steps.length - 1) {
                 const structuralArrow = document.createElement('div');
                 structuralArrow.className = "pipeline-connector-vector";
-                structuralArrow.style = "display: flex; justify-content: center; align-items: center; padding: 0.75rem 0; font-size: 1.1rem; width: 100%; margin-left: -2.5rem;";
-                structuralArrow.innerHTML = `<i class="fa-solid fa-arrow-down-long" style="color: ${phaseColor}; opacity: 0.65;"></i>`;
+
+                structuralArrow.style = `
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    padding: 0.75rem 0;
+                    font-size: 1.1rem;
+                    margin: 0 auto;
+                    text-align: center;
+                `;
+
+                structuralArrow.innerHTML = `
+                    <i class="fa-solid fa-arrow-down-long"
+                        style="color: ${phaseColor}; opacity: 0.65;">
+                    </i>
+                `;
+
                 timeline.appendChild(structuralArrow);
             }
         });
@@ -553,7 +968,7 @@ function invertSkillNodeState(careerKey, stepId) {
     }
 
     localStorage.setItem('pathfinder_progress', JSON.stringify(progressTracker));
-    
+
     renderRoadmapTimeline(careerKey);
     updateGlobalMetricsDashboard();
 }
@@ -568,7 +983,7 @@ function calculateTrackCompletion(careerKey) {
     });
 
     const percentage = total > 0 ? Math.round((completedCount / total) * 100) : 0;
-    
+
     const trackPercent = document.getElementById('track-progress-percent');
     const trackFill = document.getElementById('track-progress-fill');
 
@@ -600,7 +1015,7 @@ function updateGlobalMetricsDashboard() {
     if (globalProgressFill) {
         globalProgressFill.style.transition = 'none';
         globalProgressFill.style.width = '0%';
-        void globalProgressFill.offsetWidth; 
+        void globalProgressFill.offsetWidth;
         globalProgressFill.style.transition = 'width 2.5s cubic-bezier(0.16, 1, 0.3, 1)';
         globalProgressFill.style.width = `${globalPercent}%`;
     }
@@ -653,33 +1068,33 @@ function showSection(sectionId) {
     document.querySelectorAll('.view-section').forEach(section => {
         section.classList.add('hidden');
     });
-    
+
     const targetSection = document.getElementById(sectionId);
     if (targetSection) targetSection.classList.remove('hidden');
-    
+
     const dropdownMenu = document.getElementById('dropdown-menu');
     if (dropdownMenu) dropdownMenu.classList.remove('show');
-    
+
     document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
-    
+
     if (sectionId === 'home-view' || sectionId === 'roadmap-view') {
         const navHome = document.getElementById('nav-item-home');
         if (navHome) navHome.classList.add('active');
-        
+
     } else if (sectionId === 'dashboard-view') {
         const navDash = document.getElementById('nav-item-dashboard');
         if (navDash) navDash.classList.add('active');
-        updateGlobalMetricsDashboard(); 
-        
+        updateGlobalMetricsDashboard();
+
     } else if (sectionId === 'saved-view') {
         const navSaved = document.getElementById('nav-item-saved');
         if (navSaved) navSaved.classList.add('active');
-        
+
     } else if (sectionId === 'recommend-view') {
         const navRec = document.getElementById('nav-item-recommend');
         if (navRec) navRec.classList.add('active');
     }
-    
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -723,7 +1138,7 @@ function setupCoreEventListeners() {
 
     const menuToggleBtn = document.getElementById('menu-toggle-btn');
     const dropdownMenu = document.getElementById('dropdown-menu');
-    
+
     if (menuToggleBtn && dropdownMenu) {
         menuToggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -735,7 +1150,7 @@ function setupCoreEventListeners() {
         if (dropdownMenu && !dropdownMenu.contains(e.target) && e.target !== menuToggleBtn) {
             dropdownMenu.classList.remove('show');
         }
-        
+
         const modal = document.getElementById('details-modal');
         if (e.target === modal) {
             closeModal();
@@ -913,4 +1328,42 @@ function showChatbotResult() {
         body.appendChild(card);
         body.scrollTop = body.scrollHeight;
     }, 600);
+}
+function showTermsModal() {
+    document.getElementById('terms-modal')
+        .classList.remove('hidden');
+}
+
+function closeTermsModal() {
+    document.getElementById('terms-modal')
+        .classList.add('hidden');
+}
+function filterCareers(category, btn) {
+
+    document
+        .querySelectorAll('.filter-btn')
+        .forEach(button =>
+            button.classList.remove('active')
+        );
+
+    btn.classList.add('active');
+
+    const cards =
+        document.querySelectorAll('.career-card');
+
+    cards.forEach(card => {
+
+        const cardCategory =
+            card.dataset.category;
+
+        if (
+            category === 'all' ||
+            cardCategory === category
+        ) {
+            card.style.display = '';
+        }
+        else {
+            card.style.display = 'none';
+        }
+    });
 }
