@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PathFinder // Premium Career Roadmap Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ===================== PARTICLE BACKGROUND CANVAS ===================== -->
+    <canvas id="particle-canvas"></canvas>
+
+    <div id="loader" class="loader-container">
+        <div class="spinner"></div>
+    </div>
+
+    <header class="navbar-wrapper">
+
+        <div class="floating-logo" onclick="showSection('home-view')">
+            <div class="sa-logo-badge">SA</div>
+        </div>
+
+        <nav class="navbar">
+            <span class="nav-brand" onclick="showSection('home-view')">PathFinder</span>
+
+            <ul class="nav-links">
+                <li id="nav-item-home" class="active"><a href="#" onclick="showSection('home-view')">Explore</a></li>
+                <li id="nav-item-dashboard"><a href="#" onclick="showSection('dashboard-view')">Dashboard</a></li>
+                <li id="nav-item-saved"><a href="#" onclick="showSavedCareersView()">Saved Paths</a></li>
+                <li id="nav-item-recommend"><a href="#" onclick="showSection('recommend-view')">Recommend Career</a>
+                </li>
+            </ul>
+
+            <div class="navbar-search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="career-search" placeholder="Search career tracks...">
+            </div>
+
+            <div class="nav-actions">
+                <button id="menu-toggle-btn" class="three-dots-btn" aria-label="Open Actions Menu">
+                    <i class="fa-solid fa-sliders"></i>
+                </button>
+                <div id="dropdown-menu" class="dropdown-content">
+                    <a href="#" onclick="showSection('dashboard-view')"><i class="fa-solid fa-chart-pie"></i> Metrics
+                        Analytics</a>
+                    <a href="#" onclick="showSavedCareersView()"><i class="fa-solid fa-bookmark"></i> Bookmarked
+                        Paths</a>
+                    <hr class="dropdown-divider">
+                    <a href="#" onclick="alert('PathFinder Premium v2.0 // Active System Cache')"><i
+                            class="fa-solid fa-circle-info"></i> Version Info</a>
+                    <a href="#" onclick="alert('Support Pipeline: support@pathfinder.io')"><i
+                            class="fa-solid fa-envelope"></i> Help Desk</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+
+        <section id="home-view" class="view-section">
+            <header class="hero-section">
+                <div class="hero-badge"><i class="fa-solid fa-sparkles"></i> AI-Powered Career Trajectories</div>
+                <h1>Navigate Your Future <br><span class="gradient-text">With Absolute Precision</span></h1>
+                <p>Unlock interactive multi-stage educational maps curated directly from active technology enterprise
+                    frameworks.</p>
+            </header>
+
+            <section class="grid-section">
+                <div class="section-header-row">
+                    <h2 class="section-title"><i class="fa-solid fa-layer-group header-bullet-icon"></i> Available
+                        Career Paths</h2>
+                    <span id="total-tracks-indicator" class="meta-counter-badge">10 Tracks Available</span>
+                </div>
+                <div id="career-grid" class="career-grid">
+                </div>
+            </section>
+        </section>
+
+        <section id="dashboard-view" class="view-section hidden">
+            <div class="dashboard-header">
+                <h2>System Analytics <span class="gradient-text">Dashboard</span></h2>
+                <p>Real-time diagnostic overview of active educational milestones synchronized via native browser local
+                    storage.</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dash-card">
+                    <div class="dash-icon-box purple"><i class="fa-solid fa-code-commit"></i></div>
+                    <div class="dash-info">
+                        <span class="dash-label">Total Skill Nodes</span>
+                        <h3 id="dash-total-skills">0</h3>
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-icon-box green"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="dash-info">
+                        <span class="dash-label">Completed Nodes</span>
+                        <h3 id="dash-completed-skills">0</h3>
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-icon-box blue"><i class="fa-solid fa-hourglass-start"></i></div>
+                    <div class="dash-info">
+                        <span class="dash-label">Pending Review</span>
+                        <h3 id="dash-remaining-skills">0</h3>
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-icon-box gradient"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="dash-info">
+                        <span class="dash-label">Total Completion</span>
+                        <h3 id="dash-percentage">0%</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="global-progress-box glass-card">
+                <div class="progress-info-text">
+                    <span>Ecosystem Resource Mastery Integration</span>
+                    <span id="global-progress-text" class="gradient-text">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="global-progress-fill" class="progress-bar-fill"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="saved-view" class="view-section hidden">
+            <div class="dashboard-header">
+                <h2>Bookmarked <span class="gradient-text">Trajectories</span></h2>
+                <p>Personalized workspace curation layout highlighting your saved career frameworks for expedited
+                    routing.</p>
+            </div>
+            <div id="saved-career-grid" class="career-grid">
+            </div>
+        </section>
+
+        <section id="roadmap-view" class="view-section hidden">
+            <div class="roadmap-header-nav">
+                <button class="back-btn" onclick="showSection('home-view')">
+                    <i class="fa-solid fa-arrow-left"></i> Return to Explorer Grid
+                </button>
+            </div>
+
+            <div class="roadmap-title-container glass-card">
+                <div class="roadmap-main-details">
+                    <div id="roadmap-icon" class="roadmap-header-icon"></div>
+                    <div>
+                        <h2 id="roadmap-title">Loading Framework Title</h2>
+                        <p id="roadmap-desc">Target path descriptive summary parameters load here.</p>
+                    </div>
+                </div>
+                <div class="track-progress-wrapper">
+                    <div class="track-progress-meta">
+                        <span>Framework Progress Vector</span>
+                        <span id="track-progress-percent">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="track-progress-fill" class="progress-bar-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="roadmap-timeline" class="roadmap-timeline">
+            </div>
+        </section>
+
+    </main>
+
+    <section id="recommend-view" class="view-section hidden">
+        <div class="dashboard-header">
+            <h2>AI Career <span class="gradient-text">Recommendation</span></h2>
+            <p>Answer a few questions and let our engine suggest the perfect trajectory for your skills.</p>
+        </div>
+
+        <div class="glass-card" style="padding: 4rem 2rem; text-align: center; width: 100%;">
+            <i class="fa-solid fa-wand-magic-sparkles"
+                style="font-size: 2.2rem; margin-bottom: 1rem; display: block; color: var(--accent-purple);"></i>
+            <h4 style="color: var(--text-main); margin-bottom: 0.4rem; font-size: 1.1rem;">Recommendation Engine</h4>
+            <p style="font-size: 0.88rem; color: var(--text-muted); max-width: 420px; margin: 0 auto;">Click the chat
+                bubble in the bottom-right corner to talk to our Career Advisor and get a personalized
+                recommendation!</p>
+        </div>
+    </section>
+
+    <div id="details-modal" class="modal-overlay hidden">
+        <div class="modal-card glass-card">
+            <div class="modal-header">
+                <h3 id="modal-topic-name">Node Specification Parameters</h3>
+                <button class="modal-close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-meta-block">
+                    <h4><i class="fa-solid fa-align-left text-gradient-icon"></i> Curriculum Overview</h4>
+                    <p id="modal-description">Detailed roadmap curriculum logs load here.</p>
+                </div>
+
+                <div class="modal-meta-block">
+                    <h4><i class="fa-solid fa-lightbulb text-gradient-icon"></i> Strategic Value Factor</h4>
+                    <p id="modal-why-learn">Enterprise production architecture use-case context metrics load here.</p>
+                </div>
+
+                <div class="modal-meta-grid">
+                    <div class="modal-meta-block">
+                        <h4><i class="fa-solid fa-graduation-cap text-gradient-icon"></i> Verified Channels</h4>
+                        <ul id="modal-resources" class="modal-list">
+                        </ul>
+                    </div>
+                    <div class="modal-meta-block">
+                        <h4><i class="fa-solid fa-cubes-stacked text-gradient-icon"></i> Sandbox Projects</h4>
+                        <ul id="modal-projects" class="modal-list">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== CAREER ADVISOR CHATBOT ===================== -->
+    <button id="chatbot-toggle-btn" class="chatbot-toggle-btn" aria-label="Open Career Advisor Chat">
+        <i class="fa-solid fa-message"></i>
+    </button>
+
+    <div id="chatbot-window" class="chatbot-window hidden">
+        <div class="chatbot-header">
+            <div class="chatbot-header-info">
+                <div class="chatbot-avatar"><i class="fa-solid fa-robot"></i></div>
+                <div>
+                    <h4>Career Advisor</h4>
+                    <span class="chatbot-status">● Online</span>
+                </div>
+            </div>
+            <button class="chatbot-close-btn" onclick="closeChatbot()">&times;</button>
+        </div>
+        <div id="chatbot-body" class="chatbot-body" aria-live="polite"></div>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="particles.js"></script>
+</body>
+
+</html>
