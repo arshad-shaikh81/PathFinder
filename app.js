@@ -1033,7 +1033,8 @@ function renderRoadmapTimeline(careerKey) {
 
             const node = document.createElement('div');
             node.className = "timeline-node-wrapper";
-            node.style = "display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 680px; margin: 0 auto;";
+            node.style = `display:flex;flex-direction:column;align-items:center;width:calc(100% - 90px);max-width:680px;margin-left:90px;margin-right:0;
+`;
 
             node.innerHTML = `
                 <div class="milestone-tree-card" style="display: flex; align-items: center; background: rgba(30, 27, 51, 0.45); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.25rem 1.5rem; width: 100%; min-height: 84px; position: relative; transition: border-color 0.2s;" onclick="openModal('${careerKey}', '${step.id}')">

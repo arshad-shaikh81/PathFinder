@@ -972,7 +972,7 @@ body {
 .roadmap-timeline::before {
     content: '';
     position: absolute;
-    left: 30px;
+    left: 42px;
     top: 0;
     width: 2px;
     height: 100%;
@@ -983,13 +983,13 @@ body {
 .timeline-node {
     position: relative;
     margin-bottom: 2rem;
-    padding-left: 74px;
+    padding-left: 95px;
     z-index: 2;
 }
 
 .node-status-marker {
     position: absolute;
-    left: 17px;
+    left: 28px;
     top: 50%;
     transform: translateY(-50%);
     width: 28px;
@@ -1390,8 +1390,8 @@ body {
     .hero-section h1 { font-size: 2.25rem; }
     .career-grid { grid-template-columns: 1fr; }
     .roadmap-timeline::before { left: 20px; }
-    .timeline-node { padding-left: 54px; }
-    .node-status-marker { left: 6px; }
+    .timeline-node { padding-left: 62px; }
+    .node-status-marker { left: 4px; }
     .roadmap-title-container { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
     .track-progress-wrapper { width: 100%; min-width: auto; }
     .modal-meta-grid { grid-template-columns: 1fr; gap: 1.25rem; }

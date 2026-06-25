@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PathFinder // Premium Career Roadmap Explorer</title>
+    <title>🤖 PathFinder </title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -289,19 +289,19 @@
         <i class="fa-solid fa-message"></i>
     </button>
 
-    <div id="chatbot-window" class="chatbot-window hidden">
-        <div class="chatbot-header">
-            <div class="chatbot-header-info">
-                <div class="chatbot-avatar"><i class="fa-solid fa-robot"></i></div>
-                <div>
-                    <h4>Career Advisor</h4>
-                    <span class="chatbot-status">● Online</span>
+        <div id="chatbot-window" class="chatbot-window hidden">
+            <div class="chatbot-header">
+                <div class="chatbot-header-info">
+                    <div class="chatbot-avatar"><i class="fa-solid fa-robot"></i></div>
+                    <div>
+                        <h4>Career Advisor</h4>
+                        <span class="chatbot-status">● Online</span>
+                    </div>
                 </div>
+                <button class="chatbot-close-btn" onclick="closeChatbot()">&times;</button>
             </div>
-            <button class="chatbot-close-btn" onclick="closeChatbot()">&times;</button>
+            <div id="chatbot-body" class="chatbot-body" aria-live="polite"></div>
         </div>
-        <div id="chatbot-body" class="chatbot-body" aria-live="polite"></div>
-    </div>
 
     <script src="app.js"></script>
     <script src="particles.js"></script>
