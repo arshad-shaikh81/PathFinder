@@ -680,9 +680,6 @@ body {
     margin-top: 0.1rem;
 }
 
-.global-progress-box {
-    padding: 2rem;
-}
 
 .progress-info-text {
     display: flex;
