@@ -1701,3 +1701,33 @@ saveBtn.addEventListener("click", () => {
     }
 
 });
+
+// ==========================================================================
+// AI ADVISOR — NOTIFY ME BUTTON
+// ==========================================================================
+document.addEventListener('click', function (e) {
+    if (!e.target.closest('.advisor-notify-btn')) return;
+    const btn = e.target.closest('.advisor-notify-btn');
+    const input = btn.closest('.advisor-notify-row')?.querySelector('.advisor-notify-input');
+    const email = input?.value?.trim();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+        if (input) {
+            input.style.borderColor = 'rgba(239,68,68,0.6)';
+            input.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.12)';
+            setTimeout(() => {
+                input.style.borderColor = '';
+                input.style.boxShadow = '';
+            }, 2000);
+        }
+        showToast('⚠️ Please enter a valid email address');
+        return;
+    }
+
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> You\'re on the list!';
+    btn.style.background = 'linear-gradient(135deg,#06d6a0,#0cb880)';
+    btn.disabled = true;
+    if (input) { input.disabled = true; input.value = email; }
+    showToast('🎉 Notified! We\'ll reach you at early access launch.');
+});

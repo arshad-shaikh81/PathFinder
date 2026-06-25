@@ -54,7 +54,6 @@ body {
 .loader-container,
 .navbar-wrapper,
 .main-content,
-#recommend-view,
 .modal-overlay {
     position: relative;
     z-index: 1;
@@ -1704,4 +1703,325 @@ body {
 
     opacity:1;
 
+}
+
+/* ==========================================================================
+   AI CAREER ADVISOR — COMING SOON SECTION
+   ========================================================================== */
+
+/* ── HERO ──────────────────────────────────────────────────────────────── */
+#recommend-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding-bottom: 5rem;
+}
+
+.advisor-coming-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1.5rem 3rem;
+    max-width: 760px;
+    margin: 0 auto;
+    animation: premiumReveal 0.7s var(--transition-premium) both;
+}
+
+/* ── Animated AI Icon Ring ── */
+.advisor-ai-icon-ring {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.advisor-ai-icon-glow {
+    position: absolute;
+    inset: -18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(157, 78, 223, 0.45) 0%, transparent 70%);
+    animation: advisorGlowPulse 2.6s ease-in-out infinite;
+}
+
+@keyframes advisorGlowPulse {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50%       { opacity: 1;    transform: scale(1.12); }
+}
+
+.advisor-ai-icon-core {
+    position: relative;
+    z-index: 2;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a252fa 0%, #3a86ff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 40px rgba(162, 82, 250, 0.55), 0 0 80px rgba(58, 134, 255, 0.2);
+}
+
+.advisor-ai-icon-core i {
+    font-size: 2.2rem;
+    color: #fff;
+}
+
+/* Orbiting rings */
+.advisor-orbit {
+    position: absolute;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+}
+
+.advisor-orbit-1 {
+    width: 116px;
+    height: 116px;
+    border-top-color: rgba(162, 82, 250, 0.6);
+    border-right-color: rgba(162, 82, 250, 0.2);
+    animation: orbitSpin 3.5s linear infinite;
+}
+
+.advisor-orbit-2 {
+    width: 140px;
+    height: 140px;
+    border-bottom-color: rgba(58, 134, 255, 0.5);
+    border-left-color: rgba(58, 134, 255, 0.15);
+    animation: orbitSpin 5.5s linear infinite reverse;
+}
+
+@keyframes orbitSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* ── Dev Badge ── */
+.advisor-dev-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(247, 127, 0, 0.12);
+    border: 1px solid rgba(247, 127, 0, 0.35);
+    color: #f7a844;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    margin-bottom: 1.6rem;
+    animation: advisorBadgePulse 2.4s ease-in-out infinite;
+}
+
+.advisor-dev-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #f7a844;
+    display: inline-block;
+    animation: advisorDotBlink 1.1s ease-in-out infinite;
+}
+
+@keyframes advisorBadgePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(247, 168, 68, 0); }
+    50%       { box-shadow: 0 0 0 6px rgba(247, 168, 68, 0.08); }
+}
+
+@keyframes advisorDotBlink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+}
+
+/* ── Hero Title & Sub ── */
+.advisor-hero-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.2;
+    margin-bottom: 1.2rem;
+    letter-spacing: -0.02em;
+}
+
+.advisor-hero-sub {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    max-width: 640px;
+    margin-bottom: 2.2rem;
+}
+
+/* ── Notify Row ── */
+.advisor-notify-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 480px;
+}
+
+.advisor-notify-input {
+    flex: 1;
+    min-width: 220px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 0.75rem 1.2rem;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    font-family: var(--font-stack);
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.advisor-notify-input::placeholder { color: var(--text-muted); }
+
+.advisor-notify-input:focus {
+    border-color: rgba(162, 82, 250, 0.5);
+    box-shadow: 0 0 0 3px rgba(162, 82, 250, 0.12);
+}
+
+.advisor-notify-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent-gradient);
+    color: #fff;
+    font-size: 0.88rem;
+    font-weight: 600;
+    font-family: var(--font-stack);
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem 1.4rem;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+}
+
+.advisor-notify-btn:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 28px rgba(162, 82, 250, 0.4);
+}
+
+.advisor-notify-btn:active { transform: translateY(0); }
+
+/* ── FEATURES SECTION ──────────────────────────────────────────────── */
+.advisor-features-section {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    text-align: center;
+}
+
+.advisor-features-title {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.6rem;
+}
+
+.advisor-features-sub {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 2.8rem;
+}
+
+.advisor-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.2rem;
+}
+
+/* ── Feature Cards ── */
+.advisor-feat-card {
+    background: var(--glass-card-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2rem 1.8rem;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: transform 0.3s var(--transition-premium),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+    cursor: default;
+}
+
+.advisor-feat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: radial-gradient(ellipse at top left, rgba(162, 82, 250, 0.06) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.advisor-feat-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--glass-hover-border);
+    box-shadow: var(--glow-matrix);
+}
+
+.advisor-feat-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 18px color-mix(in srgb, var(--feat-color) 30%, transparent);
+    transition: box-shadow 0.3s ease;
+}
+
+.advisor-feat-card:hover .advisor-feat-icon {
+    box-shadow: 0 0 28px color-mix(in srgb, var(--feat-color) 50%, transparent);
+}
+
+.advisor-feat-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 0.6rem;
+    line-height: 1.4;
+}
+
+.advisor-feat-card p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+}
+
+.advisor-feat-tag {
+    display: inline-block;
+    background: rgba(162, 82, 250, 0.12);
+    border: 1px solid rgba(162, 82, 250, 0.25);
+    color: #c084fc;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    .advisor-coming-hero { padding: 3.5rem 1rem 3rem; }
+    .advisor-hero-title  { font-size: 1.8rem; }
+    .advisor-features-grid { grid-template-columns: 1fr; }
+    .advisor-notify-row  { flex-direction: column; }
+    .advisor-notify-input,
+    .advisor-notify-btn  { width: 100%; justify-content: center; }
 }
