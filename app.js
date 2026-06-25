@@ -1372,6 +1372,21 @@ function showSection(sectionId) {
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+function openAIAdvisor() {
+
+    showSection("recommend-view");
+
+    const chatbotWindow = document.getElementById("chatbot-window");
+    const chatbotBtn = document.getElementById("chatbot-toggle-btn");
+
+    if (chatbotBtn) {
+        chatbotBtn.classList.add("hidden-btn");
+    }
+
+    // if (chatbotWindow) {
+    //     chatbotWindow.classList.remove("hidden");
+    // }
+}
 
 // ==========================================================================
 // PREMIUM NUMBER COUNTER ANIMATION ENGINE

@@ -33,7 +33,7 @@
                 <li id="nav-item-home" class="active"><a href="#" onclick="showSection('home-view')">Explore</a></li>
                 <li id="nav-item-dashboard"><a href="#" onclick="showSection('dashboard-view')">Dashboard</a></li>
                 <li id="nav-item-saved"><a href="#" onclick="showSavedCareersView()">Saved Paths</a></li>
-                <li id="nav-item-recommend"><a href="#" onclick="showSection('recommend-view')">🤖 AI Career Advisor</a>
+                <li id="nav-item-recommend"><a href="#" onclick="openAIAdvisor()">🤖 AI Career Advisor</a>
                 </li>
             </ul>
 
@@ -338,6 +338,28 @@
         <i class="fa-solid fa-bookmark"></i>
         Save this career first to track your progress!
     </div>
+    <div id="ai-advisor-overlay" class="ai-advisor-overlay hidden">
+
+        <div id="ai-advisor-window" class="ai-advisor-window">
+
+            <div class="advisor-header">
+                <h2>🤖 AI Career Advisor</h2>
+
+                <button id="close-advisor">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="advisor-body">
+
+                <!-- Existing chatbot yaha move hoga -->
+
+            </div>
+
+        </div>
+
+    </div>
+    
 
 
 </body>

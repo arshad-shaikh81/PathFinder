@@ -1644,3 +1644,64 @@ body {
         transform:scale(1);
     }
 }
+.ai-advisor-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    backdrop-filter:blur(15px);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.45s cubic-bezier(.22,.61,.36,1);
+
+    z-index:9999;
+
+}
+
+.ai-advisor-overlay.show{
+
+    opacity:1;
+
+    pointer-events:auto;
+
+}
+
+.ai-advisor-window{
+
+    width:900px;
+
+    height:700px;
+
+    background:#120d24;
+
+    border-radius:28px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    transform:translate(550px,280px) scale(.15);
+
+    opacity:0;
+
+    transition:.45s cubic-bezier(.22,.61,.36,1);
+
+}
+
+.ai-advisor-overlay.show .ai-advisor-window{
+
+    transform:translate(0,0) scale(1);
+
+    opacity:1;
+
+}
