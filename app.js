@@ -696,6 +696,28 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCareerCards();
     setupCoreEventListeners();
     updateGlobalMetricsDashboard();
+
+    // ===== Roadmap Save Button =====
+    const roadmapSaveBtn = document.getElementById("roadmap-save-btn");
+
+    if (roadmapSaveBtn) {
+        roadmapSaveBtn.addEventListener("click", function () {
+
+            if (!activeOpenCareer) return;
+
+            toggleSaveCareer(activeOpenCareer);
+
+            if (savedCareers.includes(activeOpenCareer)) {
+                this.classList.add("saved");
+                this.querySelector("i").textContent = "bookmark";
+            } else {
+                this.classList.remove("saved");
+                this.querySelector("i").textContent = "bookmark_border";
+            }
+
+        });
+    }
+
 });
 
 // ==========================================================================
@@ -889,6 +911,63 @@ function renderSavedCareers() {
 // ==========================================================================
 // RENDERING TIMELINE PIPELINES WITH CONNECTORS (NOW PHASE-GROUPED)
 // ==========================================================================
+function showRoadmapHint() {
+    const existing = document.getElementById('roadmap-hint-toast');
+    if (existing) existing.remove();
+
+    const hint = document.createElement('div');
+    hint.id = 'roadmap-hint-toast';
+    hint.innerHTML = `<i class="fa-solid fa-lightbulb"></i>
+        <div>
+            <div style="font-weight:600;margin-bottom:2px;">Click any roadmap card</div>
+            <div style="opacity:0.75;font-size:0.8rem;">to explore resources, projects & detailed explanation</div>
+        </div>`;
+    hint.style.cssText = `
+        position: fixed;
+        bottom: 6rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: rgba(14, 10, 31, 0.96);
+        border: 1px solid rgba(162, 82, 250, 0.4);
+        color: #e2d9f3;
+        padding: 0.85rem 1.5rem;
+        border-radius: 16px;
+        font-size: 0.88rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        z-index: 3000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        backdrop-filter: blur(14px);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        max-width: 360px;
+        text-align: left;
+    `;
+    hint.querySelector('i').style.cssText = `
+        color: #c084fc;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    `;
+    document.body.appendChild(hint);
+
+    // Fade in
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            hint.style.opacity = '1';
+            hint.style.transform = 'translateX(-50%) translateY(0)';
+        });
+    });
+
+    // Fade out after 3s
+    setTimeout(() => {
+        hint.style.opacity = '0';
+        hint.style.transform = 'translateX(-50%) translateY(20px)';
+        setTimeout(() => hint.remove(), 400);
+    }, 3000);
+}
+
 function openRoadmapView(careerKey) {
     activeOpenCareer = careerKey;
     const career = careerData[careerKey];
@@ -901,6 +980,21 @@ function openRoadmapView(careerKey) {
 
     renderRoadmapTimeline(careerKey);
     showSection('roadmap-view');
+
+    // Hint sirf pehli baar dikhao
+    if (!localStorage.getItem('roadmap_hint_shown')) {
+        setTimeout(showRoadmapHint, 600);
+        localStorage.setItem('roadmap_hint_shown', 'true');
+    }
+    const saveBtn = document.getElementById("roadmap-save-btn");
+
+    if (savedCareers.includes(careerKey)) {
+        saveBtn.classList.add("saved");
+        saveBtn.querySelector("i").textContent = "bookmark";
+    } else {
+        saveBtn.classList.remove("saved");
+        saveBtn.querySelector("i").textContent = "bookmark_border";
+    }
 }
 
 function renderRoadmapTimeline(careerKey) {
@@ -1029,7 +1123,27 @@ function renderRoadmapTimeline(careerKey) {
 // ==========================================================================
 // QUANTITATIVE VALUES & PROGRESS METRIC MANAGEMENT
 // ==========================================================================
+function showSaveGuardWarning() {
+    document.querySelectorAll('.milestone-tree-card').forEach(card => {
+        card.classList.remove('vibrate-shake');
+        void card.offsetWidth;
+        card.classList.add('vibrate-shake');
+        setTimeout(() => card.classList.remove('vibrate-shake'), 600);
+    });
+    const toast = document.getElementById('save-guard-toast');
+    if (!toast) return;
+    toast.classList.add('show');
+    clearTimeout(toast._hideTimer);
+    toast._hideTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
 function invertSkillNodeState(careerKey, stepId) {
+
+    // Save guard — career saved nahi hai toh block karo
+    if (!savedCareers.includes(careerKey)) {
+        showSaveGuardWarning();
+        return;
+    }
 
     // Lock check
     if (!isStepUnlocked(careerKey, stepId)) {
@@ -1555,3 +1669,19 @@ function showRoadmapTip() {
     }, 3000);
 
 }
+const saveBtn = document.querySelector(".save-btn");
+const icon = saveBtn.querySelector("i");
+
+saveBtn.addEventListener("click", () => {
+
+    saveBtn.classList.toggle("saved");
+
+    if (saveBtn.classList.contains("saved")) {
+        icon.textContent = "bookmark";
+        showToast("⭐ Saved to Favorites");
+    } else {
+        icon.textContent = "bookmark_border";
+        showToast("Removed from Favorites");
+    }
+
+});
