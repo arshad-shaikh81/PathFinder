@@ -52,10 +52,6 @@ PathFinder
 ├── style.css
 ├── app.js
 ├── particles.js
-├── assets/
-│
-├── images/
-├── icons/
 │
 └── README.md
 ```
@@ -67,7 +63,7 @@ PathFinder
 ## Clone Repository
 
 ```bash
-git clone https://github.com/your-username/pathfinder.git
+git clone https://github.com/arshad-shaikh81/PathFinder.git
 ```
 
 ## Open Project
