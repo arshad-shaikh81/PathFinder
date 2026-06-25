@@ -931,7 +931,7 @@ function renderRoadmapTimeline(careerKey) {
             node.innerHTML = `
                 <div class="milestone-tree-card" style="display: flex; align-items: center; background: rgba(30, 27, 51, 0.45); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.25rem 1.5rem; width: 100%; min-height: 84px; position: relative; transition: border-color 0.2s;" onclick="openModal('${careerKey}', '${step.id}')">
                     
-                    <div class="step-index-circle-marker ${isDone ? 'completed-node' : ''}" style="width: 42px; height: 42px; border-radius: 50%; border: 2px solid ${isDone ? '#10b981' : phaseColor}; display: flex; justify-content: center; align-items: center; font-weight: 700; color: ${isDone ? '#10b981' : phaseColor}; font-size: 0.95rem; margin-right: 1.25rem; flex-shrink: 0; position: relative; cursor: pointer;" onclick="event.stopPropagation(); invertSkillNodeState('${careerKey}', '${step.id}')">
+                    <div class="step-index-circle-marker ${isDone ? 'completed-node' : ''}" style="width: 42px; height: 42px; border-radius: 50%; border: 2px solid ${phaseColor};  display: flex; justify-content: center; align-items: center; font-weight: 700; color: ${phaseColor}; font-size: 0.95rem; margin-right: 1.25rem; flex-shrink: 0; position: relative; cursor: pointer;" onclick="event.stopPropagation(); invertSkillNodeState('${careerKey}', '${step.id}')">
                         <span class="index-num-label">${globalIndex}</span>
                     </div>
 
@@ -954,8 +954,8 @@ function renderRoadmapTimeline(careerKey) {
                                     width:28px;
                                     height:28px;
                                     border-radius:50%;
-                                    border:2px solid ${isDone ? '#10b981' : phaseColor};
-                                    background:${isDone ? '#10b981' : 'transparent'};
+                                    border: 2px solid ${phaseColor};
+                                    background: ${isDone ? phaseColor : 'transparent'};
                                     display:flex;
                                     align-items:center;
                                     justify-content:center;
