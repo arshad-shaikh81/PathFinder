@@ -965,7 +965,7 @@ function showRoadmapHint() {
         hint.style.opacity = '0';
         hint.style.transform = 'translateX(-50%) translateY(20px)';
         setTimeout(() => hint.remove(), 400);
-    }, 3000);
+    }, 1500);
 }
 
 function openRoadmapView(careerKey) {
@@ -982,10 +982,7 @@ function openRoadmapView(careerKey) {
     showSection('roadmap-view');
 
     // Hint sirf pehli baar dikhao
-    if (!localStorage.getItem('roadmap_hint_shown')) {
-        setTimeout(showRoadmapHint, 600);
-        localStorage.setItem('roadmap_hint_shown', 'true');
-    }
+    setTimeout(showRoadmapHint, 600);
     const saveBtn = document.getElementById("roadmap-save-btn");
 
     if (savedCareers.includes(careerKey)) {

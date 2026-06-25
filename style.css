@@ -950,6 +950,7 @@ body {
 
 .track-progress-wrapper {
     min-width: 280px;
+    margin-top: 30px;
 }
 
 .track-progress-meta {
