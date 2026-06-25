@@ -1459,44 +1459,32 @@ function setupCoreEventListeners() {
 // ==========================================================================
 const chatbotQuestions = [
     {
-        question: "Hey! I'm your Career Advisor 👋 Let's find your ideal tech path. What excites you most?",
+        question: "Hey! 👋 I'm your AI Career Advisor. Let's find the perfect path for you!\n\nFirst up — what level of education are you currently at?",
         options: [
-            { label: "Building apps & products", scores: { "software-dev": 3, "devops-engineering": 1 } },
-            { label: "Numbers, patterns & predictions", scores: { "data-science": 3, "artificial-intelligence": 1 } },
-            { label: "Teaching machines to think", scores: { "artificial-intelligence": 3, "data-science": 1 } },
-            { label: "Protecting systems from threats", scores: { "cyber-security": 3 } }
+            { label: "🎓 Diploma / Polytechnic", scores: { "Backend-dev": 1, "ui-ux-design": 1, "digital-marketing": 1 } },
+            { label: "🎓 Bachelor's Degree", scores: { "Backend-dev": 2, "data-science": 1, "artificial-intelligence": 1 } },
+            { label: "🎓 Master's / Postgraduate", scores: { "data-science": 2, "artificial-intelligence": 2, "cyber-security": 1 } },
+            { label: "📚 Self-Learning / Bootcamp", scores: { "Backend-dev": 1, "ui-ux-design": 2, "digital-marketing": 2 } },
+            { label: "🏫 Still in School (10th/12th)", scores: { "ui-ux-design": 1, "digital-marketing": 1, "Backend-dev": 1 } }
         ]
     },
     {
-        question: "Got it. Which work style sounds most like you?",
+        question: "Nice! Now tell me — which area excites you the most? 🚀\n\nDon't overthink it, go with your gut!",
         options: [
-            { label: "Coding hands-on every day", scores: { "software-dev": 2, "devops-engineering": 1 } },
-            { label: "Digging through data & experiments", scores: { "data-science": 2 } },
-            { label: "Researching & training models", scores: { "artificial-intelligence": 2 } },
-            { label: "Thinking like an attacker (and defender)", scores: { "cyber-security": 2 } },
-            { label: "Automating & scaling infrastructure", scores: { "devops-engineering": 2, "cloud-computing": 1 } }
+            { label: "💻 Coding & Building Apps", scores: { "Backend-dev": 3, "devops-engineering": 1 } },
+            { label: "🎨 Design & User Experience", scores: { "ui-ux-design": 3 } },
+            { label: "📊 Data, Analytics & AI", scores: { "data-science": 3, "artificial-intelligence": 2 } },
+            { label: "📱 Digital Marketing & Growth", scores: { "digital-marketing": 3 } },
+            { label: "🔐 Cybersecurity & Networking", scores: { "cyber-security": 3 } },
+            { label: "☁️ Cloud & DevOps", scores: { "devops-engineering": 3, "cloud-computing": 2 } }
         ]
     },
     {
-        question: "Nice. Pick a toolkit you'd enjoy mastering:",
+        question: "Almost there! 🎯\n\nWhat's your current experience level with tech & computers?",
         options: [
-            { label: "React, Node.js, REST APIs", scores: { "software-dev": 2 } },
-            { label: "Pandas, SQL, ML models", scores: { "data-science": 2 } },
-            { label: "PyTorch, Transformers, GenAI", scores: { "artificial-intelligence": 2 } },
-            { label: "Wireshark, Burp Suite, Nmap", scores: { "cyber-security": 2 } },
-            { label: "Docker, Kubernetes, CI/CD", scores: { "devops-engineering": 2 } },
-            { label: "AWS, Terraform, Cloud Architecture", scores: { "cloud-computing": 2 } }
-        ]
-    },
-    {
-        question: "Last one — what's your dream outcome?",
-        options: [
-            { label: "Ship full products end-to-end", scores: { "software-dev": 2 } },
-            { label: "Drive decisions with data insights", scores: { "data-science": 2 } },
-            { label: "Push the frontier of AI", scores: { "artificial-intelligence": 2 } },
-            { label: "Keep organizations secure", scores: { "cyber-security": 2 } },
-            { label: "Build reliable delivery pipelines", scores: { "devops-engineering": 2 } },
-            { label: "Architect scalable cloud systems", scores: { "cloud-computing": 2 } }
+            { label: "🌱 Beginner — Just starting out", scores: { "ui-ux-design": 1, "digital-marketing": 1 } },
+            { label: "⚡ Intermediate — Know the basics", scores: { "Backend-dev": 1, "data-science": 1, "cyber-security": 1 } },
+            { label: "🔥 Advanced — Pretty comfortable", scores: { "artificial-intelligence": 1, "devops-engineering": 1, "cloud-computing": 1 } }
         ]
     }
 ];
@@ -1537,7 +1525,11 @@ function appendChatMessage(text, sender) {
     const body = document.getElementById('chatbot-body');
     const msg = document.createElement('div');
     msg.className = `chat-msg ${sender}`;
-    msg.innerText = text;
+    if (sender === 'bot') {
+        msg.innerHTML = text.replace(/\n/g, '<br>');
+    } else {
+        msg.innerText = text;
+    }
     body.appendChild(msg);
     body.scrollTop = body.scrollHeight;
 }
@@ -1601,10 +1593,15 @@ function showChatbotResult() {
         typing.remove();
 
         const sorted = Object.entries(chatbotState.scores).sort((a, b) => b[1] - a[1]);
-        const topKey = sorted.length > 0 ? sorted[0][0] : "software-dev";
+        const topKey = sorted.length > 0 ? sorted[0][0] : "Backend-dev";
         const career = careerData[topKey];
 
-        appendChatMessage("Based on your answers, I think you'd thrive in:", "bot");
+        if (!career) {
+            appendChatMessage("Hmm, I couldn't find a perfect match. Try again!", "bot");
+            return;
+        }
+
+        appendChatMessage("🎯 Analysis complete! Based on your education, interests & experience level — here's your ideal career path:", "bot");
 
         const card = document.createElement('div');
         card.className = "chat-result-card";
@@ -1612,8 +1609,8 @@ function showChatbotResult() {
             <h4><i class="${career.icon}"></i> ${career.title}</h4>
             <p>${career.desc}</p>
             <div class="chat-result-actions">
-                <button class="chat-explore-btn" onclick="closeChatbot(); openRoadmapView('${topKey}')">Explore Path</button>
-                <button class="chat-restart-btn" onclick="startChatbot()">Retake Quiz</button>
+                <button class="chat-explore-btn" onclick="closeChatbot(); openRoadmapView('${topKey}')">🗺️ Explore Roadmap</button>
+                <button class="chat-restart-btn" onclick="startChatbot()">🔄 Retake Quiz</button>
             </div>
         `;
         body.appendChild(card);
@@ -1731,3 +1728,51 @@ document.addEventListener('click', function (e) {
     if (input) { input.disabled = true; input.value = email; }
     showToast('🎉 Notified! We\'ll reach you at early access launch.');
 });
+
+// ==========================================================================
+// MOBILE HAMBURGER MENU
+// ==========================================================================
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-nav-menu');
+    const btn = document.getElementById('hamburger-btn');
+    if (!menu || !btn) return;
+    const isOpen = menu.classList.contains('open');
+    if (isOpen) {
+        closeMobileMenu();
+    } else {
+        menu.classList.add('open');
+        btn.classList.add('open');
+    }
+}
+
+function closeMobileMenu() {
+    const menu = document.getElementById('mobile-nav-menu');
+    const btn = document.getElementById('hamburger-btn');
+    if (menu) menu.classList.remove('open');
+    if (btn) btn.classList.remove('open');
+}
+
+// Close mobile menu when tapping outside
+document.addEventListener('click', function (e) {
+    const menu = document.getElementById('mobile-nav-menu');
+    const btn = document.getElementById('hamburger-btn');
+    if (
+        menu && menu.classList.contains('open') &&
+        !menu.contains(e.target) &&
+        btn && !btn.contains(e.target)
+    ) {
+        closeMobileMenu();
+    }
+});
+
+// Sync mobile search input with main search
+const mobileSearch = document.getElementById('mobile-career-search');
+if (mobileSearch) {
+    mobileSearch.addEventListener('input', (e) => {
+        const mainSearch = document.getElementById('career-search');
+        if (mainSearch) mainSearch.value = e.target.value;
+        renderCareerCards(e.target.value);
+        closeMobileMenu();
+        showSection('home-view');
+    });
+}

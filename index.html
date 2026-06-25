@@ -29,12 +29,11 @@
         <nav class="navbar">
             <span class="nav-brand" onclick="showSection('home-view')">PathFinder</span>
 
-            <ul class="nav-links">
-                <li id="nav-item-home" class="active"><a href="#" onclick="showSection('home-view')">Explore</a></li>
-                <li id="nav-item-dashboard"><a href="#" onclick="showSection('dashboard-view')">Dashboard</a></li>
-                <li id="nav-item-saved"><a href="#" onclick="showSavedCareersView()">Saved Paths</a></li>
-                <li id="nav-item-recommend"><a href="#" onclick="openAIAdvisor()">🤖 AI Career Advisor</a>
-                </li>
+            <ul class="nav-links" id="nav-links-list">
+                <li id="nav-item-home" class="active"><a href="#" onclick="showSection('home-view'); closeMobileMenu()">Explore</a></li>
+                <li id="nav-item-dashboard"><a href="#" onclick="showSection('dashboard-view'); closeMobileMenu()">Dashboard</a></li>
+                <li id="nav-item-saved"><a href="#" onclick="showSavedCareersView(); closeMobileMenu()">Saved Paths</a></li>
+                <li id="nav-item-recommend"><a href="#" onclick="openAIAdvisor(); closeMobileMenu()">🤖 AI Career Advisor</a></li>
             </ul>
 
             <div class="navbar-search-wrapper">
@@ -42,29 +41,40 @@
                 <input type="text" id="career-search" placeholder="Search career tracks...">
             </div>
 
-
             <div class="nav-actions">
+                <!-- Hamburger for mobile -->
+                <button id="hamburger-btn" class="hamburger-btn" aria-label="Open Menu" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
                 <button id="menu-toggle-btn" class="three-dots-btn" aria-label="Open Actions Menu">
                     <i class="fa-solid fa-sliders"></i>
                 </button>
                 <div id="dropdown-menu" class="dropdown-content">
-                    <a href="#" onclick="showSection('dashboard-view')"><i class="fa-solid fa-chart-pie"></i> Metrics
-                        Analytics</a>
-                    <a href="#" onclick="showSavedCareersView()"><i class="fa-solid fa-bookmark"></i> Bookmarked
-                        Paths</a>
+                    <a href="#" onclick="showSection('dashboard-view')"><i class="fa-solid fa-chart-pie"></i> Metrics Analytics</a>
+                    <a href="#" onclick="showSavedCareersView()"><i class="fa-solid fa-bookmark"></i> Bookmarked Paths</a>
                     <hr class="dropdown-divider">
-                    <a href="#" onclick="alert('PathFinder Premium v2.0 // Active System Cache')"><i
-                            class="fa-solid fa-circle-info"></i> Version Info</a>
-                    <a href="#" onclick="showTermsModal()">
-                        <i class="fa-solid fa-file-contract"></i> Terms & Conditions
-                    </a>
-                    <a href="#" onclick="alert('Support Pipeline: support@pathfinder.io')"><i
-                            class="fa-solid fa-envelope"></i> Help </a>
-
+                    <a href="#" onclick="alert('PathFinder Premium v2.0 // Active System Cache')"><i class="fa-solid fa-circle-info"></i> Version Info</a>
+                    <a href="#" onclick="showTermsModal()"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a>
+                    <a href="#" onclick="alert('Support Pipeline: support@pathfinder.io')"><i class="fa-solid fa-envelope"></i> Help</a>
                 </div>
             </div>
 
         </nav>
+
+        <!-- Mobile Slide-down Menu -->
+        <div id="mobile-nav-menu" class="mobile-nav-menu">
+            <a href="#" onclick="showSection('home-view'); closeMobileMenu()"><i class="fa-solid fa-compass"></i> Explore</a>
+            <a href="#" onclick="showSection('dashboard-view'); closeMobileMenu()"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+            <a href="#" onclick="showSavedCareersView(); closeMobileMenu()"><i class="fa-solid fa-bookmark"></i> Saved Paths</a>
+            <a href="#" onclick="openAIAdvisor(); closeMobileMenu()"><i class="fa-solid fa-robot"></i> AI Career Advisor</a>
+            <div class="mobile-nav-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="mobile-career-search" placeholder="Search career tracks...">
+            </div>
+        </div>
 
     </header>
 
@@ -380,7 +390,7 @@
         </div>
 
     <script src="app.js"></script>
-    <script src="./particles.js"></script>
+    <script src="particles.js"></script>
     <div id="terms-modal" class="modal-overlay hidden">
         <div class="modal-card glass-card">
             <div class="modal-header">
