@@ -711,6 +711,20 @@ function findStepById(careerKey, stepId) {
     return getAllSteps(careerKey).find(s => s.id === stepId);
 }
 
+function getNextIncompleteStep(careerKey) {
+    const career = careerData[careerKey];
+    if (!career || !career.phases) return null;
+
+    for (const phase of career.phases) {
+        for (const step of phase.steps) {
+            if (!progressTracker[step.id]) {
+                return { step, phase };
+            }
+        }
+    }
+    return null;
+}
+
 // ==========================================================================
 // CORE RENDER LOGIC ENGINE
 // ==========================================================================
@@ -765,6 +779,9 @@ function renderCareerCards(filter = "") {
         });
 
         grid.appendChild(card);
+        setTimeout(() => {
+        card.classList.add("show");
+        }, displayCount * 80);
     });
 
     const totalIndicator = document.getElementById('total-tracks-indicator');
@@ -851,6 +868,9 @@ function renderSavedCareers() {
         });
 
         grid.appendChild(card);
+        setTimeout(() => {
+        card.classList.add("show");
+        }, displayCount * 80);
     });
 }
 
@@ -1044,16 +1064,98 @@ function updateGlobalMetricsDashboard() {
     animateCounter('dash-completed-skills', totalCompletedCount, 2500);
     animateCounter('dash-remaining-skills', remainingCount, 2500);
     animateCounter('dash-percentage', globalPercent, 2500, true);
-    animateCounter('global-progress-text', globalPercent, 2500, true);
 
-    const globalProgressFill = document.getElementById('global-progress-fill');
-    if (globalProgressFill) {
-        globalProgressFill.style.transition = 'none';
-        globalProgressFill.style.width = '0%';
-        void globalProgressFill.offsetWidth;
-        globalProgressFill.style.transition = 'width 2.5s cubic-bezier(0.16, 1, 0.3, 1)';
-        globalProgressFill.style.width = `${globalPercent}%`;
+    renderActiveCareerProgress();
+}
+
+// ==========================================================================
+// ACTIVE CAREER PROGRESS LIST (DASHBOARD) — only careers with at least
+// one completed skill node are shown here.
+// ==========================================================================
+function renderActiveCareerProgress() {
+    const list = document.getElementById('active-career-progress-list');
+    const titleText = document.getElementById('active-progress-title-text');
+    if (!list) return;
+
+    list.innerHTML = "";
+
+    const activeCareers = Object.keys(careerData).map(key => {
+        const steps = getAllSteps(key);
+        const total = steps.length;
+        const completed = steps.filter(s => progressTracker[s.id]).length;
+        return { key, title: careerData[key].title, total, completed };
+    }).filter(c => c.completed > 0);
+
+    // Case 1: nothing started yet
+    if (activeCareers.length === 0) {
+        if (titleText) titleText.textContent = "Active Career Progress";
+        list.innerHTML = `
+            <div class="active-progress-empty">
+                <i class="fa-regular fa-circle-play"></i>
+                No learning started yet. Tick a skill node on any roadmap to see it tracked here.
+            </div>`;
+        return;
     }
+
+    // Case 2: exactly one career started — show the focused "Current Learning" card
+    if (activeCareers.length === 1) {
+        if (titleText) titleText.textContent = "Current Learning Progress";
+
+        const c = activeCareers[0];
+        const percentage = Math.round((c.completed / c.total) * 100);
+        const next = getNextIncompleteStep(c.key);
+
+        const card = document.createElement('div');
+        card.className = "current-progress-card";
+        card.innerHTML = `
+            <div class="current-progress-top">
+                <span class="current-progress-title">${c.title}</span>
+                <span class="current-progress-percent">${percentage}%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: ${percentage}%;"></div>
+            </div>
+            <div class="current-progress-meta">${c.completed} / ${c.total} Skills Completed</div>
+            <div class="current-progress-divider"></div>
+            <div class="current-progress-info-grid">
+                <div class="current-progress-info-block">
+                    <span class="current-progress-info-label">Current Phase</span>
+                    <span class="current-progress-info-value">${next ? `${next.phase.emoji} ${next.phase.name}` : '🎉 All Phases Complete'}</span>
+                </div>
+                <div class="current-progress-info-block">
+                    <span class="current-progress-info-label">Current Skill</span>
+                    <span class="current-progress-info-value">${next ? next.step.name : 'All skills completed!'}</span>
+                </div>
+            </div>
+            <button class="continue-learning-btn" onclick="openRoadmapView('${c.key}')">${next ? 'Continue Learning' : 'View Roadmap'}</button>
+        `;
+        list.appendChild(card);
+        return;
+    }
+
+    // Case 3: multiple careers started — show the ranked list
+    if (titleText) titleText.textContent = "Active Career Progress";
+
+    // Highest progress first
+    activeCareers.sort((a, b) => (b.completed / b.total) - (a.completed / a.total));
+
+    activeCareers.forEach(c => {
+        const percentage = Math.round((c.completed / c.total) * 100);
+
+        const item = document.createElement('div');
+        item.className = "active-progress-item";
+        item.innerHTML = `
+            <div class="active-progress-item-top">
+                <span class="active-progress-item-title">${c.title}</span>
+                <span class="active-progress-item-percent">${percentage}%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: ${percentage}%;"></div>
+            </div>
+            <div class="active-progress-item-meta">${c.completed} / ${c.total} Skills Completed</div>
+        `;
+        list.appendChild(item);
+    });
 }
 
 // ==========================================================================
@@ -1373,32 +1475,48 @@ function closeTermsModal() {
     document.getElementById('terms-modal')
         .classList.add('hidden');
 }
-function filterCareers(category, btn) {
+function filterCareers(category, btn){
 
-    document
-        .querySelectorAll('.filter-btn')
-        .forEach(button =>
-            button.classList.remove('active')
-        );
+    document.querySelectorAll('.filter-btn')
+        .forEach(button => button.classList.remove('active'));
 
     btn.classList.add('active');
 
-    const cards =
-        document.querySelectorAll('.career-card');
+    const cards = [...document.querySelectorAll('.career-card')];
 
-    cards.forEach(card => {
-
-        const cardCategory =
-            card.dataset.category;
-
-        if (
-            category === 'all' ||
-            cardCategory === category
-        ) {
-            card.style.display = '';
-        }
-        else {
-            card.style.display = 'none';
-        }
+    // Fade out all cards
+    cards.forEach(card=>{
+        card.classList.remove('show');
     });
+
+    setTimeout(()=>{
+
+        let delay = 0;
+
+        cards.forEach(card=>{
+
+            const match =
+                category === "all" ||
+                card.dataset.category === category;
+
+            if(match){
+
+                card.style.display = "";
+
+                setTimeout(()=>{
+                    card.classList.add("show");
+                },delay);
+
+                delay += 80;
+
+            }else{
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+    },250);
+
 }

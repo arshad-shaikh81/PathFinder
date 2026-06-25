@@ -710,6 +710,179 @@ body {
 }
 
 /* ==========================================================================
+   ACTIVE CAREER PROGRESS (DASHBOARD)
+   ========================================================================== */
+.active-progress-section {
+    padding: 2rem;
+}
+
+.active-progress-header {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-main);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.active-progress-header i {
+    color: var(--accent-purple);
+    font-size: 1.1rem;
+}
+
+.active-progress-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.active-progress-item {
+    padding: 1.1rem 0;
+    border-bottom: 1px dashed var(--glass-border);
+}
+
+.active-progress-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.active-progress-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.7rem;
+}
+
+.active-progress-item-title {
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.active-progress-item-percent {
+    font-size: 0.92rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.active-progress-item-meta {
+    margin-top: 0.55rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.active-progress-empty {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.active-progress-empty i {
+    display: block;
+    font-size: 1.8rem;
+    margin-bottom: 0.85rem;
+    color: var(--accent-purple);
+}
+
+/* ==========================================================================
+   SINGLE-CAREER "CURRENT LEARNING PROGRESS" CARD (shown when exactly one
+   career has been started)
+   ========================================================================== */
+.current-progress-card {
+    width: 100%;
+}
+
+.current-progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.75rem;
+}
+
+.current-progress-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.current-progress-percent {
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.current-progress-meta {
+    margin-top: 0.6rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.current-progress-divider {
+    border-top: 1px dashed var(--glass-border);
+    margin: 1.5rem 0;
+}
+
+.current-progress-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+}
+
+.current-progress-info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.current-progress-info-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.current-progress-info-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.continue-learning-btn {
+    width: 100%;
+    background: var(--accent-gradient);
+    border: none;
+    color: #ffffff;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s var(--transition-premium), box-shadow 0.2s var(--transition-premium);
+}
+
+.continue-learning-btn:hover {
+    transform: scale(1.01);
+    box-shadow: 0 8px 20px rgba(162, 82, 250, 0.3);
+}
+
+.continue-learning-btn:active {
+    transform: scale(0.99);
+}
+
+@media (max-width: 480px) {
+    .current-progress-info-grid { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
    ROADMAP VIEW AND VERTICAL TIMELINE STYLING
    ========================================================================== */
 .roadmap-header-nav {
@@ -1325,4 +1498,16 @@ body {
 
 .filter-btn.active{
     background:linear-gradient(135deg,#8b5cf6,#6366f1);
+}
+.career-card{
+    opacity:0;
+    transform:translateY(30px);
+    transition:
+        opacity .45s ease,
+        transform .45s ease;
+}
+
+.career-card.show{
+    opacity:1;
+    transform:translateY(0);
 }
