@@ -697,6 +697,9 @@ document.addEventListener("DOMContentLoaded", () => {
     setupCoreEventListeners();
     updateGlobalMetricsDashboard();
 
+    // Home page ko default dikhao
+    showSection("home-view");
+
     // ===== Roadmap Save Button =====
     const roadmapSaveBtn = document.getElementById("roadmap-save-btn");
 
