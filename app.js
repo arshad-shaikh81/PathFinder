@@ -792,7 +792,7 @@ function renderCareerCards(filter = "") {
 
         grid.appendChild(card);
         setTimeout(() => {
-        card.classList.add("show");
+            card.classList.add("show");
         }, displayCount * 80);
     });
 
@@ -881,8 +881,8 @@ function renderSavedCareers() {
 
         grid.appendChild(card);
         setTimeout(() => {
-        card.classList.add("show");
-        }, displayCount * 80);
+            card.classList.add("show");
+        }, 100);
     });
 }
 
@@ -901,8 +901,6 @@ function openRoadmapView(careerKey) {
 
     renderRoadmapTimeline(careerKey);
     showSection('roadmap-view');
-    showRoadmapTip();
-
 }
 
 function renderRoadmapTimeline(careerKey) {
@@ -1501,7 +1499,7 @@ function closeTermsModal() {
     document.getElementById('terms-modal')
         .classList.add('hidden');
 }
-function filterCareers(category, btn){
+function filterCareers(category, btn) {
 
     document.querySelectorAll('.filter-btn')
         .forEach(button => button.classList.remove('active'));
@@ -1511,31 +1509,31 @@ function filterCareers(category, btn){
     const cards = [...document.querySelectorAll('.career-card')];
 
     // Fade out all cards
-    cards.forEach(card=>{
+    cards.forEach(card => {
         card.classList.remove('show');
     });
 
-    setTimeout(()=>{
+    setTimeout(() => {
 
         let delay = 0;
 
-        cards.forEach(card=>{
+        cards.forEach(card => {
 
             const match =
                 category === "all" ||
                 card.dataset.category === category;
 
-            if(match){
+            if (match) {
 
                 card.style.display = "";
 
-                setTimeout(()=>{
+                setTimeout(() => {
                     card.classList.add("show");
-                },delay);
+                }, delay);
 
                 delay += 80;
 
-            }else{
+            } else {
 
                 card.style.display = "none";
 
@@ -1543,17 +1541,17 @@ function filterCareers(category, btn){
 
         });
 
-    },250);
+    }, 250);
 
 }
-function showRoadmapTip(){
+function showRoadmapTip() {
 
-    const toast=document.getElementById("roadmap-toast");
+    const toast = document.getElementById("roadmap-toast");
 
     toast.classList.add("show");
 
-    setTimeout(()=>{
+    setTimeout(() => {
         toast.classList.remove("show");
-    },3000);
+    }, 3000);
 
 }

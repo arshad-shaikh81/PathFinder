@@ -32,7 +32,7 @@
                 <li id="nav-item-home" class="active"><a href="#" onclick="showSection('home-view')">Explore</a></li>
                 <li id="nav-item-dashboard"><a href="#" onclick="showSection('dashboard-view')">Dashboard</a></li>
                 <li id="nav-item-saved"><a href="#" onclick="showSavedCareersView()">Saved Paths</a></li>
-                <li id="nav-item-recommend"><a href="#" onclick="showSection('recommend-view')">Recommend Career</a>
+                <li id="nav-item-recommend"><a href="#" onclick="showSection('recommend-view')">🤖 AI Career Advisor</a>
                 </li>
             </ul>
 
@@ -121,9 +121,11 @@
 
         <section id="dashboard-view" class="view-section hidden">
             <div class="dashboard-header">
-                <h2>System Analytics <span class="gradient-text">Dashboard</span></h2>
-                <p>Real-time diagnostic overview of active educational milestones synchronized via native browser local
-                    storage.</p>
+                <h2>AI Career <span class="gradient-text">Recommendation</span></h2>
+
+                <p>
+                    Answer a few questions and let our engine suggest the perfect trajectory for your skills.
+                </p>
             </div>
 
             <div class="dashboard-grid">
@@ -157,12 +159,13 @@
                 </div>
             </div>
 
-            <div class="active-progress-section glass-card">
-                <div class="active-progress-header">
-                    <i class="fa-solid fa-book-open"></i>
-                    <span id="active-progress-title-text">Active Career Progress</span>
+            <div class="global-progress-box glass-card">
+                <div class="progress-info-text">
+                    <span>Ecosystem Resource Mastery Integration</span>
+                    <span id="global-progress-text" class="gradient-text">0%</span>
                 </div>
-                <div id="active-career-progress-list" class="active-progress-list">
+                <div class="progress-bar-bg">
+                    <div id="global-progress-fill" class="progress-bar-fill"></div>
                 </div>
             </div>
         </section>
@@ -319,13 +322,10 @@
                 <br>
 
                 <p>
-                    <strong>© 2026 areerGPS</strong>
+                    <strong>© 2026 CareerGPS</strong>
                 </p>
             </div>
         </div>
-    </div>
-    <div id="roadmap-toast" class="roadmap-toast">
-    💡 Click any roadmap card to view resources, projects and detailed explanation.
     </div>
 
 </body>
