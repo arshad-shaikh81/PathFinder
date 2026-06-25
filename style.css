@@ -1511,3 +1511,35 @@ body {
     opacity:1;
     transform:translateY(0);
 }
+.roadmap-toast{
+    position:fixed;
+    top:90px;
+    right:25px;
+
+    background:rgba(25,25,35,.95);
+    color:#fff;
+
+    border-left:4px solid #3b82f6;
+
+    padding:14px 18px;
+    border-radius:12px;
+
+    font-size:.9rem;
+    line-height:1.5;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+
+    z-index:99999;
+
+    transform:translateX(420px);
+    opacity:0;
+
+    transition:.4s ease;
+
+    max-width:320px;
+}
+
+.roadmap-toast.show{
+    transform:translateX(0);
+    opacity:1;
+}

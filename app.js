@@ -9,7 +9,7 @@ const careerData = {
         title: "Backend Development",
         category: "Development",
         icon: "fa-solid fa-code",
-        desc: "Build real-world applications by mastering programming fundamentals, data structures, databases, and full-stack development.",
+        desc: "Build real-world applications by mastering programming fundamentals, data structures, databases.",
 
         phases: [
             {
@@ -724,6 +724,18 @@ function getNextIncompleteStep(careerKey) {
     }
     return null;
 }
+function isStepUnlocked(careerKey, stepId) {
+    const steps = getAllSteps(careerKey);
+
+    const currentIndex = steps.findIndex(step => step.id === stepId);
+
+    // First step hamesha unlocked
+    if (currentIndex === 0) return true;
+
+    const previousStep = steps[currentIndex - 1];
+
+    return progressTracker[previousStep.id] === true;
+}
 
 // ==========================================================================
 // CORE RENDER LOGIC ENGINE
@@ -889,6 +901,8 @@ function openRoadmapView(careerKey) {
 
     renderRoadmapTimeline(careerKey);
     showSection('roadmap-view');
+    showRoadmapTip();
+
 }
 
 function renderRoadmapTimeline(careerKey) {
@@ -923,6 +937,7 @@ function renderRoadmapTimeline(careerKey) {
         phase.steps.forEach((step, stepIdxInPhase) => {
             globalIndex++;
             const isDone = progressTracker[step.id] === true;
+            const isUnlocked = isStepUnlocked(careerKey, step.id);
 
             const node = document.createElement('div');
             node.className = "timeline-node-wrapper";
@@ -949,7 +964,7 @@ function renderRoadmapTimeline(careerKey) {
 
                         <!-- Checkbox -->
                             <div
-                                onclick="event.stopPropagation(); invertSkillNodeState('${careerKey}', '${step.id}')"
+                                onclick="${isUnlocked ? `event.stopPropagation(); invertSkillNodeState('${careerKey}','${step.id}')` : 'event.stopPropagation();'}"
                                 style="
                                     width:28px;
                                     height:28px;
@@ -959,7 +974,8 @@ function renderRoadmapTimeline(careerKey) {
                                     display:flex;
                                     align-items:center;
                                     justify-content:center;
-                                    cursor:pointer;
+                                    cursor:${isUnlocked ? 'pointer' : 'not-allowed'};
+                                    opacity:${isUnlocked ? '1' : '0.4'};
                                     flex-shrink:0;
                                 ">
                                 ${isDone ? '<i class="fa-solid fa-check" style="color:white;font-size:12px;"></i>' : ''}
@@ -1016,13 +1032,23 @@ function renderRoadmapTimeline(careerKey) {
 // QUANTITATIVE VALUES & PROGRESS METRIC MANAGEMENT
 // ==========================================================================
 function invertSkillNodeState(careerKey, stepId) {
+
+    // Lock check
+    if (!isStepUnlocked(careerKey, stepId)) {
+        alert("⚠️ Complete the previous step first.");
+        return;
+    }
+
     if (progressTracker[stepId]) {
         delete progressTracker[stepId];
     } else {
         progressTracker[stepId] = true;
     }
 
-    localStorage.setItem('pathfinder_progress', JSON.stringify(progressTracker));
+    localStorage.setItem(
+        "pathfinder_progress",
+        JSON.stringify(progressTracker)
+    );
 
     renderRoadmapTimeline(careerKey);
     updateGlobalMetricsDashboard();
@@ -1518,5 +1544,16 @@ function filterCareers(category, btn){
         });
 
     },250);
+
+}
+function showRoadmapTip(){
+
+    const toast=document.getElementById("roadmap-toast");
+
+    toast.classList.add("show");
+
+    setTimeout(()=>{
+        toast.classList.remove("show");
+    },3000);
 
 }
