@@ -1205,7 +1205,7 @@ body {
     cursor: pointer;
     z-index: 3;
     transition: all 0.3s var(--transition-premium);
-}}
+}
 
 .milestone-checkbox[data-unlocked="true"] { cursor: pointer; }
 .milestone-checkbox[data-unlocked="false"] { cursor: not-allowed; opacity: 0.4; }
