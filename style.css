@@ -963,22 +963,272 @@ body {
 
 .roadmap-timeline {
     position: relative;
+    width: 100%;
     max-width: 840px;
     margin: 0 auto;
-    padding: 1rem 0;
+    padding: 1rem 0 2rem;
 }
 
+/* Vertical gradient line — sits behind the number circles */
 .roadmap-timeline::before {
     content: '';
     position: absolute;
-    left: 42px;
+    left: 19px;           /* center of the 40px circle that sits at left:0 */
     top: 0;
     width: 2px;
     height: 100%;
-    background: linear-gradient(to bottom, var(--accent-purple), var(--accent-blue));
-    z-index: 1;
+    background: linear-gradient(to bottom,
+        rgba(162, 82, 250, 0.8),
+        rgba(58, 134, 255, 0.8));
+    border-radius: 2px;
+    z-index: 0;
 }
 
+/* ── Phase divider ── */
+.phase-divider {
+    width: 100%;
+    margin: 1rem 0 2rem 0;
+    border: none;
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+/* ── Phase banner row ── */
+.phase-banner-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+    padding-left: 52px;   /* aligns with card left edge */
+    flex-wrap: wrap;
+}
+
+.phase-badge {
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.25rem 0.8rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.phase-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #ffffff;
+    word-break: break-word;
+}
+
+/* ── Node wrapper — sits to the right of the line ── */
+.timeline-node-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    padding-left: 52px;   /* 20px line + 12px gap + 20px half-circle */
+    position: relative;
+    z-index: 2;
+    margin-bottom: 0.85rem; /* gap between cards */
+}
+
+/* Circle dot on the line */
+.timeline-node-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 12px;           /* (52px padding - 28px dot) / 2 ≈ 12 */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-purple);
+    box-shadow: 0 0 8px rgba(162, 82, 250, 0.7);
+    z-index: 3;
+}
+
+/* ── Card ── */
+.milestone-tree-card {
+    display: flex;
+    align-items: center;
+    background: rgba(20, 16, 40, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    padding: 1rem 1.1rem;
+    width: 100%;
+    gap: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.25s ease,
+                background 0.25s ease,
+                transform 0.2s ease,
+                box-shadow 0.25s ease;
+    position: relative;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.milestone-tree-card:hover {
+    border-color: rgba(162, 82, 250, 0.4);
+    background: rgba(30, 22, 60, 0.75);
+    transform: translateX(3px);
+    box-shadow: 0 6px 24px rgba(162, 82, 250, 0.12);
+}
+
+/* ── Step number circle ── */
+.step-index-circle-marker {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 50%;
+    border: 2px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    align-self: center;
+    transition: all 0.25s ease;
+    background: rgba(14, 10, 31, 0.9);
+}
+
+.step-index-circle-marker:hover {
+    transform: scale(1.1);
+}
+
+.step-index-circle-marker.completed-node {
+    background: rgba(162, 82, 250, 0.18);
+}
+
+/* ── Title + desc block ── */
+.milestone-text-block {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+}
+
+.milestone-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #f1f0f5;
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+    word-break: break-word;
+    white-space: normal;
+}
+
+.milestone-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    word-break: break-word;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ── Right column: checkbox + hours ── */
+.milestone-right-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+    align-self: center;
+    min-width: 36px;
+}
+
+.milestone-checkbox {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.milestone-checkbox[data-unlocked="true"]:hover {
+    transform: scale(1.12);
+}
+
+.milestone-checkbox[data-unlocked="true"] { cursor: pointer; }
+.milestone-checkbox[data-unlocked="false"] { cursor: not-allowed; opacity: 0.35; }
+
+.milestone-hours {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* ── Arrow connector between steps ── */
+.pipeline-connector-vector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.4rem 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    /* shift arrow to align under card, not the line */
+    padding-left: 52px;
+}
+
+/* ── Old .timeline-node fallback ── */
+.timeline-node {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 95px;
+    z-index: 2;
+}
+
+.node-status-marker {
+    position: absolute;
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg-deep);
+    border: 2px solid var(--accent-purple);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 3;
+    transition: all 0.3s var(--transition-premium);
+}}
+
+.milestone-checkbox[data-unlocked="true"] { cursor: pointer; }
+.milestone-checkbox[data-unlocked="false"] { cursor: not-allowed; opacity: 0.4; }
+
+.milestone-hours {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* ── Arrow connector ── */
+.pipeline-connector-vector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0.6rem 0;
+    font-size: 1rem;
+}
+
+/* ── Old .timeline-node fallback (keep for any legacy refs) ── */
 .timeline-node {
     position: relative;
     margin-bottom: 2rem;
@@ -1556,13 +1806,91 @@ body {
     .dashboard-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
     .dash-card { padding: 1rem; }
 
-    /* Roadmap */
-    .roadmap-timeline::before { left: 20px; }
-    .timeline-node { padding-left: 62px; }
-    .node-status-marker { left: 4px; }
-    .roadmap-title-container { flex-direction: column; align-items: flex-start; gap: 1.25rem; padding: 1.25rem; }
-    .roadmap-main-details { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-    .track-progress-wrapper { width: 100%; min-width: auto; margin-top: 0; }
+    /* ── ROADMAP TITLE FIX ── */
+    .roadmap-header-nav { margin-bottom: 1rem; }
+
+    .roadmap-title-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.25rem;
+        margin-bottom: 2rem;
+    }
+
+    .roadmap-main-details {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.85rem;
+        width: 100%;
+    }
+
+    .roadmap-header-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.4rem;
+        flex-shrink: 0;
+    }
+
+    .roadmap-title-container h2 {
+        font-size: 1.2rem;
+        word-break: break-word;
+    }
+
+    .roadmap-title-container p {
+        font-size: 0.82rem;
+        max-width: 100%;
+    }
+
+    .track-progress-wrapper {
+        width: 100%;
+        min-width: auto;
+        margin-top: 0;
+    }
+
+    .save-btn {
+        margin-bottom: 0.75rem;
+    }
+
+    /* ── Roadmap timeline mobile ── */
+    .roadmap-timeline::before { left: 15px; }
+
+    .phase-banner-row {
+        padding-left: 44px;
+        margin-bottom: 1rem;
+        gap: 0.5rem;
+    }
+
+    .phase-title { font-size: 0.95rem; }
+
+    .timeline-node-wrapper {
+        padding-left: 44px;
+    }
+
+    .timeline-node-wrapper::before {
+        left: 9px;
+        width: 7px;
+        height: 7px;
+    }
+
+    .milestone-tree-card {
+        padding: 0.85rem 0.85rem;
+        gap: 0.7rem;
+        border-radius: 14px;
+    }
+
+    .step-index-circle-marker {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        font-size: 0.82rem;
+    }
+
+    .milestone-title { font-size: 0.88rem; }
+    .milestone-desc { font-size: 0.76rem; }
+    .milestone-checkbox { width: 22px; height: 22px; }
+    .milestone-hours { font-size: 0.7rem; }
+
+    .pipeline-connector-vector { padding-left: 44px; }
 
     /* Modal */
     .modal-card { margin: 1rem; border-radius: 16px; }

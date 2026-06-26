@@ -1012,17 +1012,15 @@ function renderRoadmapTimeline(careerKey) {
         if (phaseIdx > 0) {
             const divider = document.createElement('div');
             divider.className = "phase-divider";
-            divider.style = "width: 100%; max-width: 680px; margin: 0.5rem auto 2rem auto; border-top: 1px dashed var(--glass-border);";
             timeline.appendChild(divider);
         }
 
         // Phase header badge
         const phaseHeader = document.createElement('div');
         phaseHeader.className = "phase-banner-row";
-        phaseHeader.style = "display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; width: 100%; max-width: 680px; margin-left: auto; margin-right: auto; padding-left: 0.5rem;";
         phaseHeader.innerHTML = `
-            <span class="phase-badge" style="background: ${phaseColor}; color: #ffffff; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;">${phase.emoji} Phase ${phaseIdx + 1}</span>
-            <h4 class="phase-title" style="font-size: 1.15rem; font-weight: 600; color: #ffffff;">${phase.name}</h4>
+            <span class="phase-badge" style="background:${phaseColor};">${phase.emoji} Phase ${phaseIdx + 1}</span>
+            <h4 class="phase-title">${phase.name}</h4>
         `;
         timeline.appendChild(phaseHeader);
 
@@ -1033,59 +1031,34 @@ function renderRoadmapTimeline(careerKey) {
 
             const node = document.createElement('div');
             node.className = "timeline-node-wrapper";
-            node.style = `display:flex;flex-direction:column;align-items:center;width:calc(100% - 90px);max-width:680px;margin-left:90px;margin-right:0;
-`;
 
             node.innerHTML = `
-                <div class="milestone-tree-card" style="display: flex; align-items: center; background: rgba(30, 27, 51, 0.45); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1.25rem 1.5rem; width: 100%; min-height: 84px; position: relative; transition: border-color 0.2s;" onclick="openModal('${careerKey}', '${step.id}')">
+                <div class="milestone-tree-card" onclick="openModal('${careerKey}', '${step.id}')">
                     
-                    <div class="step-index-circle-marker ${isDone ? 'completed-node' : ''}" style="width: 42px; height: 42px; border-radius: 50%; border: 2px solid ${phaseColor};  display: flex; justify-content: center; align-items: center; font-weight: 700; color: ${phaseColor}; font-size: 0.95rem; margin-right: 1.25rem; flex-shrink: 0; position: relative; cursor: pointer;" onclick="event.stopPropagation(); invertSkillNodeState('${careerKey}', '${step.id}')">
+                    <!-- Step number circle -->
+                    <div class="step-index-circle-marker ${isDone ? 'completed-node' : ''}"
+                         style="border-color:${phaseColor}; color:${phaseColor};"
+                         onclick="event.stopPropagation(); invertSkillNodeState('${careerKey}', '${step.id}')">
                         <span class="index-num-label">${globalIndex}</span>
                     </div>
 
-                    <div class="milestone-text-block" style="flex-grow: 1; text-align: left; padding-right: 1rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                        <h4 style="font-size: 1rem; font-weight: 600; color: #ffffff; margin-bottom: 0.25rem; cursor: pointer;">${step.name}</h4>
-                        <p style="font-size: 0.85rem; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; max-width: 440px;">${step.desc}</p>
+                    <!-- Title + description -->
+                    <div class="milestone-text-block">
+                        <h4 class="milestone-title">${step.name}</h4>
+                        <p class="milestone-desc">${step.desc}</p>
                     </div>
 
-                    <div style="
-                        display:flex;
-                        align-items:center;
-                        gap:16px;
-                        margin-left:auto;
-                    ">
-
-                        <!-- Checkbox -->
-                            <div
-                                onclick="${isUnlocked ? `event.stopPropagation(); invertSkillNodeState('${careerKey}','${step.id}')` : 'event.stopPropagation();'}"
-                                style="
-                                    width:28px;
-                                    height:28px;
-                                    border-radius:50%;
-                                    border: 2px solid ${phaseColor};
-                                    background: ${isDone ? phaseColor : 'transparent'};
-                                    display:flex;
-                                    align-items:center;
-                                    justify-content:center;
-                                    cursor:${isUnlocked ? 'pointer' : 'not-allowed'};
-                                    opacity:${isUnlocked ? '1' : '0.4'};
-                                    flex-shrink:0;
-                                ">
-                                ${isDone ? '<i class="fa-solid fa-check" style="color:white;font-size:12px;"></i>' : ''}
-                            </div>
-
-                            <!-- Hours -->
-                            <div style="
-                                font-size:0.85rem;
-                                font-weight:500;
-                                color:var(--text-muted);
-                                min-width:45px;
-                                text-align:right;
-                            ">
-                                ${step.hours}
-                            </div>
-
+                    <!-- Right side: checkbox + hours -->
+                    <div class="milestone-right-col">
+                        <div class="milestone-checkbox"
+                             style="border-color:${phaseColor}; background:${isDone ? phaseColor : 'transparent'};"
+                             onclick="${isUnlocked ? `event.stopPropagation(); invertSkillNodeState('${careerKey}','${step.id}')` : 'event.stopPropagation();'}"
+                             data-unlocked="${isUnlocked}">
+                            ${isDone ? '<i class="fa-solid fa-check" style="color:white;font-size:11px;"></i>' : ''}
+                        </div>
+                        <div class="milestone-hours">${step.hours}</div>
                     </div>
+
                 </div>
             `;
 
@@ -1095,23 +1068,7 @@ function renderRoadmapTimeline(careerKey) {
             if (stepIdxInPhase < phase.steps.length - 1) {
                 const structuralArrow = document.createElement('div');
                 structuralArrow.className = "pipeline-connector-vector";
-
-                structuralArrow.style = `
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 100%;
-                    padding: 0.75rem 0;
-                    font-size: 1.1rem;
-                    margin: 0 auto;
-                    text-align: center;
-                `;
-
-                structuralArrow.innerHTML = `
-                    <i class="fa-solid fa-arrow-down-long"
-                        style="color: ${phaseColor}; opacity: 0.65;">
-                    </i>
-                `;
+                structuralArrow.innerHTML = `<i class="fa-solid fa-arrow-down-long" style="color:${phaseColor}; opacity:0.65;"></i>`;
 
                 timeline.appendChild(structuralArrow);
             }
