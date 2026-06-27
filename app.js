@@ -1297,6 +1297,9 @@ function closeModal() {
 // ==========================================================================
 // VIEW SHIFT OPERATION OVERLAYS
 // ==========================================================================
+// ── internal flag so popstate handler doesn't push again ──
+let _isPopState = false;
+
 function showSection(sectionId) {
     document.querySelectorAll('.view-section').forEach(section => {
         section.classList.add('hidden');
@@ -1328,8 +1331,34 @@ function showSection(sectionId) {
         if (navRec) navRec.classList.add('active');
     }
 
+    // Push a history entry so the browser back button stays inside the app
+    if (!_isPopState) {
+        const currentState = history.state;
+        // Don't push duplicate entries
+        if (!currentState || currentState.section !== sectionId) {
+            history.pushState({ section: sectionId }, '', '#' + sectionId);
+        }
+    }
+    _isPopState = false;
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// Handle browser back / forward buttons
+window.addEventListener('popstate', function (e) {
+    const section = e.state && e.state.section ? e.state.section : 'home-view';
+    _isPopState = true;
+    showSection(section);
+    closeMobileMenu();
+});
+
+// Set initial history state on first load
+window.addEventListener('DOMContentLoaded', function () {
+    const hash = window.location.hash.replace('#', '');
+    const validSections = ['home-view', 'dashboard-view', 'saved-view', 'recommend-view', 'roadmap-view'];
+    const startSection = validSections.includes(hash) ? hash : 'home-view';
+    history.replaceState({ section: startSection }, '', '#' + startSection);
+});
 function openAIAdvisor() {
 
     showSection("recommend-view");
