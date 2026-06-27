@@ -699,8 +699,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Home page ko default dikhao
     showSection("home-view");
-    // Set initial history state so back button never exits the app on first press
-    history.replaceState({ section: 'home-view' }, '');
 
     // ===== Roadmap Save Button =====
     const roadmapSaveBtn = document.getElementById("roadmap-save-btn");
@@ -1299,8 +1297,6 @@ function closeModal() {
 // ==========================================================================
 // VIEW SHIFT OPERATION OVERLAYS
 // ==========================================================================
-// ── internal flag so popstate handler doesn't push again ──
-let _isPopState = false;
 
 function showSection(sectionId) {
     document.querySelectorAll('.view-section').forEach(section => {
@@ -1333,22 +1329,8 @@ function showSection(sectionId) {
         if (navRec) navRec.classList.add('active');
     }
 
-    // Push history only on real user navigation (not popstate, not initial load)
-    if (!_isPopState && history.state && history.state.section !== sectionId) {
-        history.pushState({ section: sectionId }, '');
-    }
-    _isPopState = false;
-
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
-// Handle browser back / forward — stays inside the app
-window.addEventListener('popstate', function (e) {
-    const section = (e.state && e.state.section) ? e.state.section : 'home-view';
-    _isPopState = true;
-    showSection(section);
-    closeMobileMenu();
-});
 
 function openAIAdvisor() {
 
