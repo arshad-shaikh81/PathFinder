@@ -375,6 +375,8 @@ body {
 }
 
 .view-section {
+    display: block;
+    width: 100%;
     animation: routingAnimation 0.5s var(--transition-premium) forwards;
 }
 

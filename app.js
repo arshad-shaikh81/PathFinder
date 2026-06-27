@@ -699,6 +699,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Home page ko default dikhao
     showSection("home-view");
+    // Set initial history state so back button never exits the app on first press
+    history.replaceState({ section: 'home-view' }, '');
 
     // ===== Roadmap Save Button =====
     const roadmapSaveBtn = document.getElementById("roadmap-save-btn");
@@ -1331,34 +1333,23 @@ function showSection(sectionId) {
         if (navRec) navRec.classList.add('active');
     }
 
-    // Push a history entry so the browser back button stays inside the app
-    if (!_isPopState) {
-        const currentState = history.state;
-        // Don't push duplicate entries
-        if (!currentState || currentState.section !== sectionId) {
-            history.pushState({ section: sectionId }, '', '#' + sectionId);
-        }
+    // Push history only on real user navigation (not popstate, not initial load)
+    if (!_isPopState && history.state && history.state.section !== sectionId) {
+        history.pushState({ section: sectionId }, '');
     }
     _isPopState = false;
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Handle browser back / forward buttons
+// Handle browser back / forward — stays inside the app
 window.addEventListener('popstate', function (e) {
-    const section = e.state && e.state.section ? e.state.section : 'home-view';
+    const section = (e.state && e.state.section) ? e.state.section : 'home-view';
     _isPopState = true;
     showSection(section);
     closeMobileMenu();
 });
 
-// Set initial history state on first load
-window.addEventListener('DOMContentLoaded', function () {
-    const hash = window.location.hash.replace('#', '');
-    const validSections = ['home-view', 'dashboard-view', 'saved-view', 'recommend-view', 'roadmap-view'];
-    const startSection = validSections.includes(hash) ? hash : 'home-view';
-    history.replaceState({ section: startSection }, '', '#' + startSection);
-});
 function openAIAdvisor() {
 
     showSection("recommend-view");
