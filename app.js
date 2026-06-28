@@ -1336,16 +1336,12 @@ function openAIAdvisor() {
 
     showSection("recommend-view");
 
-    const chatbotWindow = document.getElementById("chatbot-window");
     const chatbotBtn = document.getElementById("chatbot-toggle-btn");
 
+    // Always keep the chatbot launcher visible — user decides when to open it
     if (chatbotBtn) {
-        chatbotBtn.classList.add("hidden-btn");
+        chatbotBtn.classList.remove("hidden-btn");
     }
-
-    // if (chatbotWindow) {
-    //     chatbotWindow.classList.remove("hidden");
-    // }
 }
 
 // ==========================================================================
