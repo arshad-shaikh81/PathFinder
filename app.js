@@ -1347,15 +1347,19 @@ function showSection(sectionId) {
     const dropdownMenu = document.getElementById('dropdown-menu');
     if (dropdownMenu) dropdownMenu.classList.remove('show');
 
-    document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
+    document.querySelectorAll('.nav-links li, .mobile-navbar-links li').forEach(li => li.classList.remove('active'));
 
     if (sectionId === 'home-view' || sectionId === 'roadmap-view') {
         const navHome = document.getElementById('nav-item-home');
         if (navHome) navHome.classList.add('active');
+        const navHomeM = document.getElementById('nav-item-home-m');
+        if (navHomeM) navHomeM.classList.add('active');
 
     } else if (sectionId === 'dashboard-view') {
         const navDash = document.getElementById('nav-item-dashboard');
         if (navDash) navDash.classList.add('active');
+        const navDashM = document.getElementById('nav-item-dashboard-m');
+        if (navDashM) navDashM.classList.add('active');
         updateGlobalMetricsDashboard();
 
     } else if (sectionId === 'saved-view') {
@@ -1365,6 +1369,8 @@ function showSection(sectionId) {
     } else if (sectionId === 'recommend-view') {
         const navRec = document.getElementById('nav-item-recommend');
         if (navRec) navRec.classList.add('active');
+        const navRecM = document.getElementById('nav-item-recommend-m');
+        if (navRecM) navRecM.classList.add('active');
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });

@@ -36,6 +36,13 @@
                 <li id="nav-item-recommend"><a href="#" onclick="showTrendingCareers(); closeMobileMenu()">🔥 Trending Careers</a></li>
             </ul>
 
+            <!-- Mobile-only quick links shown directly in the navbar (Saved Paths lives in the hamburger menu instead) -->
+            <ul class="mobile-navbar-links" id="mobile-navbar-links-list">
+                <li id="nav-item-home-m" class="active"><a href="#" onclick="showSection('home-view')">Explore</a></li>
+                <li id="nav-item-dashboard-m"><a href="#" onclick="showSection('dashboard-view')">Dashboard</a></li>
+                <li id="nav-item-recommend-m"><a href="#" onclick="showTrendingCareers()">🔥 Trending Careers</a></li>
+            </ul>
+
             <div class="navbar-search-wrapper">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
                 <input type="text" id="career-search" placeholder="Search career tracks...">
@@ -66,10 +73,7 @@
 
         <!-- Mobile Slide-down Menu -->
         <div id="mobile-nav-menu" class="mobile-nav-menu">
-            <a href="#" onclick="showSection('home-view'); closeMobileMenu()"><i class="fa-solid fa-compass"></i> Explore</a>
-            <a href="#" onclick="showSection('dashboard-view'); closeMobileMenu()"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
             <a href="#" onclick="showSavedCareersView(); closeMobileMenu()"><i class="fa-solid fa-bookmark"></i> Saved Paths</a>
-            <a href="#" onclick="showTrendingCareers(); closeMobileMenu()"><i class="fa-solid fa-fire"></i> Trending Careers</a>
             <div class="mobile-nav-search">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="mobile-career-search" placeholder="Search career tracks...">
