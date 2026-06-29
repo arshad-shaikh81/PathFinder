@@ -682,6 +682,7 @@ const PHASE_COLORS = ["#2563eb", "#9d4edf", "#f59e0b", "#ec4899"];
 // ==========================================================================
 let progressTracker = JSON.parse(localStorage.getItem('pathfinder_progress')) || {};
 let savedCareers = JSON.parse(localStorage.getItem('pathfinder_saved')) || [];
+let activeFilterCategory = 'all'; // tracks current category filter for search to respect
 let activeOpenCareer = null;
 
 // ==========================================================================
@@ -771,18 +772,24 @@ function renderCareerCards(filter = "") {
     grid.innerHTML = "";
 
     const searchString = filter.toLowerCase().trim();
+
     let displayCount = 0;
 
     Object.keys(careerData).forEach(key => {
         const career = careerData[key];
 
+        // Category filter — use tracked activeFilterCategory
+        if (activeFilterCategory !== 'all' && career.category !== activeFilterCategory) {
+            return;
+        }
+
+        // Search filter
         if (searchString !== "" &&
             !career.title.toLowerCase().includes(searchString) &&
             !career.desc.toLowerCase().includes(searchString) &&
             !career.category.toLowerCase().includes(searchString)) {
             return;
         }
-
         displayCount++;
         const isSaved = savedCareers.includes(key);
 
@@ -1722,10 +1729,22 @@ function closeTermsModal() {
 }
 function filterCareers(category, btn) {
 
+    activeFilterCategory = category; // track for search to use
+
     document.querySelectorAll('.filter-btn')
         .forEach(button => button.classList.remove('active'));
 
     btn.classList.add('active');
+
+    // Get current search value from whichever input is active
+    const sectionSearch = document.getElementById('section-career-search');
+    const mainSearch = document.getElementById('career-search');
+    const currentSearch = (sectionSearch && sectionSearch.value) || (mainSearch && mainSearch.value) || '';
+    // If there's an active search, re-render with both filters combined
+    if (currentSearch.trim() !== '') {
+        renderCareerCards(currentSearch);
+        return;
+    }
 
     const cards = [...document.querySelectorAll('.career-card')];
 
@@ -1838,5 +1857,15 @@ if (mobileSearch) {
         renderCareerCards(e.target.value);
         closeMobileMenu();
         showSection('home-view');
+    });
+}
+
+// Section-level search bar (mobile only, inside Available Career Paths)
+const sectionSearch = document.getElementById('section-career-search');
+if (sectionSearch) {
+    sectionSearch.addEventListener('input', (e) => {
+        const mainSearch = document.getElementById('career-search');
+        if (mainSearch) mainSearch.value = e.target.value;
+        renderCareerCards(e.target.value);
     });
 }

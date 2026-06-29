@@ -518,6 +518,37 @@ body {
     color: var(--text-muted);
 }
 
+/* Mobile-only search in Available Career Paths section */
+.section-search-mobile {
+    display: none; /* hidden on desktop */
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    padding: 0.55rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.section-search-mobile i {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.section-search-mobile input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text-main);
+    font-size: 0.85rem;
+}
+
+.section-search-mobile input::placeholder {
+    color: var(--text-muted);
+}
+
 .career-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -1871,6 +1902,15 @@ body {
     .hero-section { padding: 2rem 0 1.5rem; text-align: center; }
     .hero-section h1 { font-size: 2rem; }
     .hero-badge { font-size: 0.75rem; }
+
+    /* Section search visible on mobile */
+    .section-search-mobile {
+        display: flex;
+    }
+
+    .section-search-mobile input:focus {
+        color: var(--text-main);
+    }
 
     /* Career grid */
     .career-grid { grid-template-columns: 1fr; }

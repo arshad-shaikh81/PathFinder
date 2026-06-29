@@ -74,11 +74,6 @@
         <!-- Mobile Slide-down Menu -->
         <div id="mobile-nav-menu" class="mobile-nav-menu">
             <a href="#" onclick="showSavedCareersView(); closeMobileMenu()"><i class="fa-solid fa-bookmark"></i> Saved Paths</a>
-            <div class="mobile-nav-search">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="mobile-career-search" placeholder="Search career tracks...">
-            </div>
-            <div class="mobile-nav-divider"></div>
             <a href="#" onclick="showTermsModal(); closeMobileMenu()"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a>
             <a href="#" onclick="toggleChatbot(); closeMobileMenu()"><i class="fa-solid fa-envelope"></i> Help</a>
         </div>
@@ -101,6 +96,12 @@
                         Career Paths</h2>
                     <span id="total-tracks-indicator" class="meta-counter-badge">10 Tracks Available</span>
                 </div>
+                <!-- Mobile-only search inside career section -->
+                <div class="section-search-mobile">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="section-career-search" placeholder="Search career tracks...">
+                </div>
+
                 <div class="career-filters">
 
                     <button class="filter-btn active" onclick="filterCareers('all', this)">
