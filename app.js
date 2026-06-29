@@ -1376,30 +1376,43 @@ function showTrendingCareers() {
 }
 
 // ==========================================================================
-// TRENDING CAREERS — ranks every track in careerData by a deterministic
-// "trend score" (category demand weight + total roadmap depth) so the
-// list feels alive without needing a backend.
+// TRENDING CAREERS — explicit manual ranking. Edit this array to change
+// which rank badge (#1, #2, #3...) each track gets in the Trending view.
+// Any careerData key not listed here is appended automatically at the end.
 // ==========================================================================
-const trendingCategoryWeight = {
-    "AI": 98,
-    "Development": 90,
-    "Security": 88,
-    "Infrastructure": 84,
-    "Analytics": 82,
-    "Design": 75,
-    "Quality Assurance": 68,
-    "Marketing": 65
-};
+const trendingOrder = [
+    "artificial-intelligence",     // #1
+    "full-stack-development",      // #2
+    "react-native-development",    // #3
+    "Backend-dev",                 // #4
+    "frontend-development",        // #5
+    "data-science",                // #6
+    "cyber-security",              // #7
+    "devops-engineering",          // #8
+    "cloud-computing",             // #9
+    "mobile-app-development",      // #10
+    "data-analyst",                // #11
+    "ui-ux-design",                // #12
+    "game-development",            // #13
+    "software-testing",            // #14
+    "digital-marketing"            // #15
+];
 
 function getTrendingCareerList() {
-    return Object.keys(careerData).map(key => {
-        const career = careerData[key];
-        const stepCount = career.phases.reduce((sum, phase) => sum + phase.steps.length, 0);
-        const baseWeight = trendingCategoryWeight[career.category] ?? 70;
-        // Small deterministic spread so cards don't all tie on score.
-        const score = baseWeight + stepCount;
-        return { key, career, score };
-    }).sort((a, b) => b.score - a.score);
+    const ranked = trendingOrder
+        .filter(key => careerData[key])
+        .map(key => ({ key, career: careerData[key] }));
+
+    // Safety net: include any career not explicitly listed above, in
+    // their natural careerData order, so new tracks never get dropped.
+    const seen = new Set(ranked.map(entry => entry.key));
+    Object.keys(careerData).forEach(key => {
+        if (!seen.has(key)) {
+            ranked.push({ key, career: careerData[key] });
+        }
+    });
+
+    return ranked;
 }
 
 function renderTrendingCareers() {
