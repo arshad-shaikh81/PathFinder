@@ -8,13 +8,14 @@ PathFinder is an AI-inspired career guidance platform that helps students and pr
 
 ## 🌐 Live Demo
 
-🔗 https://path-finder-one-jet.vercel.app
+🔗 https://path-finder-one-jet.vercel.app 
+
 
 ---
 
 ## 📸 Screenshots
 
-> Add screenshots of your homepage, roadmap page, dashboard, and AI Career Advisor here.
+<img width="1917" height="896" alt="image" src="https://github.com/user-attachments/assets/1876535e-ad08-4db0-a9c8-66fa9cf07018" />
 
 ---
 
@@ -98,18 +99,21 @@ or use VS Code Live Server.
 
 ---
 
-# 🤖 AI Career Advisor (Upcoming)
+# 🔥 Trending Careers
 
-The upcoming AI Career Advisor will provide:
+PathFinder showcases the most in-demand career tracks based on industry trends, learner interest, and future job opportunities.
 
-- Personalized career recommendations
-- AI-generated learning roadmaps
-- Skill gap analysis
-- Curated learning resources
-- Career progress tracking
-- Interactive chatbot experience
+### Features
 
----
+- 🔥 Displays top trending career paths
+- 📈 Trending ranking system (#1, #2, #3...)
+- 💼 Industry-focused career recommendations
+- 🧠 Detailed career overview and roadmap
+- 📚 Required skills and learning path
+- 🚀 One-click "Explore Path" navigation
+- 🔖 Save favorite career tracks
+- 🌙 Modern glassmorphism UI with animated background
+- ⚡ Smooth animations and responsive design
 
 # 🎨 UI Highlights
 
