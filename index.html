@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🤖 PathFinder </title>
+    <title>💬 PathFinder </title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -33,7 +33,7 @@
                 <li id="nav-item-home" class="active"><a href="#" onclick="showSection('home-view'); closeMobileMenu()">Explore</a></li>
                 <li id="nav-item-dashboard"><a href="#" onclick="showSection('dashboard-view'); closeMobileMenu()">Dashboard</a></li>
                 <li id="nav-item-saved"><a href="#" onclick="showSavedCareersView(); closeMobileMenu()">Saved Paths</a></li>
-                <li id="nav-item-recommend"><a href="#" onclick="openAIAdvisor(); closeMobileMenu()">🤖 AI Career Advisor</a></li>
+                <li id="nav-item-recommend"><a href="#" onclick="showTrendingCareers(); closeMobileMenu()">🔥 Trending Careers</a></li>
             </ul>
 
             <div class="navbar-search-wrapper">
@@ -69,7 +69,7 @@
             <a href="#" onclick="showSection('home-view'); closeMobileMenu()"><i class="fa-solid fa-compass"></i> Explore</a>
             <a href="#" onclick="showSection('dashboard-view'); closeMobileMenu()"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
             <a href="#" onclick="showSavedCareersView(); closeMobileMenu()"><i class="fa-solid fa-bookmark"></i> Saved Paths</a>
-            <a href="#" onclick="openAIAdvisor(); closeMobileMenu()"><i class="fa-solid fa-robot"></i> AI Career Advisor</a>
+            <a href="#" onclick="showTrendingCareers(); closeMobileMenu()"><i class="fa-solid fa-fire"></i> Trending Careers</a>
             <div class="mobile-nav-search">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="mobile-career-search" placeholder="Search career tracks...">
@@ -194,7 +194,7 @@
 
         <section id="roadmap-view" class="view-section hidden">
             <div class="roadmap-header-nav">
-                <button class="back-btn" onclick="showSection('home-view')">
+                <button class="back-btn" onclick="exitRoadmapView()">
                     <i class="fa-solid fa-arrow-left"></i> Return to Explorer Grid
                 </button>
             </div>
@@ -229,93 +229,25 @@
             </div>
         </section>
 
-        <!-- ===== AI CAREER ADVISOR — COMING SOON ===== -->
+        <!-- ===== TRENDING CAREERS ===== -->
         <section id="recommend-view" class="view-section hidden">
 
-            <!-- HERO -->
-            <div class="advisor-coming-hero">
+            <header class="hero-section">
+                <div class="hero-badge"><i class="fa-solid fa-fire"></i> Updated This Quarter</div>
+                <h1>Trending Career <br><span class="gradient-text">Paths Right Now</span></h1>
+                <p>The most in-demand tracks on PathFinder right now — ranked by learner activity, hiring momentum, and
+                    industry growth.</p>
+            </header>
 
-                <div class="advisor-ai-icon-ring">
-                    <div class="advisor-ai-icon-glow"></div>
-                    <div class="advisor-ai-icon-core">
-                        <i class="fa-solid fa-robot"></i>
-                    </div>
-                    <div class="advisor-orbit advisor-orbit-1"></div>
-                    <div class="advisor-orbit advisor-orbit-2"></div>
+            <section class="grid-section">
+                <div class="section-header-row">
+                    <h2 class="section-title"><i class="fa-solid fa-fire header-bullet-icon"></i> Top Trending Tracks
+                    </h2>
+                    <span id="trending-tracks-indicator" class="meta-counter-badge">Loading…</span>
                 </div>
-
-                <div class="advisor-dev-badge">
-                    <span class="advisor-dev-dot"></span>
-                    🚧 Currently in Development
+                <div id="trending-grid" class="career-grid">
                 </div>
-
-                <h1 class="advisor-hero-title">🤖 AI Career Advisor</h1>
-
-                <p class="advisor-hero-sub">
-                    Our intelligent AI Career Advisor is currently under development. We're building a smarter way to help
-                    students and professionals discover the right career path through AI-powered guidance.
-                </p>
-
-                <div class="advisor-notify-row">
-                    <input type="email" class="advisor-notify-input" placeholder="Enter your email for early access…">
-                    <button class="advisor-notify-btn">
-                        <i class="fa-solid fa-bell"></i> Notify Me
-                    </button>
-                </div>
-
-            </div>
-
-            <!-- FEATURES GRID -->
-            <div class="advisor-features-section">
-                <h2 class="advisor-features-title">Upcoming <span class="gradient-text">Features</span></h2>
-                <p class="advisor-features-sub">Everything you need to navigate your career — powered by AI.</p>
-
-                <div class="advisor-features-grid">
-
-                    <div class="advisor-feat-card">
-                        <div class="advisor-feat-icon" style="--feat-color: #a855f7;">🧠</div>
-                        <h3>Personalized Career Recommendations</h3>
-                        <p>Receive AI-powered career suggestions based on your interests, skills, and goals.</p>
-                        <div class="advisor-feat-tag">AI-Powered</div>
-                    </div>
-
-                    <div class="advisor-feat-card">
-                        <div class="advisor-feat-icon" style="--feat-color: #3a86ff;">🗺️</div>
-                        <h3>AI-Generated Learning Roadmaps</h3>
-                        <p>Get customized step-by-step learning paths tailored to your career objectives.</p>
-                        <div class="advisor-feat-tag">Personalized</div>
-                    </div>
-
-                    <div class="advisor-feat-card">
-                        <div class="advisor-feat-icon" style="--feat-color: #06d6a0;">📊</div>
-                        <h3>Skill Gap Analysis</h3>
-                        <p>Identify missing skills and receive recommendations to improve your profile.</p>
-                        <div class="advisor-feat-tag">Analytics</div>
-                    </div>
-
-                    <div class="advisor-feat-card">
-                        <div class="advisor-feat-icon" style="--feat-color: #f77f00;">📚</div>
-                        <h3>Curated Learning Resources</h3>
-                        <p>Access high-quality courses, documentation, videos, and practice platforms selected by AI.</p>
-                        <div class="advisor-feat-tag">Curated</div>
-                    </div>
-
-                    <div class="advisor-feat-card">
-                        <div class="advisor-feat-icon" style="--feat-color: #e040fb;">📈</div>
-                        <h3>Career Progress Tracking</h3>
-                        <p>Track your learning journey, completed milestones, and overall progress.</p>
-                        <div class="advisor-feat-tag">Tracking</div>
-                    </div>
-
-                    <div class="advisor-feat-card">
-                        <div class="advisor-feat-icon" style="--feat-color: #00b4d8;">💬</div>
-                        <h3>Interactive AI Chatbot</h3>
-                        <p>Chat with an intelligent career assistant for instant guidance, recommendations, and roadmap generation.</p>
-                        <div class="advisor-feat-tag">Live Chat</div>
-                    </div>
-
-                </div>
-            </div>
+            </section>
 
         </section>
 
@@ -375,7 +307,7 @@
 
     <!-- ===================== CAREER ADVISOR CHATBOT ===================== -->
     <button id="chatbot-toggle-btn" class="chatbot-toggle-btn" aria-label="Open Career Advisor Chat">
-        <i class="fa-solid fa-message"></i>
+        <i class="fa-solid fa-robot"></i>
     </button>
 
         <div id="chatbot-window" class="chatbot-window hidden">
@@ -424,29 +356,8 @@
     </div>
     <!-- Save Guard Toast -->
     <div id="save-guard-toast" class="save-guard-toast">
-        <i class="fa-solid fa-bookmark"></i>
-        Save this career first to track your progress!
-    </div>
-    <div id="ai-advisor-overlay" class="ai-advisor-overlay hidden">
-
-        <div id="ai-advisor-window" class="ai-advisor-window">
-
-            <div class="advisor-header">
-                <h2>🤖 AI Career Advisor</h2>
-
-                <button id="close-advisor">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <div id="advisor-body">
-
-                <!-- Existing chatbot yaha move hoga -->
-
-            </div>
-
-        </div>
-
+        <i class="fa-solid fa-bookmark save-guard-toast-icon"></i>
+        <span class="save-guard-toast-text">Save this career first to track your progress!</span>
     </div>
     
 

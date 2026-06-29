@@ -971,7 +971,15 @@ function showRoadmapHint() {
     }, 1500);
 }
 
-function openRoadmapView(careerKey) {
+let roadmapReturnSection = 'home-view';
+
+function openRoadmapView(careerKey, targetPhase = null) {
+    // Remember which page the user was on so the Exit button can return there.
+    const currentSection = document.querySelector('.view-section:not(.hidden)');
+    if (currentSection && currentSection.id !== 'roadmap-view') {
+        roadmapReturnSection = currentSection.id;
+    }
+
     activeOpenCareer = careerKey;
     const career = careerData[careerKey];
 
@@ -984,8 +992,14 @@ function openRoadmapView(careerKey) {
     renderRoadmapTimeline(careerKey);
     showSection('roadmap-view');
 
-    // Hint sirf pehli baar dikhao
-    setTimeout(showRoadmapHint, 600);
+    if (targetPhase) {
+        // Wait for the section switch + render to settle before scrolling.
+        setTimeout(() => scrollToRoadmapPhase(targetPhase), 350);
+    } else {
+        // Hint sirf pehli baar dikhao
+        setTimeout(showRoadmapHint, 600);
+    }
+
     const saveBtn = document.getElementById("roadmap-save-btn");
 
     if (savedCareers.includes(careerKey)) {
@@ -997,6 +1011,18 @@ function openRoadmapView(careerKey) {
     }
 }
 
+function scrollToRoadmapPhase(phaseNumber) {
+    const phaseEl = document.getElementById(`phase-block-${phaseNumber}`);
+    if (phaseEl) {
+        phaseEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        phaseEl.classList.add('phase-jump-highlight');
+        setTimeout(() => phaseEl.classList.remove('phase-jump-highlight'), 1800);
+    }
+}
+
+function exitRoadmapView() {
+    showSection(roadmapReturnSection);
+}
 function renderRoadmapTimeline(careerKey) {
     const timeline = document.getElementById('roadmap-timeline');
     if (!timeline) return;
@@ -1018,6 +1044,7 @@ function renderRoadmapTimeline(careerKey) {
         // Phase header badge
         const phaseHeader = document.createElement('div');
         phaseHeader.className = "phase-banner-row";
+        phaseHeader.id = `phase-block-${phaseIdx + 1}`;
         phaseHeader.innerHTML = `
             <span class="phase-badge" style="background:${phaseColor};">${phase.emoji} Phase ${phaseIdx + 1}</span>
             <h4 class="phase-title">${phase.name}</h4>
@@ -1052,7 +1079,7 @@ function renderRoadmapTimeline(careerKey) {
                     <div class="milestone-right-col">
                         <div class="milestone-checkbox"
                              style="border-color:${phaseColor}; background:${isDone ? phaseColor : 'transparent'};"
-                             onclick="${isUnlocked ? `event.stopPropagation(); invertSkillNodeState('${careerKey}','${step.id}')` : 'event.stopPropagation();'}"
+                             onclick="event.stopPropagation(); invertSkillNodeState('${careerKey}','${step.id}')"
                              data-unlocked="${isUnlocked}">
                             ${isDone ? '<i class="fa-solid fa-check" style="color:white;font-size:11px;"></i>' : ''}
                         </div>
@@ -1081,7 +1108,7 @@ function renderRoadmapTimeline(careerKey) {
 // ==========================================================================
 // QUANTITATIVE VALUES & PROGRESS METRIC MANAGEMENT
 // ==========================================================================
-function showSaveGuardWarning() {
+function showSaveGuardWarning(message, iconClass) {
     document.querySelectorAll('.milestone-tree-card').forEach(card => {
         card.classList.remove('vibrate-shake');
         void card.offsetWidth;
@@ -1090,6 +1117,17 @@ function showSaveGuardWarning() {
     });
     const toast = document.getElementById('save-guard-toast');
     if (!toast) return;
+
+    const textNode = toast.querySelector('.save-guard-toast-text');
+    if (message && textNode) {
+        textNode.textContent = message;
+    }
+
+    const iconNode = toast.querySelector('.save-guard-toast-icon');
+    if (iconNode) {
+        iconNode.className = `fa-solid ${iconClass || 'fa-bookmark'} save-guard-toast-icon`;
+    }
+
     toast.classList.add('show');
     clearTimeout(toast._hideTimer);
     toast._hideTimer = setTimeout(() => toast.classList.remove('show'), 3000);
@@ -1099,13 +1137,13 @@ function invertSkillNodeState(careerKey, stepId) {
 
     // Save guard — career saved nahi hai toh block karo
     if (!savedCareers.includes(careerKey)) {
-        showSaveGuardWarning();
+        showSaveGuardWarning("Save this career first to track your progress!", "fa-bookmark");
         return;
     }
 
     // Lock check
     if (!isStepUnlocked(careerKey, stepId)) {
-        alert("⚠️ Complete the previous step first.");
+        showSaveGuardWarning("Complete the previous step first to unlock this one!", "fa-lock");
         return;
     }
 
@@ -1332,20 +1370,95 @@ function showSection(sectionId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function openAIAdvisor() {
-
+function showTrendingCareers() {
     showSection("recommend-view");
+    renderTrendingCareers();
+}
 
-    const chatbotWindow = document.getElementById("chatbot-window");
-    const chatbotBtn = document.getElementById("chatbot-toggle-btn");
+// ==========================================================================
+// TRENDING CAREERS — ranks every track in careerData by a deterministic
+// "trend score" (category demand weight + total roadmap depth) so the
+// list feels alive without needing a backend.
+// ==========================================================================
+const trendingCategoryWeight = {
+    "AI": 98,
+    "Development": 90,
+    "Security": 88,
+    "Infrastructure": 84,
+    "Analytics": 82,
+    "Design": 75,
+    "Quality Assurance": 68,
+    "Marketing": 65
+};
 
-    if (chatbotBtn) {
-        chatbotBtn.classList.add("hidden-btn");
+function getTrendingCareerList() {
+    return Object.keys(careerData).map(key => {
+        const career = careerData[key];
+        const stepCount = career.phases.reduce((sum, phase) => sum + phase.steps.length, 0);
+        const baseWeight = trendingCategoryWeight[career.category] ?? 70;
+        // Small deterministic spread so cards don't all tie on score.
+        const score = baseWeight + stepCount;
+        return { key, career, score };
+    }).sort((a, b) => b.score - a.score);
+}
+
+function renderTrendingCareers() {
+    const grid = document.getElementById('trending-grid');
+    if (!grid) return;
+    grid.innerHTML = "";
+
+    const ranked = getTrendingCareerList();
+
+    const indicator = document.getElementById('trending-tracks-indicator');
+    if (indicator) {
+        indicator.innerText = `${ranked.length} Trending Track${ranked.length === 1 ? '' : 's'}`;
     }
 
-    // if (chatbotWindow) {
-    //     chatbotWindow.classList.remove("hidden");
-    // }
+    ranked.forEach((entry, index) => {
+        const { key, career } = entry;
+        const rank = index + 1;
+        const isSaved = savedCareers.includes(key);
+        const isTop3 = rank <= 3;
+
+        const card = document.createElement('div');
+        card.className = "career-card custom-premium-card";
+        card.dataset.category = career.category;
+        card.innerHTML = `
+            <div class="card-header-row" style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 1.2rem;">
+                <div style="display: flex; align-items: center; gap: 0.7rem;">
+                    <div class="card-icon-frame custom-gradient-icon" style="width: 48px; height: 48px; background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #ffffff; font-size: 1.2rem;">
+                        <i class="${career.icon}"></i>
+                    </div>
+                    <span style="display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.78rem; font-weight: 700; padding: 0.3rem 0.65rem; border-radius: 999px; ${isTop3 ? 'background: rgba(247, 127, 0, 0.12); border: 1px solid rgba(247, 127, 0, 0.35); color: #f7a844;' : 'background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text-muted);'}">
+                        ${isTop3 ? '🔥' : '#'}${rank}
+                    </span>
+                </div>
+                <button class="save-card-btn ${isSaved ? 'saved' : ''}" style="background: none; border: none; cursor: pointer; color: ${isSaved ? 'var(--accent-purple)' : 'var(--text-muted)'}; font-size: 1.1rem;" onclick="event.stopPropagation(); toggleSaveCareer('${key}'); renderTrendingCareers();" aria-label="Pin Trajectory">
+                    <i class="${isSaved ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
+                </button>
+            </div>
+            <div class="card-body-segment" style="flex-grow: 1; text-align: left; margin-bottom: 1.5rem;">
+                <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.65rem;">${career.title}</h3>
+                <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; font-weight: 400;">${career.desc}</p>
+            </div>
+            <div class="card-action-footer" style="width: 100%; text-align: center;">
+                <button class="explore-path-action-btn" style="width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); color: #ffffff; padding: 0.7rem 1rem; border-radius: 8px; font-size: 0.88rem; font-weight: 500; cursor: pointer;" onclick="openRoadmapView('${key}')">
+                    Explore Path
+                </button>
+            </div>
+        `;
+
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+            card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+        });
+
+        grid.appendChild(card);
+        setTimeout(() => {
+            card.classList.add("show");
+        }, index * 80);
+    });
 }
 
 // ==========================================================================
@@ -1400,7 +1513,6 @@ function setupCoreEventListeners() {
         if (dropdownMenu && !dropdownMenu.contains(e.target) && e.target !== menuToggleBtn) {
             dropdownMenu.classList.remove('show');
         }
-
         const modal = document.getElementById('details-modal');
         if (e.target === modal) {
             closeModal();
@@ -1441,14 +1553,14 @@ const chatbotQuestions = [
     {
         question: "Almost there! 🎯\n\nWhat's your current experience level with tech & computers?",
         options: [
-            { label: "🌱 Beginner — Just starting out", scores: { "ui-ux-design": 1, "digital-marketing": 1 } },
-            { label: "⚡ Intermediate — Know the basics", scores: { "Backend-dev": 1, "data-science": 1, "cyber-security": 1 } },
-            { label: "🔥 Advanced — Pretty comfortable", scores: { "artificial-intelligence": 1, "devops-engineering": 1, "cloud-computing": 1 } }
+            { label: "🌱 Beginner — Just starting out", scores: { "ui-ux-design": 1, "digital-marketing": 1 }, phase: 1 },
+            { label: "⚡ Intermediate — Know the basics", scores: { "Backend-dev": 1, "data-science": 1, "cyber-security": 1 }, phase: 2 },
+            { label: "🔥 Advanced — Pretty comfortable", scores: { "artificial-intelligence": 1, "devops-engineering": 1, "cloud-computing": 1 }, phase: 3 }
         ]
     }
 ];
 
-let chatbotState = { step: 0, scores: {} };
+let chatbotState = { step: 0, scores: {}, selectedPhase: null };
 
 function toggleChatbot() {
     const win = document.getElementById('chatbot-window');
@@ -1474,7 +1586,7 @@ function closeChatbot() {
 }
 
 function startChatbot() {
-    chatbotState = { step: 0, scores: {} };
+    chatbotState = { step: 0, scores: {}, selectedPhase: null };
     const body = document.getElementById('chatbot-body');
     body.innerHTML = "";
     askChatbotQuestion(0);
@@ -1532,6 +1644,10 @@ function selectChatOption(index, opt) {
         chatbotState.scores[key] = (chatbotState.scores[key] || 0) + val;
     });
 
+    if (opt.phase) {
+        chatbotState.selectedPhase = opt.phase;
+    }
+
     const nextIndex = index + 1;
     if (nextIndex < chatbotQuestions.length) {
         askChatbotQuestion(nextIndex);
@@ -1568,7 +1684,7 @@ function showChatbotResult() {
             <h4><i class="${career.icon}"></i> ${career.title}</h4>
             <p>${career.desc}</p>
             <div class="chat-result-actions">
-                <button class="chat-explore-btn" onclick="closeChatbot(); openRoadmapView('${topKey}')">🗺️ Explore Roadmap</button>
+                <button class="chat-explore-btn" onclick="closeChatbot(); openRoadmapView('${topKey}', ${chatbotState.selectedPhase || 1});">🗺️ Explore Roadmap</button>
                 <button class="chat-restart-btn" onclick="startChatbot()">🔄 Retake Quiz</button>
             </div>
         `;
@@ -1656,36 +1772,6 @@ saveBtn.addEventListener("click", () => {
         showToast("Removed from Favorites");
     }
 
-});
-
-// ==========================================================================
-// AI ADVISOR — NOTIFY ME BUTTON
-// ==========================================================================
-document.addEventListener('click', function (e) {
-    if (!e.target.closest('.advisor-notify-btn')) return;
-    const btn = e.target.closest('.advisor-notify-btn');
-    const input = btn.closest('.advisor-notify-row')?.querySelector('.advisor-notify-input');
-    const email = input?.value?.trim();
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegex.test(email)) {
-        if (input) {
-            input.style.borderColor = 'rgba(239,68,68,0.6)';
-            input.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.12)';
-            setTimeout(() => {
-                input.style.borderColor = '';
-                input.style.boxShadow = '';
-            }, 2000);
-        }
-        showToast('⚠️ Please enter a valid email address');
-        return;
-    }
-
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> You\'re on the list!';
-    btn.style.background = 'linear-gradient(135deg,#06d6a0,#0cb880)';
-    btn.disabled = true;
-    if (input) { input.disabled = true; input.value = email; }
-    showToast('🎉 Notified! We\'ll reach you at early access launch.');
 });
 
 // ==========================================================================
