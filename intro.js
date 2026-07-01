@@ -132,7 +132,16 @@
 
         sizeIntroText();
 
-        gsap.set(introText, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 1, opacity: 1 });
+        // Hide the REAL navbar logo until the giant wordmark lands exactly
+        // on top of it — otherwise both are visible at once mid-flight,
+        // which reads as duplicated/doubled text.
+        gsap.set(navBrand, { opacity: 0 });
+        primedTargets.push([navBrand]);
+
+        // Keep it invisible while we measure it at its true resting scale (1),
+        // so the entrance tween below can animate opacity/scale without ever
+        // throwing off the position math that follows.
+        gsap.set(introText, { xPercent: -50, yPercent: -50, x: 0, y: 0, scale: 1, opacity: 0 });
         gsap.set(bg, { opacity: 1 });
 
         // Measure the exact travel distance/scale to the real navbar logo
@@ -153,72 +162,79 @@
         var targetFontSize = parseFloat(getComputedStyle(navBrand).fontSize) || currentFontSize;
         var scaleRatio = targetFontSize / currentFontSize;
 
-        // Single, flat timeline — nothing nested — so onComplete only fires
-        // once every tween below has genuinely finished playing out.
         var tl = gsap.timeline({
             onComplete: function () {
                 clearTimeout(safetyTimer);
-                introText.style.opacity = "0";
                 finishIntro();
             }
         });
 
-        // 1) Hold the giant centered wordmark for ~1s.
-        tl.to({}, { duration: 1 });
+        // 1) Ease the giant wordmark in — fade + gentle scale-up, instead of
+        //    a hard pop, so the entrance itself reads as intentional.
+        tl.fromTo(introText,
+            { opacity: 0, scale: 0.92 },
+            { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out" }
+        );
+
+        // 2) Hold the giant centered wordmark briefly.
+        tl.to({}, { duration: 0.35 });
         tl.addLabel("hold");
 
-        // 2) Move the SAME element to the navbar logo's exact spot — no
+        // 3) Move the SAME element to the navbar logo's exact spot — no
         //    fade, no swap, just travel — while the black backdrop clears.
-        //    (These two run together — they're one beat: "the logo arrives
-        //    as the dark curtain lifts".)
         tl.to(introText, {
             x: deltaX,
             y: deltaY,
             scale: scaleRatio,
-            duration: 1.1,
+            duration: 0.85,
             ease: "expo.out"
         }, "hold");
 
         tl.to(bg, {
             opacity: 0,
-            duration: 0.95,
+            duration: 0.75,
             ease: "power2.out",
             onStart: function () {
                 overlay.style.pointerEvents = "none";
             }
         }, "hold+=0.1");
 
-        // 3) From here on, every group is fully SEQUENTIAL — each one
-        //    finishes completely before the next begins. No position
-        //    argument is passed, so GSAP simply queues each tween at the
-        //    end of the one before it.
+        // 4) The instant the giant wordmark reaches the real logo's exact
+        //    position/size, do a fast crossfade: the fake one fades out
+        //    right as the real one fades in, in the SAME spot — never two
+        //    visible copies at once, and no visible seam.
+        tl.to(introText, { opacity: 0, duration: 0.12, ease: "power1.out" }, "hold+=0.85");
+        tl.to(navBrand, { opacity: 1, duration: 0.12, ease: "power1.out" }, "hold+=0.85");
+
+        // 5) From here on, groups reveal with a slight overlap between them
+        //    so it reads as quick and cascading rather than a slow queue.
         tl.to(navLinks, {
             opacity: 1,
             y: 0,
-            duration: 0.42,
+            duration: 0.3,
             ease: "power3.out",
-            stagger: 0.06
-        });
+            stagger: 0.04
+        }, "hold+=0.85");
 
-        tl.to(heroBadge, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" });
-        tl.to(heroHeading, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" });
-        tl.to(heroPara, { opacity: 1, y: 0, duration: 0.42, ease: "power3.out" });
+        tl.to(heroBadge, { opacity: 1, y: 0, duration: 0.28, ease: "power3.out" }, "-=0.15");
+        tl.to(heroHeading, { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" }, "-=0.12");
+        tl.to(heroPara, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, "-=0.15");
 
         tl.to(filterBtns, {
             opacity: 1,
             y: 0,
-            duration: 0.38,
+            duration: 0.26,
             ease: "power3.out",
-            stagger: 0.035
-        });
+            stagger: 0.02
+        }, "-=0.1");
 
         tl.to(cards, {
             opacity: 1,
             y: 0,
-            duration: 0.45,
+            duration: 0.3,
             ease: "power3.out",
-            stagger: 0.03
-        });
+            stagger: 0.018
+        }, "-=0.1");
     }
 
     function boot() {
