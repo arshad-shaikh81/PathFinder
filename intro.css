@@ -1,0 +1,72 @@
+/* ==========================================================================
+   PREMIUM INTRO ANIMATION — ADDITIVE STYLES ONLY
+   This file does NOT modify or override any rule in style.css.
+   It only styles the new #intro-overlay injected for the loading intro.
+   ========================================================================== */
+
+/* Scroll lock while the intro plays (added/removed dynamically by intro.js) */
+html.intro-lock,
+body.intro-lock {
+    overflow: hidden !important;
+    height: 100%;
+}
+
+#intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100000; /* above everything, including the existing #loader (9999) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+}
+
+#intro-bg {
+    position: absolute;
+    inset: 0;
+    background: #000000;
+    z-index: 1;
+    will-change: opacity;
+}
+
+#intro-logo-text {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    line-height: 1;
+    opacity: 0;
+    will-change: transform, opacity;
+    transform-origin: center center;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* Elements this file primes to a hidden state for the choreographed
+   staggered reveal that plays as the intro clears. intro.js adds/removes
+   the "intro-armed" state via inline styles it sets and clears itself —
+   this class is only a safety net so nothing flashes unstyled if JS is slow. */
+body.intro-lock .nav-links li,
+body.intro-lock #home-view .hero-badge,
+body.intro-lock #home-view .hero-section h1,
+body.intro-lock #home-view .hero-section p,
+body.intro-lock #home-view .filter-btn,
+body.intro-lock #home-view .career-card {
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #intro-overlay {
+        transition: opacity 0.25s ease;
+    }
+}
+
+/* If JavaScript is disabled, never block the real site behind the overlay */

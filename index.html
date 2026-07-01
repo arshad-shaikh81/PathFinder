@@ -9,9 +9,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- ===== Premium intro animation (additive only — does not affect existing styles) ===== -->
+    <link rel="stylesheet" href="intro.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <noscript>
+        <style>#intro-overlay { display: none !important; }</style>
+    </noscript>
 </head>
 
 <body>
+
+    <!-- ===================== PREMIUM INTRO ANIMATION OVERLAY (ADDITIVE) =====================
+         This is the ONLY new UI added to the page. It sits on top of everything, plays once,
+         then removes itself — it never touches or replaces any existing element below. -->
+    <div id="intro-overlay">
+        <div id="intro-bg"></div>
+        <div id="intro-logo-text" aria-hidden="true">PathFinder</div>
+    </div>
 
     <!-- ===================== PARTICLE BACKGROUND CANVAS ===================== -->
     <canvas id="particle-canvas"></canvas>
@@ -331,6 +345,8 @@
 
     <script src="app.js"></script>
     <script src="Particles.js"></script>
+    <!-- Premium intro animation controller (additive only) -->
+    <script src="intro.js"></script>
     <div id="terms-modal" class="modal-overlay hidden">
         <div class="modal-card glass-card">
             <div class="modal-header">
