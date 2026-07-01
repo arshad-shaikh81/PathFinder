@@ -7,16 +7,25 @@
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
 
+    // ── Device detection ─────────────────────────────────────────────────
+    // Phones/tablets get a lighter config: canvas particle work competes
+    // with page animations for the main thread, and mobile GPUs choke much
+    // faster on per-particle gradients + O(n²) connection checks than
+    // desktop does.
+    const isMobile = window.matchMedia('(max-width: 768px)').matches ||
+        (('ontouchstart' in window) && window.innerWidth <= 900);
+
     // ── Config ────────────────────────────────────────────────────────────
     const CONFIG = {
-        particleCount: 90,          // number of floating nodes
-        maxConnectionDist: 140,     // max px before a line is drawn
+        particleCount: isMobile ? 32 : 90,          // number of floating nodes
+        maxConnectionDist: isMobile ? 90 : 140,     // max px before a line is drawn
         particleMinRadius: 1,       // smallest dot size
         particleMaxRadius: 2.4,     // largest dot size
         speed: 0.28,                // base drift speed
         mouseRadius: 130,           // interaction radius around cursor
         mouseForce: 0.018,          // how strongly nodes repel the cursor
         fadeInDuration: 2000,       // ms for canvas to fade in
+        lightweight: isMobile,      // skip glow gradients + cursor glow
         colors: {
             node: 'rgba(157, 78, 223,',     // purple — matches --accent-purple
             nodeAlt: 'rgba(58, 134, 255,',  // blue   — matches --accent-blue
@@ -76,14 +85,17 @@
         }
 
         draw() {
-            // soft glow halo
-            const grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 3.5);
-            grd.addColorStop(0,   `${this.colorBase}${(this.alpha * globalAlpha).toFixed(3)})`);
-            grd.addColorStop(1,   `${this.colorBase}0)`);
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.r * 3.5, 0, Math.PI * 2);
-            ctx.fillStyle = grd;
-            ctx.fill();
+            if (!CONFIG.lightweight) {
+                // soft glow halo (desktop only — createRadialGradient per
+                // particle per frame is one of the costliest canvas ops)
+                const grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 3.5);
+                grd.addColorStop(0,   `${this.colorBase}${(this.alpha * globalAlpha).toFixed(3)})`);
+                grd.addColorStop(1,   `${this.colorBase}0)`);
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.r * 3.5, 0, Math.PI * 2);
+                ctx.fillStyle = grd;
+                ctx.fill();
+            }
 
             // solid core dot
             ctx.beginPath();
@@ -118,6 +130,7 @@
 
     // ── Mouse proximity glow on canvas ───────────────────────────────────
     function drawMouseGlow() {
+        if (CONFIG.lightweight) return;
         if (mouse.x === -9999) return;
         const grd = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, CONFIG.mouseRadius);
         grd.addColorStop(0,   `${CONFIG.colors.glow}${(0.07 * globalAlpha).toFixed(3)})`);
