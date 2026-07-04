@@ -2280,6 +2280,59 @@ body {
     }
 }
 
+/* =====================================================
+   PER-CARD SAVE POPUP (localized, not a full grid re-render)
+   ===================================================== */
+.card-save-popup {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    transform: translateY(-8px) scale(0.9);
+    background: rgba(14, 10, 31, 0.96);
+    border: 1px solid rgba(168, 85, 247, 0.45);
+    color: #d8b4fe;
+    padding: 0.4rem 0.85rem;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.card-save-popup.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Whole-card "pop" feedback when saved/unsaved */
+@keyframes cardSavePulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(168, 85, 247, 0);
+    }
+    35% {
+        transform: scale(1.035);
+        box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.55), 0 25px 50px rgba(139, 92, 246, 0.32);
+        border-color: rgba(168, 85, 247, 0.6);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(168, 85, 247, 0);
+    }
+}
+
+.career-card.card-save-animate {
+    animation: cardSavePulse 0.55s cubic-bezier(.34, 1.56, .64, 1);
+}
+
 
 /* ==========================================================================
    TRENDING CAREERS SECTION (reuses hero-section / career-grid styles)

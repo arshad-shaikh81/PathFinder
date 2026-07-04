@@ -801,7 +801,7 @@ function renderCareerCards(filter = "") {
                 <div class="card-icon-frame custom-gradient-icon" style="width: 48px; height: 48px; background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #ffffff; font-size: 1.2rem;">
                     <i class="${career.icon}"></i>
                 </div>
-                <button class="save-card-btn ${isSaved ? 'saved' : ''}" style="background: none; border: none; cursor: pointer; color: ${isSaved ? 'var(--accent-purple)' : 'var(--text-muted)'}; font-size: 1.1rem;" onclick="event.stopPropagation(); toggleSaveCareer('${key}')" aria-label="Pin Trajectory">
+                <button class="save-card-btn ${isSaved ? 'saved' : ''}" data-key="${key}" style="background: none; border: none; cursor: pointer; color: ${isSaved ? 'var(--accent-purple)' : 'var(--text-muted)'}; font-size: 1.1rem;" onclick="event.stopPropagation(); toggleSaveCareer('${key}', this)" aria-label="Pin Trajectory">
                     <i class="${isSaved ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
                 </button>
             </div>
@@ -841,22 +841,91 @@ function renderCareerCards(filter = "") {
 // ==========================================================================
 // WORKSPACE TRAJECTORY PINNING OPERATIONS
 // ==========================================================================
-function toggleSaveCareer(careerKey) {
+function toggleSaveCareer(careerKey, btnEl) {
     const idx = savedCareers.indexOf(careerKey);
-    if (idx > -1) {
-        savedCareers.splice(idx, 1);
-    } else {
+    const nowSaved = idx === -1;
+
+    if (nowSaved) {
         savedCareers.push(careerKey);
+    } else {
+        savedCareers.splice(idx, 1);
     }
 
     localStorage.setItem('pathfinder_saved', JSON.stringify(savedCareers));
 
-    const searchBar = document.getElementById('career-search');
-    renderCareerCards(searchBar ? searchBar.value : "");
+    // Update every save button for this career (grid / trending / saved views)
+    // WITHOUT rebuilding the whole grid, so unrelated cards never re-animate.
+    document.querySelectorAll(`.save-card-btn[data-key="${careerKey}"]`).forEach(btn => {
+        const icon = btn.querySelector('i');
+        if (nowSaved) {
+            btn.classList.add('saved');
+            btn.style.color = 'var(--accent-purple)';
+            if (icon) icon.className = 'fa-solid fa-bookmark';
+        } else {
+            btn.classList.remove('saved');
+            btn.style.color = 'var(--text-muted)';
+            if (icon) icon.className = 'fa-regular fa-bookmark';
+        }
+    });
 
-    if (!document.getElementById('saved-view').classList.contains('hidden')) {
-        renderSavedCareers();
+    // Small popup confirmation + a whole-card "pop" pulse,
+    // shown only on the specific card that was clicked
+    if (btnEl) {
+        const card = btnEl.closest('.career-card');
+        if (card) {
+            showCardSavePopup(card, nowSaved ? 'Saved to your paths' : 'Removed from saved');
+
+            card.classList.remove('card-save-animate');
+            void card.offsetWidth; // restart animation if clicked rapidly
+            card.classList.add('card-save-animate');
+            clearTimeout(card._pulseTimer);
+            card._pulseTimer = setTimeout(() => {
+                card.classList.remove('card-save-animate');
+            }, 600);
+        }
     }
+
+    // If we're currently viewing the Saved Paths page, keep it in sync —
+    // but only touch the one card that changed, not the whole list.
+    const savedView = document.getElementById('saved-view');
+    if (savedView && !savedView.classList.contains('hidden')) {
+        if (nowSaved) {
+            // Newly saved from elsewhere while Saved Paths is open — add it in.
+            renderSavedCareers();
+        } else if (btnEl && btnEl.closest('#saved-career-grid')) {
+            // Unsaved directly from the Saved Paths grid — fade out just that card.
+            const card = btnEl.closest('.career-card');
+            if (card) {
+                card.style.transition = 'opacity .3s ease, transform .3s ease';
+                card.style.opacity = '0';
+                card.style.transform = 'scale(.92)';
+                setTimeout(() => renderSavedCareers(), 300);
+            } else {
+                renderSavedCareers();
+            }
+        }
+    }
+}
+
+function showCardSavePopup(cardEl, message) {
+    let popup = cardEl.querySelector('.card-save-popup');
+    if (!popup) {
+        popup = document.createElement('div');
+        popup.className = 'card-save-popup';
+        cardEl.appendChild(popup);
+    }
+
+    popup.innerHTML = `<i class="fa-solid fa-check"></i> ${message}`;
+
+    // restart animation if it's already mid-fade
+    popup.classList.remove('show');
+    void popup.offsetWidth;
+    popup.classList.add('show');
+
+    clearTimeout(popup._hideTimer);
+    popup._hideTimer = setTimeout(() => {
+        popup.classList.remove('show');
+    }, 1400);
 }
 
 function showSavedCareersView() {
@@ -890,7 +959,7 @@ function renderSavedCareers() {
                 <div class="card-icon-frame custom-gradient-icon" style="width: 48px; height: 48px; background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #ffffff; font-size: 1.2rem;">
                     <i class="${career.icon}"></i>
                 </div>
-                <button class="save-card-btn saved" style="background: none; border: none; cursor: pointer; color: var(--accent-purple); font-size: 1.1rem;" onclick="event.stopPropagation(); toggleSaveCareer('${key}')" aria-label="Unpin Path">
+                <button class="save-card-btn saved" data-key="${key}" style="background: none; border: none; cursor: pointer; color: var(--accent-purple); font-size: 1.1rem;" onclick="event.stopPropagation(); toggleSaveCareer('${key}', this)" aria-label="Unpin Path">
                     <i class="fa-solid fa-bookmark"></i>
                 </button>
             </div>
@@ -1459,7 +1528,7 @@ function renderTrendingCareers() {
                         ${isTop3 ? '🔥' : '#'}${rank}
                     </span>
                 </div>
-                <button class="save-card-btn ${isSaved ? 'saved' : ''}" style="background: none; border: none; cursor: pointer; color: ${isSaved ? 'var(--accent-purple)' : 'var(--text-muted)'}; font-size: 1.1rem;" onclick="event.stopPropagation(); toggleSaveCareer('${key}'); renderTrendingCareers();" aria-label="Pin Trajectory">
+                <button class="save-card-btn ${isSaved ? 'saved' : ''}" data-key="${key}" style="background: none; border: none; cursor: pointer; color: ${isSaved ? 'var(--accent-purple)' : 'var(--text-muted)'}; font-size: 1.1rem;" onclick="event.stopPropagation(); toggleSaveCareer('${key}', this)" aria-label="Pin Trajectory">
                     <i class="${isSaved ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
                 </button>
             </div>
