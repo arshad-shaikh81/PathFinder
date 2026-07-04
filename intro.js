@@ -74,6 +74,22 @@
 
         var gsap = window.gsap;
 
+        // The navbar has its own independent CSS entrance animation
+        // (premiumReveal — a translateY + fade) that plays on every load.
+        // If we measure the navbar's position while that animation is
+        // still mid-flight, our computed landing spot for the giant
+        // wordmark goes stale — the real logo then visibly "settles" into
+        // its true position a beat after our crossfade. Freeze the navbar
+        // in its final resting state immediately so the measurement (and
+        // the crossfade) always land exactly where the logo truly ends up.
+        var navbarWrapper = document.querySelector(".navbar-wrapper");
+        if (navbarWrapper) {
+            navbarWrapper.style.animation = "none";
+            navbarWrapper.style.opacity = "1";
+            navbarWrapper.style.transform = "none";
+            navbarWrapper.style.filter = "none";
+        }
+
         if (reduceMotion) {
             gsap.set(bg, { opacity: 1 });
             gsap.set(introText, { opacity: 0 });
