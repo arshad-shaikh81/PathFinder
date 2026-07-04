@@ -49,12 +49,13 @@ PathFinder is an AI-inspired career guidance platform that helps students and pr
 ```
 PathFinder
 │
-├── index.html
-├── style.css
+├── Particles.js
+├── README.md
 ├── app.js
-├── particles.js
-│
-└── README.md
+├── index.html
+├── intro.css
+├── intro.js
+└── style.css
 ```
 
 ---
