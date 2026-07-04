@@ -44,17 +44,17 @@
             <span class="nav-brand" onclick="showSection('home-view')">PathFinder</span>
 
             <ul class="nav-links" id="nav-links-list">
-                <li id="nav-item-home" class="active"><a href="#" onclick="showSection('home-view'); closeMobileMenu()">Explore</a></li>
-                <li id="nav-item-dashboard"><a href="#" onclick="showSection('dashboard-view'); closeMobileMenu()">Dashboard</a></li>
-                <li id="nav-item-saved"><a href="#" onclick="showSavedCareersView(); closeMobileMenu()">Saved Paths</a></li>
-                <li id="nav-item-recommend"><a href="#" onclick="showTrendingCareers(); closeMobileMenu()">🔥 Trending Careers</a></li>
+                <li id="nav-item-home" class="active"><a href="#" onclick="event.preventDefault(); showSection('home-view'); closeMobileMenu()">Explore</a></li>
+                <li id="nav-item-dashboard"><a href="#" onclick="event.preventDefault(); showSection('dashboard-view'); closeMobileMenu()">Dashboard</a></li>
+                <li id="nav-item-saved"><a href="#" onclick="event.preventDefault(); showSavedCareersView(); closeMobileMenu()">Saved Paths</a></li>
+                <li id="nav-item-recommend"><a href="#" onclick="event.preventDefault(); showTrendingCareers(); closeMobileMenu()">🔥 Trending Careers</a></li>
             </ul>
 
             <!-- Mobile-only quick links shown directly in the navbar (Saved Paths lives in the hamburger menu instead) -->
             <ul class="mobile-navbar-links" id="mobile-navbar-links-list">
-                <li id="nav-item-home-m" class="active"><a href="#" onclick="showSection('home-view')">Explore</a></li>
-                <li id="nav-item-dashboard-m"><a href="#" onclick="showSection('dashboard-view')">Dashboard</a></li>
-                <li id="nav-item-recommend-m"><a href="#" onclick="showTrendingCareers()">🔥 Trending Careers</a></li>
+                <li id="nav-item-home-m" class="active"><a href="#" onclick="event.preventDefault(); showSection('home-view')">Explore</a></li>
+                <li id="nav-item-dashboard-m"><a href="#" onclick="event.preventDefault(); showSection('dashboard-view')">Dashboard</a></li>
+                <li id="nav-item-recommend-m"><a href="#" onclick="event.preventDefault(); showTrendingCareers()">🔥 Trending Careers</a></li>
             </ul>
 
             <div class="navbar-search-wrapper">
@@ -74,12 +74,12 @@
                     <i class="fa-solid fa-sliders"></i>
                 </button>
                 <div id="dropdown-menu" class="dropdown-content">
-                    <a href="#" onclick="showSection('dashboard-view')"><i class="fa-solid fa-chart-pie"></i> Metrics Analytics</a>
-                    <a href="#" onclick="showSavedCareersView()"><i class="fa-solid fa-bookmark"></i> Bookmarked Paths</a>
+                    <a href="#" onclick="event.preventDefault(); showSection('dashboard-view')"><i class="fa-solid fa-chart-pie"></i> Metrics Analytics</a>
+                    <a href="#" onclick="event.preventDefault(); showSavedCareersView()"><i class="fa-solid fa-bookmark"></i> Bookmarked Paths</a>
                     <hr class="dropdown-divider">
-                    <a href="#" onclick="alert('PathFinder Premium v2.0 // Active System Cache')"><i class="fa-solid fa-circle-info"></i> Version Info</a>
-                    <a href="#" onclick="showTermsModal()"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a>
-                    <a href="#" onclick="toggleChatbot()"><i class="fa-solid fa-envelope"></i> Help</a>
+                    <a href="#" onclick="event.preventDefault(); alert('PathFinder Premium v2.0 // Active System Cache')"><i class="fa-solid fa-circle-info"></i> Version Info</a>
+                    <a href="#" onclick="event.preventDefault(); showTermsModal()"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a>
+                    <a href="#" onclick="event.preventDefault(); toggleChatbot()"><i class="fa-solid fa-envelope"></i> Help</a>
                 </div>
             </div>
 
@@ -87,9 +87,9 @@
 
         <!-- Mobile Slide-down Menu -->
         <div id="mobile-nav-menu" class="mobile-nav-menu">
-            <a href="#" onclick="showSavedCareersView(); closeMobileMenu()"><i class="fa-solid fa-bookmark"></i> Saved Paths</a>
-            <a href="#" onclick="showTermsModal(); closeMobileMenu()"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a>
-            <a href="#" onclick="toggleChatbot(); closeMobileMenu()"><i class="fa-solid fa-envelope"></i> Help</a>
+            <a href="#" onclick="event.preventDefault(); showSavedCareersView(); closeMobileMenu()"><i class="fa-solid fa-bookmark"></i> Saved Paths</a>
+            <a href="#" onclick="event.preventDefault(); showTermsModal(); closeMobileMenu()"><i class="fa-solid fa-file-contract"></i> Terms & Conditions</a>
+            <a href="#" onclick="event.preventDefault(); toggleChatbot(); closeMobileMenu()"><i class="fa-solid fa-envelope"></i> Help</a>
         </div>
 
     </header>

@@ -698,8 +698,9 @@ document.addEventListener("DOMContentLoaded", () => {
     setupCoreEventListeners();
     updateGlobalMetricsDashboard();
 
-    // Home page ko default dikhao
-    showSection("home-view");
+    // Show whichever section matches the current URL (supports direct links,
+    // refresh, and clean URLs like /dashboard, /saved, /trending, /roadmap/x)
+    applyRoute(window.location.pathname);
 
     // ===== Roadmap Save Button =====
     const roadmapSaveBtn = document.getElementById("roadmap-save-btn");
@@ -1049,7 +1050,7 @@ function showRoadmapHint() {
 
 let roadmapReturnSection = 'home-view';
 
-function openRoadmapView(careerKey, targetPhase = null) {
+function openRoadmapView(careerKey, targetPhase = null, pushToHistory = true) {
     // Remember which page the user was on so the Exit button can return there.
     const currentSection = document.querySelector('.view-section:not(.hidden)');
     if (currentSection && currentSection.id !== 'roadmap-view') {
@@ -1066,7 +1067,11 @@ function openRoadmapView(careerKey, targetPhase = null) {
     if (iconFrame) iconFrame.innerHTML = `<i class="${career.icon}"></i>`;
 
     renderRoadmapTimeline(careerKey);
-    showSection('roadmap-view');
+    showSection('roadmap-view', false);
+
+    if (pushToHistory) {
+        history.pushState({ section: 'roadmap-view', key: careerKey }, '', `/roadmap/${careerKey}`);
+    }
 
     if (targetPhase) {
         // Wait for the section switch + render to settle before scrolling.
@@ -1412,7 +1417,62 @@ function closeModal() {
 // VIEW SHIFT OPERATION OVERLAYS
 // ==========================================================================
 
-function showSection(sectionId) {
+// ==========================================================================
+// CLEAN URL ROUTING (History API — no #hash)
+// ==========================================================================
+const SECTION_ROUTES = {
+    'home-view': '/',
+    'dashboard-view': '/dashboard',
+    'saved-view': '/saved',
+    'recommend-view': '/trending'
+};
+
+function routeFromPath(path) {
+    const clean = path.replace(/\/+$/, '') || '/';
+
+    if (clean === '/') return { section: 'home-view' };
+    if (clean === '/dashboard') return { section: 'dashboard-view' };
+    if (clean === '/saved') return { section: 'saved-view' };
+    if (clean === '/trending') return { section: 'recommend-view' };
+
+    const roadmapMatch = clean.match(/^\/roadmap\/([a-zA-Z0-9_-]+)$/);
+    if (roadmapMatch && careerData[roadmapMatch[1]]) {
+        return { section: 'roadmap-view', key: roadmapMatch[1] };
+    }
+
+    return null;
+}
+
+// Applies whatever route the URL currently points to (used on first load
+// and whenever the user hits browser Back/Forward).
+function applyRoute(path) {
+    const route = routeFromPath(path);
+
+    if (!route) {
+        // Unknown path — fall back to home and clean up the URL bar.
+        history.replaceState(null, '', '/');
+        showSection('home-view', false);
+        return;
+    }
+
+    if (route.section === 'roadmap-view') {
+        openRoadmapView(route.key, null, false);
+    } else if (route.section === 'recommend-view') {
+        showSection('recommend-view', false);
+        renderTrendingCareers();
+    } else if (route.section === 'saved-view') {
+        renderSavedCareers();
+        showSection('saved-view', false);
+    } else {
+        showSection(route.section, false);
+    }
+}
+
+window.addEventListener('popstate', () => {
+    applyRoute(window.location.pathname);
+});
+
+function showSection(sectionId, pushToHistory = true) {
     document.querySelectorAll('.view-section').forEach(section => {
         section.classList.add('hidden');
     });
@@ -1447,6 +1507,12 @@ function showSection(sectionId) {
         if (navRec) navRec.classList.add('active');
         const navRecM = document.getElementById('nav-item-recommend-m');
         if (navRecM) navRecM.classList.add('active');
+    }
+
+    // Update the URL bar to match the visible section (unless we're just
+    // replaying a route from Back/Forward or initial page load).
+    if (pushToHistory && SECTION_ROUTES[sectionId] !== undefined) {
+        history.pushState({ section: sectionId }, '', SECTION_ROUTES[sectionId]);
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
