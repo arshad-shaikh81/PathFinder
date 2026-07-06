@@ -1276,6 +1276,40 @@ body {
     padding-left: 52px;
 }
 
+.connector-track {
+    position: relative;
+    width: 2px;
+    height: 30px;
+    border-radius: 2px;
+    background: linear-gradient(to bottom, transparent, var(--connector-color, var(--accent-purple)), transparent);
+    opacity: 0.45;
+}
+
+.connector-pulse-dot {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 7px;
+    height: 7px;
+    margin-left: -3.5px;
+    border-radius: 50%;
+    background: var(--connector-color, var(--accent-purple));
+    box-shadow: 0 0 10px 2px var(--connector-color, var(--accent-purple));
+    opacity: 0;
+    animation: connectorPulseTravel 2.2s ease-in-out infinite;
+}
+
+@keyframes connectorPulseTravel {
+    0%   { top: 0%;   opacity: 0; }
+    12%  { opacity: 1; }
+    88%  { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .connector-pulse-dot { animation: none; opacity: 0.9; top: 50%; }
+}
+
 /* ── Old .timeline-node fallback ── */
 .timeline-node {
     position: relative;

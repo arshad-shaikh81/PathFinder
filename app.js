@@ -1188,11 +1188,16 @@ function renderRoadmapTimeline(careerKey) {
             timeline.appendChild(node);
             revealOnScroll(node.querySelector('.milestone-tree-card'));
 
-            // Arrow connector only between steps within the same phase
+            // Connector only between steps within the same phase —
+            // a glowing pulse travels down it, like energy flowing along the path
             if (stepIdxInPhase < phase.steps.length - 1) {
                 const structuralArrow = document.createElement('div');
                 structuralArrow.className = "pipeline-connector-vector";
-                structuralArrow.innerHTML = `<i class="fa-solid fa-arrow-down-long" style="color:${phaseColor}; opacity:0.65;"></i>`;
+                structuralArrow.innerHTML = `
+                    <div class="connector-track" style="--connector-color:${phaseColor};">
+                        <span class="connector-pulse-dot" style="animation-delay:${(stepIdxInPhase % 4) * 0.3}s;"></span>
+                    </div>
+                `;
 
                 timeline.appendChild(structuralArrow);
             }
