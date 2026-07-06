@@ -697,6 +697,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCareerCards();
     setupCoreEventListeners();
     updateGlobalMetricsDashboard();
+    initNavPill();
 
     // Show whichever section matches the current URL (supports direct links,
     // refresh, and clean URLs like /dashboard, /saved, /trending, /roadmap/x)
@@ -812,6 +813,70 @@ function attachCardTilt(card) {
 }
 
 // ==========================================================================
+// SAVE BUTTON SPARK BURST
+// A little firework of particles fired from the bookmark button on save.
+// Appended to <body> (not the card) so it isn't clipped by card overflow.
+// ==========================================================================
+function burstSaveParticles(el) {
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const colors = ['#c4b5fd', '#a855f7', '#8b5cf6', '#818cf8'];
+    const count = 10;
+
+    for (let i = 0; i < count; i++) {
+        const particle = document.createElement('span');
+        particle.className = 'save-burst-particle';
+        const angle = (Math.PI * 2 * i) / count + (Math.random() * 0.5 - 0.25);
+        const distance = 26 + Math.random() * 20;
+        particle.style.setProperty('--tx', `${(Math.cos(angle) * distance).toFixed(1)}px`);
+        particle.style.setProperty('--ty', `${(Math.sin(angle) * distance).toFixed(1)}px`);
+        particle.style.background = colors[i % colors.length];
+        particle.style.left = `${cx}px`;
+        particle.style.top = `${cy}px`;
+        document.body.appendChild(particle);
+        particle.addEventListener('animationend', () => particle.remove());
+    }
+}
+
+// ==========================================================================
+// NAVBAR SLIDING PILL
+// A pill glides to whichever nav item is active, and previews on hover.
+// ==========================================================================
+function moveNavPillTo(li, isHover) {
+    const pill = document.getElementById('nav-pill');
+    const list = document.getElementById('nav-links-list');
+    if (!pill || !list || !li) return;
+
+    pill.style.left = `${li.offsetLeft}px`;
+    pill.style.width = `${li.offsetWidth}px`;
+    pill.classList.add('ready');
+    pill.classList.toggle('hovering', !!isHover);
+}
+
+function getActiveNavItem() {
+    return document.querySelector('.nav-links li.active');
+}
+
+function refreshNavPill() {
+    const active = getActiveNavItem();
+    if (active) moveNavPillTo(active, false);
+}
+
+function initNavPill() {
+    const list = document.getElementById('nav-links-list');
+    if (!list) return;
+
+    list.querySelectorAll('li').forEach(li => {
+        li.addEventListener('mouseenter', () => moveNavPillTo(li, true));
+    });
+    list.addEventListener('mouseleave', refreshNavPill);
+
+    refreshNavPill();
+    window.addEventListener('resize', refreshNavPill);
+}
+
+// ==========================================================================
 // CORE RENDER LOGIC ENGINE
 // ==========================================================================
 function renderCareerCards(filter = "") {
@@ -909,6 +974,15 @@ function toggleSaveCareer(careerKey, btnEl) {
             if (icon) icon.className = 'fa-regular fa-bookmark';
         }
     });
+
+    // Fire a spark burst from the exact button that was clicked — a little
+    // reward moment when a path gets saved (not shown on unsave).
+    if (nowSaved && btnEl) {
+        burstSaveParticles(btnEl);
+        btnEl.classList.remove('bookmark-pop');
+        void btnEl.offsetWidth;
+        btnEl.classList.add('bookmark-pop');
+    }
 
     // Small popup confirmation + a whole-card "pop" pulse,
     // shown only on the specific card that was clicked
@@ -1556,6 +1630,7 @@ function showSection(sectionId, pushToHistory = true) {
         history.pushState({ section: sectionId }, '', SECTION_ROUTES[sectionId]);
     }
 
+    refreshNavPill();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 

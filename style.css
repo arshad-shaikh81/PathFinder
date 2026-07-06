@@ -216,6 +216,7 @@ body {
 }
 
 .nav-links {
+    position: relative;
     display: flex;
     list-style: none;
     gap: 0.5rem;
@@ -226,12 +227,33 @@ body {
     flex-shrink: 0;
 }
 
+.nav-pill {
+    position: absolute;
+    top: 0.35rem;
+    left: 0.35rem;
+    height: calc(100% - 0.7rem);
+    width: 0;
+    border-radius: 30px;
+    background: var(--accent-gradient);
+    box-shadow: 0 4px 12px rgba(162, 82, 250, 0.25);
+    transition: left 0.4s var(--transition-premium), width 0.4s var(--transition-premium), opacity 0.25s ease;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.nav-pill.ready { opacity: 1; }
+.nav-pill.hovering { box-shadow: 0 4px 14px rgba(162, 82, 250, 0.35); }
+
 .nav-links li {
     position: relative;
+    z-index: 1;
     flex-shrink: 0;
 }
 
 .nav-links a {
+    position: relative;
+    z-index: 1;
     color: var(--text-muted);
     text-decoration: none;
     font-weight: 500;
@@ -240,7 +262,7 @@ body {
     display: block;
     border-radius: 30px;
     white-space: nowrap;
-    transition: color 0.2s var(--transition-premium), background-color 0.2s var(--transition-premium);
+    transition: color 0.25s var(--transition-premium);
 }
 
 .nav-links li:hover a {
@@ -248,9 +270,11 @@ body {
 }
 
 .nav-links li.active a {
-    background: var(--accent-gradient);
     color: white;
-    box-shadow: 0 4px 12px rgba(162, 82, 250, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-pill { transition: opacity 0.25s ease; }
 }
 
 /* ==========================================================================
@@ -2444,6 +2468,39 @@ body {
 
 .career-card.card-save-animate {
     animation: cardSavePulse 0.55s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+/* Bookmark icon bounce on save */
+@keyframes bookmarkIconPop {
+    0%   { transform: scale(1); }
+    45%  { transform: scale(1.45) rotate(-8deg); }
+    100% { transform: scale(1) rotate(0); }
+}
+
+.save-card-btn.bookmark-pop {
+    animation: bookmarkIconPop 0.45s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+/* Spark burst particles fired from the bookmark button on save */
+.save-burst-particle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    animation: saveBurstFly 0.6s ease-out forwards;
+}
+
+@keyframes saveBurstFly {
+    0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0.3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .save-burst-particle { display: none; }
+    .save-card-btn.bookmark-pop { animation: none; }
 }
 
 
