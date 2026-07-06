@@ -1136,6 +1136,7 @@ body {
 
 /* ── Card ── */
 .milestone-tree-card {
+    --reveal-x: -28px;
     display: flex;
     align-items: center;
     background: rgba(20, 16, 40, 0.6);
@@ -1145,19 +1146,27 @@ body {
     width: 100%;
     gap: 0.9rem;
     cursor: pointer;
+    opacity: 0;
+    transform: translateX(var(--reveal-x));
     transition: border-color 0.25s ease,
                 background 0.25s ease,
-                transform 0.2s ease,
-                box-shadow 0.25s ease;
+                transform 0.35s ease,
+                box-shadow 0.25s ease,
+                opacity 0.5s ease;
     position: relative;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
 }
 
+.milestone-tree-card.show {
+    --reveal-x: 0px;
+    opacity: 1;
+}
+
 .milestone-tree-card:hover {
     border-color: rgba(162, 82, 250, 0.4);
     background: rgba(30, 22, 60, 0.75);
-    transform: translateX(3px);
+    transform: translateX(calc(var(--reveal-x) + 3px));
     box-shadow: 0 6px 24px rgba(162, 82, 250, 0.12);
 }
 
@@ -2144,6 +2153,8 @@ body {
     opacity:1;
     transform:translateY(0);
 }
+
+
 /* =====================================================
    ROADMAP NODE SAVE-GUARD ANIMATIONS
    ===================================================== */

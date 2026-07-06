@@ -765,6 +765,25 @@ function isStepUnlocked(careerKey, stepId) {
 }
 
 // ==========================================================================
+// SCROLL-REVEAL ENGINE
+// Reusable IntersectionObserver: adds .show the first time an element
+// actually enters the viewport, instead of animating everything on load.
+// ==========================================================================
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+            entry.target.style.transitionDelay = `${i * 60}ms`;
+            entry.target.classList.add("show");
+            revealObserver.unobserve(entry.target); // animate once only
+        }
+    });
+}, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+
+function revealOnScroll(el) {
+    revealObserver.observe(el);
+}
+
+// ==========================================================================
 // CORE RENDER LOGIC ENGINE
 // ==========================================================================
 function renderCareerCards(filter = "") {
@@ -824,9 +843,7 @@ function renderCareerCards(filter = "") {
         });
 
         grid.appendChild(card);
-        setTimeout(() => {
-            card.classList.add("show");
-        }, displayCount * 80);
+        revealOnScroll(card);
     });
 
     const totalIndicator = document.getElementById('total-tracks-indicator');
@@ -982,9 +999,7 @@ function renderSavedCareers() {
         });
 
         grid.appendChild(card);
-        setTimeout(() => {
-            card.classList.add("show");
-        }, 100);
+        revealOnScroll(card);
     });
 }
 
@@ -1171,6 +1186,7 @@ function renderRoadmapTimeline(careerKey) {
             `;
 
             timeline.appendChild(node);
+            revealOnScroll(node.querySelector('.milestone-tree-card'));
 
             // Arrow connector only between steps within the same phase
             if (stepIdxInPhase < phase.steps.length - 1) {
@@ -1616,9 +1632,7 @@ function renderTrendingCareers() {
         });
 
         grid.appendChild(card);
-        setTimeout(() => {
-            card.classList.add("show");
-        }, index * 80);
+        revealOnScroll(card);
     });
 }
 
