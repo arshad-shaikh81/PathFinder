@@ -784,6 +784,34 @@ function revealOnScroll(el) {
 }
 
 // ==========================================================================
+// 3D MAGNETIC TILT + GLOW
+// Card tilts in 3D toward the cursor and a bright spotlight follows it.
+// Replaces the old flat mousemove-only spotlight with something you can feel.
+// ==========================================================================
+function attachCardTilt(card) {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+
+        // Normalize cursor position to -1..1 relative to card center, then
+        // map to a noticeable tilt range (max ~10deg).
+        const percentX = (x / rect.width - 0.5) * 2;
+        const percentY = (y / rect.height - 0.5) * 2;
+        card.style.setProperty('--rotate-x', `${(-percentY * 10).toFixed(2)}deg`);
+        card.style.setProperty('--rotate-y', `${(percentX * 10).toFixed(2)}deg`);
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.setProperty('--rotate-x', `0deg`);
+        card.style.setProperty('--rotate-y', `0deg`);
+    });
+}
+
+// ==========================================================================
 // CORE RENDER LOGIC ENGINE
 // ==========================================================================
 function renderCareerCards(filter = "") {
@@ -836,11 +864,7 @@ function renderCareerCards(filter = "") {
             </div>
         `;
 
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-            card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-        });
+        attachCardTilt(card);
 
         grid.appendChild(card);
         revealOnScroll(card);
@@ -992,11 +1016,7 @@ function renderSavedCareers() {
             </div>
         `;
 
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-            card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-        });
+        attachCardTilt(card);
 
         grid.appendChild(card);
         revealOnScroll(card);
@@ -1630,11 +1650,7 @@ function renderTrendingCareers() {
             </div>
         `;
 
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-            card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-        });
+        attachCardTilt(card);
 
         grid.appendChild(card);
         revealOnScroll(card);
@@ -1889,6 +1905,10 @@ function filterCareers(category, btn) {
         .forEach(button => button.classList.remove('active'));
 
     btn.classList.add('active');
+    btn.classList.remove('pop'); // reset in case it's clicked again quickly
+    void btn.offsetWidth;        // force reflow so the animation replays
+    btn.classList.add('pop');
+    btn.addEventListener('animationend', () => btn.classList.remove('pop'), { once: true });
 
     // Get current search value from whichever input is active
     const sectionSearch = document.getElementById('section-career-search');
