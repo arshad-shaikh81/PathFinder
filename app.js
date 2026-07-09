@@ -1610,30 +1610,33 @@ function showSection(sectionId, pushToHistory = true) {
     const dropdownMenu = document.getElementById('dropdown-menu');
     if (dropdownMenu) dropdownMenu.classList.remove('show');
 
-    document.querySelectorAll('.nav-links li, .mobile-navbar-links li').forEach(li => li.classList.remove('active'));
+    document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
+    document.querySelectorAll('.mobile-nav-menu a').forEach(a => a.classList.remove('mobile-active'));
 
     if (sectionId === 'home-view' || sectionId === 'roadmap-view') {
         const navHome = document.getElementById('nav-item-home');
         if (navHome) navHome.classList.add('active');
         const navHomeM = document.getElementById('nav-item-home-m');
-        if (navHomeM) navHomeM.classList.add('active');
+        if (navHomeM) navHomeM.classList.add('mobile-active');
 
     } else if (sectionId === 'dashboard-view') {
         const navDash = document.getElementById('nav-item-dashboard');
         if (navDash) navDash.classList.add('active');
         const navDashM = document.getElementById('nav-item-dashboard-m');
-        if (navDashM) navDashM.classList.add('active');
+        if (navDashM) navDashM.classList.add('mobile-active');
         updateGlobalMetricsDashboard();
 
     } else if (sectionId === 'saved-view') {
         const navSaved = document.getElementById('nav-item-saved');
         if (navSaved) navSaved.classList.add('active');
+        const navSavedM = document.getElementById('nav-item-saved-m');
+        if (navSavedM) navSavedM.classList.add('mobile-active');
 
     } else if (sectionId === 'recommend-view') {
         const navRec = document.getElementById('nav-item-recommend');
         if (navRec) navRec.classList.add('active');
         const navRecM = document.getElementById('nav-item-recommend-m');
-        if (navRecM) navRecM.classList.add('active');
+        if (navRecM) navRecM.classList.add('mobile-active');
     }
 
     // Update the URL bar to match the visible section (unless we're just
