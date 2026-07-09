@@ -189,3 +189,114 @@
     .auth-user-name { max-width: 70px; }
     .auth-btn { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
 }
+
+/* ---- Modal open / close motion ---- */
+#auth-modal:not(.hidden) {
+    animation: authOverlayFadeIn 0.2s ease;
+}
+
+#auth-modal.closing {
+    animation: authOverlayFadeOut 0.18s ease forwards;
+}
+
+@keyframes authOverlayFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes authOverlayFadeOut {
+    to { opacity: 0; }
+}
+
+/* ---- Submit button loading spinner ---- */
+.auth-submit-btn.loading {
+    color: transparent;
+    position: relative;
+    pointer-events: none;
+}
+
+.auth-submit-btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 50%;
+    left: 50%;
+    margin: -9px 0 0 -9px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: authSpin 0.7s linear infinite;
+}
+
+@keyframes authSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* ---- Shake the card on a failed login/signup ---- */
+.auth-modal-card.shake {
+    animation: authShake 0.4s;
+}
+
+@keyframes authShake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-4px); }
+    40%, 60% { transform: translateX(4px); }
+}
+
+/* ---- Success toast (top of screen, after login/signup/logout) ---- */
+.auth-success-toast {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-16px);
+    background: var(--glass-card-bg);
+    border: 1px solid var(--glass-hover-border);
+    color: var(--text-main);
+    padding: 0.85rem 1.4rem;
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    z-index: 3000;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.35s var(--transition-premium);
+    white-space: nowrap;
+}
+
+.auth-success-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.auth-success-toast i {
+    color: var(--success-green);
+    font-size: 1.05rem;
+}
+
+/* ---- User chip "pop" the moment you log in ---- */
+@keyframes authChipPop {
+    0% { transform: scale(0.7); opacity: 0; }
+    60% { transform: scale(1.08); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+.auth-user-chip.pop-in {
+    animation: authChipPop 0.4s var(--transition-premium);
+}
+
+@media (max-width: 768px) {
+    .auth-success-toast {
+        top: 12px;
+        padding: 0.7rem 1.1rem;
+        font-size: 0.82rem;
+        max-width: calc(100vw - 24px);
+        white-space: normal;
+        text-align: center;
+    }
+}

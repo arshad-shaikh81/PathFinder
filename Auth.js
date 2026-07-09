@@ -42,9 +42,14 @@ function showAuthModal(mode, contextMessage) {
 }
 
 function closeAuthModal() {
-    document.getElementById('auth-modal').classList.add('hidden');
-    document.getElementById('auth-form').reset();
-    clearAuthError();
+    const modal = document.getElementById('auth-modal');
+    modal.classList.add('closing');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('closing');
+        document.getElementById('auth-form').reset();
+        clearAuthError();
+    }, 180);
 }
 
 function setAuthMode(mode) {
@@ -69,6 +74,24 @@ function showAuthError(msg) {
     const el = document.getElementById('auth-error');
     el.textContent = msg;
     el.classList.remove('hidden');
+}
+
+function showAuthSuccessToast(message) {
+    let toast = document.getElementById('auth-success-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'auth-success-toast';
+        toast.className = 'auth-success-toast';
+        document.body.appendChild(toast);
+    }
+    toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${message}`;
+
+    toast.classList.remove('show');
+    void toast.offsetWidth;
+    toast.classList.add('show');
+
+    clearTimeout(toast._hideTimer);
+    toast._hideTimer = setTimeout(() => toast.classList.remove('show'), 2600);
 }
 
 function friendlyAuthError(err) {
@@ -110,25 +133,54 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('auth-password').value;
         const name = document.getElementById('auth-name').value.trim();
         const submitBtn = document.getElementById('auth-submit-btn');
+        const modalCard = document.querySelector('#auth-modal .auth-modal-card');
 
         clearAuthError();
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Please wait...';
+        submitBtn.classList.add('loading');
 
         const resetBtn = () => {
             submitBtn.disabled = false;
-            submitBtn.textContent = mode === 'login' ? 'Log In' : 'Sign Up';
+            submitBtn.classList.remove('loading');
+        };
+
+        const onError = (err) => {
+            showAuthError(friendlyAuthError(err));
+            resetBtn();
+            if (modalCard) {
+                modalCard.classList.remove('shake');
+                void modalCard.offsetWidth;
+                modalCard.classList.add('shake');
+            }
+        };
+
+        const onSuccess = (welcomeName) => {
+            closeAuthModal();
+            showAuthSuccessToast(mode === 'signup'
+                ? `Account created! Welcome, ${welcomeName || 'there'} 🎉`
+                : `Welcome back, ${welcomeName || 'there'}!`);
+
+            // Give the navbar a moment to update (onAuthStateChanged fires
+            // async), then pop the user chip in like a real login moment.
+            setTimeout(() => {
+                const chip = document.querySelector('.auth-user-chip');
+                if (chip) {
+                    chip.classList.remove('pop-in');
+                    void chip.offsetWidth;
+                    chip.classList.add('pop-in');
+                }
+            }, 60);
         };
 
         if (mode === 'signup') {
             auth.createUserWithEmailAndPassword(email, password)
-                .then((cred) => name ? cred.user.updateProfile({ displayName: name }) : null)
-                .then(() => { closeAuthModal(); })
-                .catch((err) => { showAuthError(friendlyAuthError(err)); resetBtn(); });
+                .then((cred) => name ? cred.user.updateProfile({ displayName: name }).then(() => cred.user) : cred.user)
+                .then((user) => onSuccess(name || (user.email ? user.email.split('@')[0] : '')))
+                .catch(onError);
         } else {
             auth.signInWithEmailAndPassword(email, password)
-                .then(() => { closeAuthModal(); })
-                .catch((err) => { showAuthError(friendlyAuthError(err)); resetBtn(); });
+                .then((cred) => onSuccess(cred.user.displayName || (cred.user.email ? cred.user.email.split('@')[0] : '')))
+                .catch(onError);
         }
     });
 });
@@ -136,7 +188,9 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ---------------- Logout ---------------- */
 
 function logoutUser() {
-    auth.signOut();
+    auth.signOut().then(() => {
+        showAuthSuccessToast('Logged out successfully');
+    });
 }
 
 /* ---------------- Reflect auth state in the navbar ---------------- */
