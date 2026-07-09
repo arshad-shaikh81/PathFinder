@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="style.css">
     <!-- ===== Premium intro animation (additive only — does not affect existing styles) ===== -->
     <link rel="stylesheet" href="intro.css">
+    <!-- ===== Auth (Login / Sign Up) styles ===== -->
+    <link rel="stylesheet" href="auth.css">
+    <!-- ===== Firebase Authentication SDK ===== -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <noscript>
         <style>#intro-overlay { display: none !important; }</style>
@@ -64,6 +70,24 @@
             </div>
 
             <div class="nav-actions">
+
+                <!-- ===== Auth actions: shown when logged OUT ===== -->
+                <div class="auth-actions" id="auth-actions-logged-out">
+                    <button class="auth-btn" onclick="showAuthModal('login')">Log In</button>
+                    <button class="auth-btn primary" onclick="showAuthModal('signup')">Sign Up</button>
+                </div>
+
+                <!-- ===== Auth actions: shown when logged IN ===== -->
+                <div class="auth-actions hidden" id="auth-actions-logged-in">
+                    <div class="auth-user-chip">
+                        <span class="auth-user-avatar" id="auth-user-avatar">U</span>
+                        <span class="auth-user-name" id="auth-user-name">User</span>
+                        <button class="auth-logout-btn" title="Log out" onclick="logoutUser()">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Hamburger for mobile -->
                 <button id="hamburger-btn" class="hamburger-btn" aria-label="Open Menu" onclick="toggleMobileMenu()">
                     <span></span>
@@ -344,10 +368,44 @@
             <div id="chatbot-body" class="chatbot-body" aria-live="polite"></div>
         </div>
 
+    <!-- ===================== LOGIN / SIGN UP MODAL ===================== -->
+    <div id="auth-modal" class="modal-overlay hidden">
+        <div class="modal-card glass-card auth-modal-card">
+            <div class="modal-header">
+                <h3 id="auth-modal-title">Log In</h3>
+                <button class="modal-close-btn" onclick="closeAuthModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="auth-context-msg" class="auth-context-msg hidden"></p>
+                <div id="auth-error" class="auth-error-msg hidden"></div>
+                <form id="auth-form" data-mode="login">
+                    <div class="auth-form-group hidden" id="auth-name-group">
+                        <label for="auth-name">Full Name</label>
+                        <input type="text" id="auth-name" placeholder="Jane Doe" autocomplete="name">
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="auth-email">Email</label>
+                        <input type="email" id="auth-email" placeholder="you@example.com" autocomplete="email" required>
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="auth-password">Password</label>
+                        <input type="password" id="auth-password" placeholder="••••••••" autocomplete="current-password" minlength="6" required>
+                    </div>
+                    <button type="submit" class="auth-submit-btn" id="auth-submit-btn">Log In</button>
+                </form>
+                <p class="auth-toggle-text" id="auth-toggle-text">
+                    Don't have an account? <a href="#" onclick="event.preventDefault(); setAuthMode('signup')">Sign up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
     <script src="Particles.js"></script>
     <!-- Premium intro animation controller (additive only) -->
     <script src="intro.js"></script>
+    <!-- Auth (Login / Sign Up) logic — must load after the Firebase SDK scripts in <head> -->
+    <script src="auth.js"></script>
     <div id="terms-modal" class="modal-overlay hidden">
         <div class="modal-card glass-card">
             <div class="modal-header">

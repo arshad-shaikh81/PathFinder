@@ -1,0 +1,191 @@
+/* ==========================================================================
+   AUTH UI (Login / Sign Up) — additive, matches existing glassmorphism theme
+   ========================================================================== */
+
+/* .nav-actions previously had no base flex rule (it only ever held inline
+   buttons), so the block-level .auth-actions div broke onto its own line.
+   Making it a flex row keeps auth buttons inline with the rest of the navbar. */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+/* ---- Navbar auth buttons ---- */
+.auth-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-right: 0.5rem;
+}
+
+.auth-btn {
+    padding: 0.5rem 1.1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--glass-border);
+    background: transparent;
+    color: var(--text-main);
+    transition: all 0.25s var(--transition-premium);
+    white-space: nowrap;
+    font-family: var(--font-stack);
+}
+
+.auth-btn:hover {
+    border-color: var(--glass-hover-border);
+    color: var(--accent-purple);
+}
+
+.auth-btn.primary {
+    background: var(--accent-gradient);
+    border: none;
+    color: #fff;
+}
+
+.auth-btn.primary:hover {
+    filter: brightness(1.1);
+    color: #fff;
+}
+
+/* ---- Logged-in user chip ---- */
+.auth-user-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--glass-card-bg);
+    border: 1px solid var(--glass-border);
+    padding: 0.35rem 0.9rem 0.35rem 0.35rem;
+    border-radius: 999px;
+}
+
+.auth-user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.auth-user-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.auth-logout-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.95rem;
+    padding: 0.2rem;
+    display: flex;
+    align-items: center;
+}
+
+.auth-logout-btn:hover { color: #ff6b6b; }
+
+/* ---- Auth modal form ---- */
+.auth-modal-card {
+    max-width: 400px;
+}
+
+.auth-form-group {
+    margin-bottom: 1.1rem;
+}
+
+.auth-form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--text-muted);
+}
+
+.auth-form-group input {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-main);
+    font-family: var(--font-stack);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.auth-form-group input:focus {
+    border-color: var(--accent-purple);
+}
+
+.auth-submit-btn {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 8px;
+    border: none;
+    background: var(--accent-gradient);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: filter 0.2s;
+    font-family: var(--font-stack);
+}
+
+.auth-submit-btn:hover { filter: brightness(1.1); }
+.auth-submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.auth-error-msg {
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    color: #ff9b9b;
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    margin-bottom: 1rem;
+}
+
+.auth-context-msg {
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid var(--glass-hover-border);
+    color: var(--text-main);
+    padding: 0.65rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 1.1rem;
+    line-height: 1.5;
+}
+
+.auth-toggle-text {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 1rem;
+}
+
+.auth-toggle-text a {
+    color: var(--accent-purple);
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.auth-toggle-text a:hover { text-decoration: underline; }
+
+@media (max-width: 768px) {
+    .auth-user-name { max-width: 70px; }
+    .auth-btn { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
+}

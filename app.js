@@ -680,8 +680,11 @@ const PHASE_COLORS = ["#2563eb", "#9d4edf", "#f59e0b", "#ec4899"];
 // ==========================================================================
 // REGISTRATION STATES & APPLICATION INSTANCE CACHING
 // ==========================================================================
-let progressTracker = JSON.parse(localStorage.getItem('pathfinder_progress')) || {};
-let savedCareers = JSON.parse(localStorage.getItem('pathfinder_saved')) || [];
+// Populated from Firestore once a user logs in (see auth.js: loadUserData).
+// Empty for guests — saving/progress requires an account, same as any
+// real-world app where your data lives with your login, not the browser.
+let progressTracker = {};
+let savedCareers = [];
 let activeFilterCategory = 'all'; // tracks current category filter for search to respect
 let activeOpenCareer = null;
 
@@ -710,6 +713,10 @@ document.addEventListener("DOMContentLoaded", () => {
         roadmapSaveBtn.addEventListener("click", function () {
 
             if (!activeOpenCareer) return;
+
+            if (typeof requireAuth === 'function' && !requireAuth('Log in to save career paths and track your progress.')) {
+                return;
+            }
 
             toggleSaveCareer(activeOpenCareer);
 
@@ -949,6 +956,10 @@ function renderCareerCards(filter = "") {
 // WORKSPACE TRAJECTORY PINNING OPERATIONS
 // ==========================================================================
 function toggleSaveCareer(careerKey, btnEl) {
+    if (typeof requireAuth === 'function' && !requireAuth('Log in to save career paths and track your progress.')) {
+        return;
+    }
+
     const idx = savedCareers.indexOf(careerKey);
     const nowSaved = idx === -1;
 
@@ -958,7 +969,7 @@ function toggleSaveCareer(careerKey, btnEl) {
         savedCareers.splice(idx, 1);
     }
 
-    localStorage.setItem('pathfinder_saved', JSON.stringify(savedCareers));
+    if (typeof persistUserData === 'function') persistUserData();
 
     // Update every save button for this career (grid / trending / saved views)
     // WITHOUT rebuilding the whole grid, so unrelated cards never re-animate.
@@ -1331,6 +1342,10 @@ function showSaveGuardWarning(message, iconClass) {
 
 function invertSkillNodeState(careerKey, stepId) {
 
+    if (typeof requireAuth === 'function' && !requireAuth('Log in to track your progress on this path.')) {
+        return;
+    }
+
     // Save guard — career saved nahi hai toh block karo
     if (!savedCareers.includes(careerKey)) {
         showSaveGuardWarning("Save this career first to track your progress!", "fa-bookmark");
@@ -1349,10 +1364,7 @@ function invertSkillNodeState(careerKey, stepId) {
         progressTracker[stepId] = true;
     }
 
-    localStorage.setItem(
-        "pathfinder_progress",
-        JSON.stringify(progressTracker)
-    );
+    if (typeof persistUserData === 'function') persistUserData();
 
     renderRoadmapTimeline(careerKey);
     updateGlobalMetricsDashboard();
