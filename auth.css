@@ -189,7 +189,7 @@
     .auth-user-name { max-width: 70px; }
     .auth-btn { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
 }
-<<<<<<< HEAD:Auth.css
+
 
 /* ---- Modal open / close motion ---- */
 #auth-modal:not(.hidden) {
@@ -301,5 +301,3 @@
         text-align: center;
     }
 }
-=======
->>>>>>> 656067caebc934b06cb95157299f47163c60556d:auth.css
